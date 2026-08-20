@@ -1,0 +1,468 @@
+@import "tailwindcss";
+@import "../styles/theerrv.tokens.css";
+@import "../styles/components.css";
+
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-subtle: var(--bg-subtle);
+  --color-ink: var(--bg-ink);
+  --color-indigo: var(--indigo-700);
+  --color-coral: var(--coral-500);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+/* =========================================================================
+   BASE
+   ====================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--coral-500);
+  color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--coral-500);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link:focus-visible {
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  width: auto;
+  height: auto;
+  clip-path: none;
+  margin: 0;
+  padding: var(--space-3) var(--space-6);
+  background: var(--indigo-700);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  z-index: var(--z-loader);
+}
+
+/* =========================================================================
+   LAYOUT
+   ====================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  position: relative;
+  padding-block: var(--section-y);
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+/* Ink sections carry the editorial weight — CTA bands, the hero, quotes. */
+.ink {
+  background: var(--bg-ink);
+  color: var(--text-on-ink);
+}
+
+.ink h1,
+.ink h2,
+.ink h3 {
+  color: var(--text-on-ink);
+}
+
+/* The 22px engineered grid, for stat blocks on ink. */
+.ink-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      var(--grid-ink-line) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, var(--grid-ink-line) 1px, transparent 1px);
+  background-size: var(--grid-ink-size) var(--grid-ink-size);
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 78%);
+  pointer-events: none;
+}
+
+/* =========================================================================
+   TYPE UTILITIES  (mirrors tokens/base.css)
+   ====================================================================== */
+
+.t-display-2xl {
+  font-family: var(--font-display);
+  font-size: var(--text-display-2xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+}
+
+.t-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--text-display-xl);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-heading);
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-heading);
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-heading);
+}
+
+.t-h4 {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: 1.35;
+}
+
+.t-body-lg {
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+}
+
+.t-body {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+}
+
+.t-body-sm {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+}
+
+.ink .t-body-lg,
+.ink .t-body,
+.ink .t-body-sm {
+  color: var(--text-on-ink-secondary);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-sm);
+  letter-spacing: 0;
+}
+
+/* =========================================================================
+   EYEBROW — mono section marker inside coral corner crop-marks.
+   A brand-specific primitive from the design system.
+   ====================================================================== */
+
+.eyebrow {
+  position: relative;
+  display: inline-block;
+  /* The crop-marks frame the label. As a flex child it would stretch to the
+     column width and strand them at the far corners. */
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.ink .eyebrow {
+  color: var(--text-on-ink-secondary);
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-color: var(--coral-500);
+  border-style: solid;
+}
+
+.eyebrow::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.eyebrow::after {
+  right: 0;
+  bottom: 0;
+  border-width: 0 1px 1px 0;
+}
+
+/* =========================================================================
+   BUTTONS
+   Hover darkens one step and lifts 2px. Press nudges 1px down.
+   ====================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 14px var(--space-6);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-body-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.01em;
+  transition: background var(--dur-base) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard),
+    border-color var(--dur-base) var(--ease-standard);
+  will-change: transform;
+}
+
+.btn-primary {
+  background: var(--indigo-700);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--indigo-800);
+  transform: translateY(var(--hover-lift));
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+  background: var(--indigo-900);
+  transform: translateY(1px);
+}
+
+.btn-accent {
+  background: var(--coral-500);
+  color: #fff;
+}
+
+.btn-accent:hover {
+  background: var(--coral-600);
+  transform: translateY(var(--hover-lift));
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-accent:active {
+  background: var(--coral-700);
+  transform: translateY(1px);
+}
+
+.btn-ghost {
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.btn-ghost:hover {
+  border-color: var(--indigo-300);
+  background: var(--indigo-50);
+  transform: translateY(var(--hover-lift));
+}
+
+.ink .btn-ghost {
+  border-color: var(--border-ink);
+  color: #fff;
+}
+
+.ink .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================================================
+   CARDS
+   White surface, 16px radius, hairline border, soft shadow, −2px hover lift.
+   ====================================================================== */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-base) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard);
+  overflow: hidden;
+}
+
+.card-interactive:hover {
+  transform: translateY(var(--hover-lift));
+  box-shadow: var(--shadow-lg);
+}
+
+/* The one deliberate coral moment on a card. */
+.card-accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--coral-500);
+}
+
+.card-ink {
+  background: var(--surface-ink-card);
+  border-color: var(--border-ink);
+  color: var(--text-on-ink);
+  box-shadow: none;
+}
+
+/* =========================================================================
+   LINKS
+   ====================================================================== */
+
+.link-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--coral-500);
+  font-weight: var(--weight-medium);
+  transition: gap var(--dur-base) var(--ease-standard),
+    color var(--dur-base) var(--ease-standard);
+}
+
+.link-accent:hover {
+  gap: var(--space-3);
+  color: var(--coral-600);
+}
+
+.link-nav {
+  color: var(--text-secondary);
+  font-size: var(--text-body-sm);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.link-nav:hover {
+  color: var(--indigo-700);
+}
+
+/* =========================================================================
+   REVEAL — fades and short translations only. No parallax, no spring.
+   ====================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition: opacity var(--dur-slow) var(--ease-standard),
+    transform var(--dur-slow) var(--ease-standard);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* =========================================================================
+   REDUCED MOTION
+   ====================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}

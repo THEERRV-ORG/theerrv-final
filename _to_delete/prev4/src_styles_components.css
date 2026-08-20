@@ -1,0 +1,686 @@
+/* =============================================================================
+   COMPONENTS
+   Everything resolves from the token layer. No literal colours, sizes,
+   durations or easings below this line.
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------
+   LOGO
+   -------------------------------------------------------------------- */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Sized by height with width free — the mark is 1.59:1, so a square box would
+   letterbox it and shrink it against the wordmark. */
+.logo-mark {
+  height: 22px;
+  width: auto;
+}
+
+.logo-word {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-heading);
+  color: var(--indigo-700);
+  line-height: 1;
+}
+
+.logo-v {
+  color: var(--coral-500);
+}
+
+.logo-on-ink .logo-word {
+  color: var(--text-on-ink);
+}
+
+/* -----------------------------------------------------------------------
+   PRELOADER
+   -------------------------------------------------------------------- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: grid;
+  place-items: center;
+  background: var(--bg-canvas);
+  transition: transform var(--dur-slow) var(--ease-emphasized),
+    opacity var(--dur-base) var(--ease-standard);
+}
+
+.preloader[data-done="true"] {
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  width: min(320px, 70vw);
+}
+
+.preloader-rule {
+  width: 100%;
+  height: 2px;
+  background: var(--neutral-200);
+  overflow: hidden;
+}
+
+.preloader-rule > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--coral-500);
+  transform-origin: left center;
+  transition: transform var(--dur-fast) linear;
+}
+
+.preloader-count {
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-overline);
+}
+
+/* -----------------------------------------------------------------------
+   NAV
+   -------------------------------------------------------------------- */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  transition: background var(--dur-base) var(--ease-standard),
+    border-color var(--dur-base) var(--ease-standard),
+    backdrop-filter var(--dur-base) var(--ease-standard);
+  border-bottom: 1px solid transparent;
+}
+
+.nav[data-solid="true"] {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom-color: var(--border-subtle);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  height: 72px;
+}
+
+.nav-links {
+  display: none;
+  gap: var(--space-8);
+}
+
+.nav[data-solid="false"] .link-nav {
+  color: var(--text-on-ink-secondary);
+}
+
+.nav[data-solid="false"] .link-nav:hover {
+  color: var(--text-on-ink);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* The primary conversion path stays visible at every width — it is the one
+   element on the page that should never be a tap away behind a menu. */
+.nav .nav-cta {
+  display: inline-flex;
+  padding: 10px var(--space-5);
+}
+
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text-primary);
+  transition: transform var(--dur-base) var(--ease-standard),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+
+.nav[data-solid="false"] .nav-toggle-bar {
+  background: var(--text-on-ink);
+}
+
+.nav-toggle-bar[data-open="true"]:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.nav-toggle-bar[data-open="true"]:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+.nav-drawer {
+  overflow: hidden;
+  max-height: 0;
+  background: var(--bg-canvas);
+  border-bottom: 1px solid transparent;
+  transition: max-height var(--dur-slow) var(--ease-emphasized),
+    border-color var(--dur-base) var(--ease-standard);
+}
+
+.nav-drawer[data-open="true"] {
+  max-height: 340px;
+  border-bottom-color: var(--border-subtle);
+}
+
+.nav-drawer nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--gutter) var(--space-8);
+}
+
+.nav-drawer a:not(.btn) {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+}
+
+.nav-drawer .btn {
+  align-self: flex-start;
+}
+
+@media (min-width: 900px) {
+  .nav-links {
+    display: flex;
+  }
+  .nav-cta {
+    display: inline-flex;
+  }
+  .nav-toggle {
+    display: none;
+  }
+  .nav-drawer {
+    display: none;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   CINEMA — hero + five stations over one continuous camera move
+   -------------------------------------------------------------------- */
+
+.cinema {
+  position: relative;
+  isolation: isolate;
+}
+
+.cinema-canvas {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* Pull the panels back up over the sticky canvas so they share the frame. */
+  margin-bottom: -100svh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Text-column scrim. Vertical on narrow viewports, where the type sits below
+   the form rather than beside it. */
+.cinema-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--bg-ink) 22%,
+    rgba(20, 12, 57, 0.88) 40%,
+    rgba(20, 12, 57, 0) 62%
+  );
+}
+
+.cinema-scrim-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 12, 57, 0.92),
+    rgba(20, 12, 57, 0)
+  );
+}
+
+@media (min-width: 900px) {
+  .cinema-scrim {
+    background: linear-gradient(
+      to right,
+      var(--bg-ink) 6%,
+      rgba(20, 12, 57, 0.82) 34%,
+      rgba(20, 12, 57, 0) 62%
+    );
+  }
+}
+
+.cinema-panels {
+  position: relative;
+  z-index: 1;
+}
+
+.cinema-panel {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  /* Type sits low on narrow screens so the form has the upper frame to itself. */
+  justify-content: flex-end;
+  padding-block: calc(72px + var(--space-16)) var(--space-20);
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  .cinema-panel {
+    justify-content: center;
+    padding-block: calc(72px + var(--space-16)) var(--space-16);
+  }
+}
+
+/* Hero ------------------------------------------------------------------ */
+
+.cinema-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+  max-width: 760px;
+}
+
+.cinema-headline {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-on-ink);
+}
+
+.cinema-headline-line {
+  display: block;
+}
+
+.cinema-lede {
+  max-width: 52ch;
+}
+
+.cinema-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.cinema-cue {
+  position: absolute;
+  left: var(--gutter);
+  bottom: var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-on-ink-muted);
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+}
+
+.cinema-cue-line {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--coral-500),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+/* Stations -------------------------------------------------------------- */
+
+.cinema-station {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  max-width: 600px;
+}
+
+.cinema-station-title {
+  color: var(--text-on-ink);
+  max-width: 16ch;
+}
+
+.cinema-station-body {
+  max-width: 46ch;
+}
+
+@media (min-width: 900px) {
+  .cinema-station {
+    max-width: 520px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   SECTIONS
+   -------------------------------------------------------------------- */
+
+/* Sections must be opaque. The cinematic block's sticky canvas stays pinned
+   until its container's bottom edge clears the viewport, which means it is
+   still painting one screen after the panels have ended — a transparent
+   section after it shows ink behind white-canvas typography. */
+.section {
+  background: var(--bg-canvas);
+}
+
+.section.section-subtle {
+  background: var(--bg-subtle);
+}
+
+.section.ink {
+  background: var(--bg-ink);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-16);
+  max-width: var(--measure);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+  color: var(--text-primary);
+}
+
+.t-display-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+}
+
+/* Capabilities ---------------------------------------------------------- */
+
+.capability-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+.capability-grid > li {
+  display: flex;
+}
+
+.capability-grid .card {
+  width: 100%;
+}
+
+.capability-marker {
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-overline);
+}
+
+@media (min-width: 680px) {
+  .capability-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .capability-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Editorial split ------------------------------------------------------- */
+
+.editorial {
+  display: grid;
+  gap: var(--space-10);
+  grid-template-columns: 1fr;
+}
+
+.editorial-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.editorial-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .editorial {
+    grid-template-columns: minmax(280px, 5fr) 7fr;
+    gap: var(--space-16);
+  }
+
+  .editorial-aside {
+    position: sticky;
+    top: 120px;
+    align-self: start;
+  }
+}
+
+/* Mission & vision ------------------------------------------------------ */
+
+.mv-grid {
+  display: grid;
+  gap: var(--space-10);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-10);
+}
+
+.mv-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mv-label {
+  color: var(--coral-500);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  font-size: var(--text-overline);
+}
+
+.mv-body {
+  color: var(--text-primary);
+  max-width: 30ch;
+}
+
+@media (min-width: 800px) {
+  .mv-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-16);
+  }
+}
+
+/* Timeline -------------------------------------------------------------- */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  counter-reset: none;
+}
+
+.timeline li {
+  display: flex;
+  gap: var(--space-4);
+  align-items: baseline;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.timeline-year {
+  color: var(--indigo-700);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-overline);
+  flex: none;
+}
+
+/* Contact --------------------------------------------------------------- */
+
+.contact {
+  overflow: hidden;
+}
+
+.contact-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+.contact-title {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-on-ink);
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+  margin-top: var(--space-2);
+}
+
+.contact-mail {
+  font-family: var(--font-mono);
+  font-size: var(--text-body-sm);
+}
+
+/* The ribbon watermark: the real mark, oversized and held at 6%, exactly as
+   the system prescribes. Not a pattern, not recoloured — the reversed lockup
+   at low opacity on ink. */
+.contact::after {
+  content: "";
+  position: absolute;
+  right: -8%;
+  bottom: -34%;
+  width: min(780px, 72vw);
+  aspect-ratio: 1.59;
+  background: url("/logo-theerrv-inverse.svg") no-repeat center / contain;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Footer ---------------------------------------------------------------- */
+
+.footer {
+  padding-top: var(--space-20);
+  border-top: 1px solid var(--border-ink);
+}
+
+.footer-inner {
+  display: grid;
+  gap: var(--space-12);
+  grid-template-columns: 1fr;
+  padding-bottom: var(--space-16);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: flex-start;
+  max-width: 34ch;
+}
+
+.footer-blurb {
+  color: var(--text-on-ink-secondary);
+}
+
+.footer-tagline {
+  color: var(--coral-500);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  font-size: var(--text-overline);
+}
+
+.footer-col-title {
+  color: var(--text-on-ink-muted);
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.footer-links a {
+  color: var(--text-on-ink-secondary);
+  font-size: var(--text-body-sm);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.footer-links a:hover {
+  color: var(--text-on-ink);
+}
+
+.footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--border-ink);
+  color: var(--text-on-ink-muted);
+}
+
+.footer-base .t-body-sm {
+  color: var(--text-on-ink-muted);
+}
+
+@media (min-width: 800px) {
+  .footer-inner {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-16);
+  }
+}

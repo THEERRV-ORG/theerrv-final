@@ -1,0 +1,1417 @@
+/* =============================================================================
+   COMPONENTS
+   Everything resolves from the token layer. No literal colours, sizes,
+   durations or easings below this line.
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------
+   LOGO
+   -------------------------------------------------------------------- */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Sized by height with width free — the mark is 1.59:1, so a square box would
+   letterbox it and shrink it against the wordmark. */
+.logo-mark {
+  height: 22px;
+  width: auto;
+}
+
+.logo-word {
+  font-family: var(--font-display);
+  /* Unbounded is wide; the wordmark needs a smaller size than a normal
+     grotesque would to occupy the same space beside the mark. */
+  font-size: 1.125rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+  color: var(--indigo-700);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Below this the bar cannot hold the mark, the wordmark, the CTA and the menu
+   toggle at once. The mark alone is the stronger thing to keep — it is the
+   brand's signature graphic, and the CTA is worth more than a repeated name. */
+@media (max-width: 560px) {
+  .nav .logo-word {
+    display: none;
+  }
+}
+
+.logo-v {
+  color: var(--coral-500);
+}
+
+.logo-on-ink .logo-word {
+  color: var(--text-on-ink);
+}
+
+/* -----------------------------------------------------------------------
+   PRELOADER
+   -------------------------------------------------------------------- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  display: grid;
+  place-items: center;
+  background: var(--bg-canvas);
+  transition: transform var(--dur-slow) var(--ease-emphasized),
+    opacity var(--dur-base) var(--ease-standard);
+}
+
+.preloader[data-done="true"] {
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  width: min(320px, 70vw);
+}
+
+.preloader-rule {
+  width: 100%;
+  height: 2px;
+  background: var(--neutral-200);
+  overflow: hidden;
+}
+
+.preloader-rule > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--coral-500);
+  transform-origin: left center;
+  transition: transform var(--dur-fast) linear;
+}
+
+.preloader-count {
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-overline);
+}
+
+/* -----------------------------------------------------------------------
+   NAV
+   -------------------------------------------------------------------- */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+}
+
+/* The shell is what actually changes shape. Over the cinematic block it is a
+   full-bleed transparent strip; past it, it detaches into a floating card
+   inset from the viewport edges. Animating the shell rather than `.nav` keeps
+   the fixed positioning and the visual treatment as separate concerns, so the
+   card can gain margins without the bar leaving the top of the screen. */
+.nav-shell {
+  position: relative;
+  width: min(var(--container), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+  margin-block-start: 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  transition: margin-block-start var(--dur-base) var(--ease-standard),
+    background var(--dur-base) var(--ease-standard),
+    border-color var(--dur-base) var(--ease-standard),
+    border-radius var(--dur-base) var(--ease-standard),
+    box-shadow var(--dur-base) var(--ease-standard);
+}
+
+/* Detached state. A solid card rather than a translucent one: it floats over
+   the 3D scene as often as over body copy, and a blur that has to resolve the
+   canvas underneath is both expensive and unreadable. */
+.nav[data-solid="true"] .nav-shell,
+.nav[data-mega="true"] .nav-shell {
+  margin-block-start: 10px;
+  background: var(--bg-canvas);
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  height: 72px;
+  padding-inline: var(--space-6);
+  transition: padding-inline var(--dur-base) var(--ease-standard);
+}
+
+/* At the top there is no card, so the row aligns to the page gutter instead of
+   the card's inner padding — otherwise the logo would sit indented from the
+   hero copy beneath it. */
+.nav[data-solid="false"][data-mega="false"] .nav-inner {
+  padding-inline: 0;
+}
+
+/* --space-8, not --space-7: the spacing scale has no 7 step, and a var() that
+   resolves to nothing silently drops the gap entirely. */
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Type on the transparent bar is white; on the card it inherits the default
+   ink treatment. Both are driven from the header so a single attribute flips
+   the whole bar, including the chevrons and the burger. */
+.nav[data-solid="false"][data-mega="false"] .link-nav {
+  color: var(--text-on-ink-secondary);
+}
+
+.nav[data-solid="false"][data-mega="false"] .link-nav:hover {
+  color: var(--text-on-ink);
+}
+
+.nav-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.nav-chevron {
+  width: 9px;
+  height: 6px;
+  opacity: 0.6;
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.nav-chevron[data-open="true"] {
+  transform: rotate(180deg);
+}
+
+/* Destinations that do not exist yet. Rendered as text rather than as links so
+   the information architecture is visible without shipping a dead end. */
+.link-nav.is-pending,
+.nav-drawer .is-pending {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* -----------------------------------------------------------------------
+   MEGA PANEL
+   -------------------------------------------------------------------- */
+
+.mega {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  right: 0;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  transform-origin: top center;
+}
+
+.mega[data-open="true"] {
+  animation: mega-in var(--dur-base) var(--ease-emphasized) both;
+}
+
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mega-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+}
+
+/* The promo column carries a right rule rather than a background tint — the
+   panel should read as one surface divided, not as two stuck together. */
+.mega-lead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border-right: 1px solid var(--border-subtle);
+}
+
+.mega-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-overline, 0.6875rem);
+  letter-spacing: var(--tracking-overline, 0.14em);
+  text-transform: uppercase;
+  color: var(--coral-500);
+}
+
+.mega-rule {
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+}
+
+.mega-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: var(--weight-bold);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.mega-title-line {
+  display: block;
+}
+
+.mega-dot {
+  color: var(--coral-500);
+}
+
+.mega-body {
+  font-size: var(--text-small, 0.875rem);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 30ch;
+}
+
+.mega-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-start: auto;
+  padding-block-end: 4px;
+  border-bottom: 1px solid var(--coral-500);
+  font-size: var(--text-small, 0.875rem);
+  font-weight: var(--weight-medium);
+  color: var(--coral-500);
+}
+
+.mega-cta .nav-arrow {
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.mega-cta:hover .nav-arrow {
+  transform: translateX(3px);
+}
+
+.nav-arrow {
+  width: 15px;
+  height: 10px;
+  flex: none;
+}
+
+.mega-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Interior rules only. Drawing them with insets rather than on every cell
+   avoids a doubled line down the middle and a stray edge against the panel. */
+.mega-grid > li {
+  border-inline-end: 1px solid var(--border-subtle);
+  border-block-end: 1px solid var(--border-subtle);
+}
+
+.mega-grid > li:nth-child(3n) {
+  border-inline-end: 0;
+}
+
+.mega-grid > li:nth-last-child(-n + 3) {
+  border-block-end: 0;
+}
+
+/* A four-item panel wraps 3 + 1, which leaves the last cell with a rule it
+   should not have. */
+.mega-grid:has(> li:nth-child(4):last-child) > li:nth-child(n + 4) {
+  border-block-end: 0;
+}
+
+.mega-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-6);
+  color: var(--text-primary);
+  transition: background var(--dur-fast) var(--ease-standard);
+}
+
+.mega-card:hover {
+  background: var(--bg-subtle);
+}
+
+.mega-card-title {
+  font-weight: var(--weight-medium);
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}
+
+.mega-card-body {
+  font-size: var(--text-small, 0.875rem);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.mega-card-arrow {
+  margin-block-start: auto;
+  color: var(--coral-500);
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.mega-card:hover .mega-card-arrow {
+  transform: translateX(3px);
+}
+
+/* The panel is a pointer affordance. Below the breakpoint the drawer's
+   accordion carries the same content, so mounting both would duplicate every
+   link for a screen reader. */
+@media (max-width: 1024px) {
+  .mega {
+    display: none;
+  }
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* The primary conversion path stays visible at every width — it is the one
+   element on the page that should never be a tap away behind a menu. */
+.nav .nav-cta {
+  display: inline-flex;
+  padding: 10px var(--space-5);
+}
+
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--text-primary);
+  transition: transform var(--dur-base) var(--ease-standard),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+
+.nav[data-solid="false"][data-mega="false"] .nav-toggle-bar {
+  background: var(--text-on-ink);
+}
+
+.nav-toggle-bar[data-open="true"]:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.nav-toggle-bar[data-open="true"]:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+.nav-drawer {
+  overflow: hidden;
+  max-height: 0;
+  background: var(--bg-canvas);
+  border-bottom: 1px solid transparent;
+  transition: max-height var(--dur-slow) var(--ease-emphasized),
+    border-color var(--dur-base) var(--ease-standard);
+}
+
+/* Tall enough for six items plus an expanded accordion, and scrollable past
+   that so a short viewport can still reach the CTA at the bottom. */
+.nav-drawer[data-open="true"] {
+  max-height: min(80vh, 640px);
+  overflow-y: auto;
+  border-bottom-color: var(--border-subtle);
+}
+
+/* --- Drawer accordions. Same content as the mega panel, one column. ------- */
+
+.drawer-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding-block: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.drawer-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-base) var(--ease-emphasized);
+}
+
+.drawer-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+/* The row collapses to zero height, so the inner wrapper carries the overflow
+   clip — without it the links stay clickable while visually gone. Padding and
+   the rule live in here too, so a collapsed panel contributes no height. */
+.drawer-panel-inner {
+  overflow: hidden;
+  padding-inline-start: var(--space-4);
+  border-inline-start: 1px solid var(--border-subtle);
+  margin-inline-start: var(--space-1);
+}
+
+/* Sub-items sit a step down from their parent so the hierarchy is legible
+   without indentation alone carrying it. */
+.nav-drawer .drawer-panel-inner a:not(.btn) {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.nav-drawer nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--gutter) var(--space-8);
+}
+
+/* Touch targets clear 44px. These are the primary navigation on the widths
+   where there is no hover to help you aim. */
+.nav-drawer a:not(.btn) {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  padding-block: var(--space-3);
+}
+
+.nav-drawer nav {
+  gap: var(--space-1);
+}
+
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  padding-block: var(--space-3);
+}
+
+.nav-drawer .btn {
+  align-self: flex-start;
+}
+
+/* 1024, not 900. The desktop row carries two mega triggers, and the panel they
+   open is a pointer affordance that is switched off below this width — showing
+   the triggers any earlier would leave them opening nothing. Bar and panel
+   therefore share one breakpoint. */
+@media (min-width: 1024px) {
+  .nav-links {
+    display: flex;
+  }
+  .nav-cta {
+    display: inline-flex;
+  }
+  .nav-toggle {
+    display: none;
+  }
+  .nav-drawer {
+    display: none;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   CINEMA — hero + five stations over one continuous camera move
+   -------------------------------------------------------------------- */
+
+.cinema {
+  position: relative;
+  isolation: isolate;
+}
+
+.cinema-canvas {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* Pull the panels back up over the sticky canvas so they share the frame. */
+  margin-bottom: -100svh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Text-column scrim. Vertical on narrow viewports, where the type sits below
+   the form rather than beside it. */
+.cinema-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--bg-ink) 22%,
+    rgba(20, 12, 57, 0.88) 40%,
+    rgba(20, 12, 57, 0) 62%
+  );
+}
+
+.cinema-scrim-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 12, 57, 0.92),
+    rgba(20, 12, 57, 0)
+  );
+}
+
+@media (min-width: 900px) {
+  .cinema-scrim {
+    background: linear-gradient(
+      to right,
+      var(--bg-ink) 6%,
+      rgba(20, 12, 57, 0.82) 34%,
+      rgba(20, 12, 57, 0) 62%
+    );
+  }
+}
+
+.cinema-panels {
+  position: relative;
+  z-index: 1;
+}
+
+.cinema-panel {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  /* Type sits low on narrow screens so the form has the upper frame to itself.
+     The generous bottom padding lifts the copy off the very bottom edge so it
+     closes the gap under the mark rather than pinning to the floor. */
+  justify-content: flex-end;
+  /* Proportional, not fixed. The copy block is roughly a constant height in px,
+     so a fixed bottom padding pushes it proportionally lower as the viewport
+     gets taller — which is what opened a large dead band between the mark and
+     the type on tablets. A vh-based floor keeps the copy starting at about the
+     same point on every screen. */
+  padding-block: calc(72px + var(--space-16)) clamp(6rem, 18vh, 12.5rem);
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  .cinema-panel {
+    justify-content: center;
+    padding-block: calc(72px + var(--space-16)) var(--space-16);
+  }
+}
+
+/* Hero ------------------------------------------------------------------ */
+
+.cinema-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-8);
+  max-width: 820px;
+}
+
+/* The tagline carries the hero on its own. Sized so the longest line clears
+   the column at every width — Unbounded is wide enough that a few points too
+   far would push it under the 3D mark. */
+.cinema-headline {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-on-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 1.5rem + 4.4vw, 5.5rem);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.03;
+}
+
+/* The one warm moment in the hero. */
+.cinema-dot {
+  color: var(--coral-500);
+}
+
+.cinema-lede {
+  max-width: 46ch;
+}
+
+.cinema-cue {
+  position: absolute;
+  left: var(--gutter);
+  bottom: var(--space-8);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-on-ink-muted);
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+}
+
+.cinema-cue-line {
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--coral-500),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+/* Stations -------------------------------------------------------------- */
+
+.cinema-station {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  max-width: 600px;
+}
+
+.cinema-station-title {
+  color: var(--text-on-ink);
+  max-width: 16ch;
+}
+
+.cinema-station-body {
+  max-width: 46ch;
+}
+
+@media (min-width: 900px) {
+  .cinema-station {
+    max-width: 520px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   SECTIONS
+   -------------------------------------------------------------------- */
+
+/* Sections must be opaque. The cinematic block's sticky canvas stays pinned
+   until its container's bottom edge clears the viewport, which means it is
+   still painting one screen after the panels have ended — a transparent
+   section after it shows ink behind white-canvas typography. */
+.section {
+  background: var(--bg-canvas);
+}
+
+.section.section-subtle {
+  background: var(--bg-subtle);
+}
+
+.section.ink {
+  background: var(--bg-ink);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-16);
+  max-width: var(--measure);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+  color: var(--text-primary);
+}
+
+.t-display-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+}
+
+/* Capabilities ---------------------------------------------------------- */
+
+.capability-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+
+.capability-grid > li {
+  display: flex;
+}
+
+.capability-grid .card {
+  width: 100%;
+}
+
+.capability-marker {
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-overline);
+}
+
+@media (min-width: 680px) {
+  .capability-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .capability-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Editorial split ------------------------------------------------------- */
+
+.editorial {
+  display: grid;
+  gap: var(--space-10);
+  grid-template-columns: 1fr;
+}
+
+.editorial-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.editorial-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .editorial {
+    grid-template-columns: minmax(280px, 5fr) 7fr;
+    gap: var(--space-16);
+  }
+
+  .editorial-aside {
+    position: sticky;
+    top: 120px;
+    align-self: start;
+  }
+}
+
+/* Mission & vision ------------------------------------------------------ */
+
+.mv-grid {
+  display: grid;
+  gap: var(--space-10);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-10);
+}
+
+.mv-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mv-label {
+  color: var(--coral-500);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  font-size: var(--text-overline);
+}
+
+.mv-body {
+  color: var(--text-primary);
+  max-width: 30ch;
+}
+
+@media (min-width: 800px) {
+  .mv-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-16);
+  }
+}
+
+/* Timeline -------------------------------------------------------------- */
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  counter-reset: none;
+}
+
+.timeline li {
+  display: flex;
+  gap: var(--space-4);
+  align-items: baseline;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.timeline-year {
+  color: var(--indigo-700);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-overline);
+  flex: none;
+}
+
+/* Contact — the light-bearing CTA card -----------------------------------
+   Two light states occupy the same card. `--p` is scroll progress through the
+   section, written once per frame by ScrollTrigger; every value below reads
+   from it. The prism sweep fades out as the mark resolves in, sharpening and
+   settling rather than cross-dissolving — a dissolve reads as two pictures
+   swapping, a resolve reads as one thing becoming another.
+
+   Both states are layered gradients rather than a bitmap: they re-tint from
+   the token layer, stay sharp at any pixel density, and add nothing to the
+   page weight.
+   ------------------------------------------------------------------------ */
+
+/* The CTA and the footer are one continuous object: the CTA rounds only its
+   top, the footer only its bottom, and they meet on a shared indigo-950 edge
+   so the seam is invisible. Light enters at the top of the card and leaves at
+   the bottom of the footer. */
+.cta {
+  background: var(--bg-subtle);
+  padding: var(--space-6) var(--space-6) 0;
+}
+
+.cta-card {
+  --p: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--indigo-950);
+  /* Taller on narrow screens on purpose: the copy stacks and eats the card,
+     leaving the light nowhere to live. This buys a clear band above it. */
+  min-height: clamp(560px, 78vh, 660px);
+  display: flex;
+  box-shadow: 0 30px 70px rgba(35, 24, 96, 0.18);
+}
+
+/* Light layers sit slightly outside the card so the heavy blur never reveals
+   a soft edge against the card's own boundary. */
+.cta-light {
+  position: absolute;
+  inset: -14%;
+  pointer-events: none;
+  will-change: opacity, transform, filter;
+}
+
+/* --- State one: the abstract prism sweep ---------------------------- */
+.cta-light--prism {
+  opacity: clamp(0, calc(1 - var(--p) * 1.35), 1);
+  background-image:
+    linear-gradient(114deg, transparent 30%, rgba(120, 90, 255, 0.5) 52%, transparent 74%),
+    linear-gradient(114deg, transparent 28%, rgba(255, 190, 90, 0.4) 50%, transparent 72%),
+    linear-gradient(114deg, transparent 24%, rgba(243, 93, 85, 0.62) 47%, transparent 70%),
+    linear-gradient(114deg, transparent 20%, rgba(255, 240, 232, 0.9) 44%, transparent 66%);
+  filter: blur(54px);
+}
+
+/* --- State two: the beam bent through the mark ---------------------- */
+.cta-light--mark {
+  opacity: clamp(0, calc(var(--p) * 1.5 - 0.25), 1);
+  /* Starts oversized and soft, arriving at true scale and sharp. */
+  transform: scale(calc(1.09 - var(--p) * 0.09));
+  filter: blur(calc((1 - var(--p)) * 22px));
+  background-image:
+    linear-gradient(114deg, transparent 30%, rgba(122, 105, 255, 0.45) 54%, transparent 78%),
+    linear-gradient(114deg, transparent 22%, rgba(240, 238, 250, 0.6) 46%, transparent 68%);
+}
+
+/* The mark itself, cut out of a dispersing beam. The gradient is the light;
+   the mark is the aperture it passes through. */
+.cta-light--mark::after {
+  content: "";
+  position: absolute;
+  /* Nearly full width on a phone, where it is the only thing in the upper
+     band; a modest inset on desktop, where it shares the frame with copy. */
+  right: -6%;
+  top: 3%;
+  width: min(720px, 94%);
+  aspect-ratio: 1.59;
+  -webkit-mask: url("/logo-theerrv-inverse.svg") no-repeat center / contain;
+  mask: url("/logo-theerrv-inverse.svg") no-repeat center / contain;
+  background-image: linear-gradient(
+    112deg,
+    rgba(255, 255, 255, 0.1) 0 30%,
+    rgba(255, 255, 255, 0.94) 45%,
+    rgba(243, 93, 85, 0.88) 58%,
+    rgba(122, 105, 255, 0.55) 72%,
+    rgba(255, 255, 255, 0.06) 88%
+  );
+}
+
+/* Fine grain stops the gradients banding and reads as photographic rather
+   than as CSS. */
+.cta-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+/* Contrast is not left to the artwork. Bottom-up on narrow screens where the
+   copy sits under the light, left-to-right once there is room beside it. */
+.cta-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--indigo-950) 18%,
+    rgba(12, 8, 36, 0.86) 42%,
+    rgba(12, 8, 36, 0) 72%
+  );
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 2;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+  padding: var(--space-10) var(--space-8) var(--space-10);
+  width: 100%;
+}
+
+.cta-title {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.1;
+  color: #fff;
+  max-width: 16ch;
+}
+
+.cta-lede {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: rgba(255, 255, 255, 0.74);
+  max-width: 44ch;
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+/* The card is a dark surface but is no longer tagged `.ink`, so the ghost
+   button lost its on-ink treatment and fell back to near-black text on a
+   near-black card. Restated here against the same ink tokens. */
+.cta-card .btn-ghost {
+  border-color: var(--border-ink);
+  color: var(--text-on-ink);
+}
+
+.cta-card .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+
+.cta-mail {
+  font-size: var(--text-body-sm);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cta-mail a {
+  color: var(--coral-500);
+  padding-block: var(--space-2);
+  display: inline-block;
+}
+
+@media (min-width: 900px) {
+  .cta {
+    /* Bottom stays 0 here too, or the footer detaches again on desktop. */
+    padding: var(--space-8) var(--space-8) 0;
+  }
+  .cta-card {
+    min-height: clamp(460px, 62vh, 580px);
+  }
+  .cta-light--mark::after {
+    right: 4%;
+    top: 6%;
+    width: min(720px, 56%);
+  }
+  .cta-scrim {
+    background: linear-gradient(
+      100deg,
+      var(--indigo-950) 0 26%,
+      rgba(12, 8, 36, 0.72) 46%,
+      rgba(12, 8, 36, 0) 70%
+    );
+  }
+  .cta-inner {
+    padding: var(--space-16);
+    max-width: 62%;
+  }
+  .cta-title {
+    font-size: var(--text-display-xl);
+  }
+  .cta-lede {
+    font-size: var(--text-body-lg);
+  }
+}
+
+/* Reduced motion gets the resolved state outright — the point of the section
+   is the mark, and there is no reason to withhold it from someone who has
+   asked for less movement. */
+@media (prefers-reduced-motion: reduce) {
+  .cta-card {
+    --p: 1;
+  }
+  .cta-light--mark {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Footer ----------------------------------------------------------------
+   A rounded card floating on the light page, not a full-bleed band. The inset
+   turns the footer into a closing object rather than a place the page trails
+   off into.
+   -------------------------------------------------------------------- */
+
+.footer-wrap {
+  background: var(--bg-subtle);
+  padding: 0 var(--space-6) var(--space-8);
+}
+
+.footer-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  padding: clamp(var(--space-10), 5vw, var(--space-20));
+  /* Deepest at the top so it meets the CTA's base exactly, with the bloom
+     moved to the bottom — the light that entered the CTA from above leaves
+     here from below. A bright top edge would draw a bright line across the
+     seam and give the join away. */
+  background:
+    radial-gradient(
+      120% 92% at 50% 100%,
+      var(--indigo-600) 0%,
+      var(--indigo-800) 40%,
+      var(--indigo-950) 82%
+    );
+  color: var(--text-on-ink);
+}
+
+/* Two columns even on the narrowest phones. Stacked one-up, five link groups
+   plus the brand block made the footer nearly 2000px tall — a scroll marathon
+   at the exact moment someone is trying to find a single link. */
+.footer-inner {
+  display: grid;
+  gap: var(--space-10) var(--space-6);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.footer-brand {
+  grid-column: 1 / -1;
+}
+
+/* --- Brand column ---------------------------------------------------- */
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+.footer-logo .logo-mark {
+  height: 44px;
+}
+
+.footer-logo .logo-word {
+  font-size: 1.75rem;
+}
+
+.footer-tagline {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
+  line-height: 1.35;
+  color: #fff;
+}
+
+.footer-address {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-style: normal;
+  font-size: var(--text-body-sm);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.footer-signature {
+  margin-top: var(--space-4);
+  font-size: var(--text-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+/* --- Link columns ---------------------------------------------------- */
+
+.footer-col-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--coral-500);
+  margin-bottom: var(--space-4);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Near-white, not "secondary". A footer is where someone goes when they are
+   actively looking for something; dimming it fights the one job it has. */
+.footer-links a {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: var(--text-body-sm);
+  line-height: 1.4;
+  padding-block: var(--space-2);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
+
+.footer-social {
+  margin-top: var(--space-5);
+}
+
+/* --- Base bar --------------------------------------------------------- */
+
+.footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: clamp(var(--space-12), 5vw, var(--space-20));
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: var(--text-body-sm);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.footer-whatsapp {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding-block: var(--space-2);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.footer-whatsapp:hover {
+  color: #fff;
+}
+
+/* --- Layout ----------------------------------------------------------- */
+
+@media (min-width: 640px) {
+  .footer-inner {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-10) var(--space-8);
+  }
+}
+
+@media (min-width: 900px) {
+  .footer-wrap {
+    /* No top padding — the CTA card sits directly above and they read as one. */
+    padding: 0 var(--space-8) var(--space-12);
+  }
+  .footer-inner {
+    grid-template-columns: minmax(0, 1.5fr) repeat(5, minmax(0, 1fr));
+    gap: var(--space-10) var(--space-6);
+  }
+  .footer-brand {
+    grid-column: auto;
+    padding-right: var(--space-6);
+  }
+}
+
+/* -----------------------------------------------------------------------
+   404
+
+   One ink field, three horizontal bands: wordmark, the statement, a footing
+   rail. The numeral is the page's only ornament and it earns the space —
+   nothing else here is decorative.
+   -------------------------------------------------------------------- */
+
+.notfound {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-8);
+  padding-block: var(--space-8);
+  overflow: hidden;
+}
+
+/* The 22px engineered grid, masked so it fades before the edges rather than
+   running into them. A separate element rather than `.ink-grid::before`
+   because this page needs it behind a grid-layout parent, where a pseudo
+   would be laid out as a track. */
+.notfound-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(var(--grid-ink-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-ink-line) 1px, transparent 1px);
+  background-size: var(--grid-ink-size) var(--grid-ink-size);
+  mask-image: radial-gradient(ellipse at 50% 45%, #000 15%, transparent 72%);
+  -webkit-mask-image: radial-gradient(
+    ellipse at 50% 45%,
+    #000 15%,
+    transparent 72%
+  );
+}
+
+.notfound-head {
+  display: flex;
+  align-items: center;
+}
+
+.notfound-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-5);
+}
+
+.notfound-status {
+  color: var(--coral-500);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+}
+
+/* Sized against the viewport rather than the type scale: this is a graphic,
+   and the scale's largest step is still built to sit in a column of text. */
+.notfound-figure {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: clamp(5.5rem, 22vw, 16rem);
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+  color: var(--text-on-ink);
+  margin-block: var(--space-2) var(--space-1);
+}
+
+/* The wordmark's rule, applied to a numeral: the terminal character carries
+   the coral, and it is the only accent on the page. */
+.notfound-figure-accent {
+  color: var(--coral-500);
+}
+
+.notfound-title {
+  color: var(--text-on-ink);
+}
+
+.notfound-copy {
+  color: var(--text-on-ink-secondary);
+}
+
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-block-start: var(--space-4);
+}
+
+.notfound-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block-start: var(--space-6);
+  border-block-start: 1px solid var(--border-ink);
+  color: var(--text-on-ink-muted);
+}
+
+/* The footing rail is the first thing worth losing on a short screen — the
+   statement and its two exits are the page's whole job. */
+@media (max-height: 620px) {
+  .notfound-foot {
+    display: none;
+  }
+}

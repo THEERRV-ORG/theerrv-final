@@ -1,0 +1,184 @@
+/* =============================================================================
+   THEERRV DESIGN SYSTEM — TOKEN LAYER
+   =============================================================================
+   Encoded from the published Theerrv Design System (readme + specimen cards).
+   Exact brand values are marked EXACT; scale steps between the published
+   anchors were interpolated and are marked DERIVED.
+
+   Naming follows the design system's own token names so this file can be
+   swapped for tokens/colors.css + typography.css + spacing.css + radius.css +
+   motion.css when the published files are available.
+   ========================================================================== */
+
+:root {
+  /* =========================================================================
+     COLOUR
+     "Indigo carries structure; coral appears once per view, on purpose.
+      Never flood the accent."
+     ====================================================================== */
+
+  /* --- Brand indigo. 700 is the core, sampled from the ribbon mark. ------ */
+  --indigo-50: #f2f1f9; /* DERIVED */
+  --indigo-100: #e4e1f2; /* DERIVED */
+  --indigo-200: #cbc6e6; /* DERIVED */
+  --indigo-300: #a79fd4; /* DERIVED */
+  --indigo-400: #8177c0; /* DERIVED */
+  --indigo-500: #5b4ea8; /* DERIVED */
+  --indigo-600: #3c2f80; /* DERIVED */
+  --indigo-700: #231860; /* EXACT — brand core */
+  --indigo-800: #1a1149; /* DERIVED */
+  --indigo-900: #140c39; /* EXACT — ink section */
+  --indigo-950: #0c0824; /* EXACT — deepest ink */
+
+  /* --- Coral. The single warm moment. One per view. -------------------- */
+  --coral-50: #fef1f0; /* DERIVED */
+  --coral-100: #fde3e1; /* DERIVED */
+  --coral-200: #fbc4c1; /* DERIVED */
+  --coral-400: #f7867f; /* DERIVED */
+  --coral-500: #f35d55; /* EXACT — brand accent */
+  --coral-600: #dc4239; /* DERIVED */
+  --coral-700: #b8332b; /* DERIVED */
+
+  /* --- Neutrals. Cool grey with a faint indigo undertone. --------------- */
+  --neutral-50: #f7f7fb; /* EXACT — bg subtle */
+  --neutral-100: #efeef4; /* DERIVED */
+  --neutral-200: #e3e1ec; /* EXACT — border subtle */
+  --neutral-300: #cfccdc; /* DERIVED */
+  --neutral-400: #a9a5bc; /* DERIVED */
+  --neutral-500: #837e9b; /* DERIVED */
+  --neutral-600: #625d7c; /* DERIVED */
+  --neutral-700: #4a4562; /* DERIVED */
+  --neutral-800: #2e2945; /* DERIVED */
+  --neutral-900: #171130; /* EXACT — text primary */
+
+  /* --- Status. Muted, so coral stays reserved for the brand. ------------ */
+  --status-success: #2e9e6b; /* EXACT */
+  --status-warning: #d99408; /* EXACT */
+  --status-danger: #da463e; /* EXACT */
+
+  /* --- Semantic surface & text ----------------------------------------- */
+  --bg-canvas: #ffffff; /* EXACT */
+  --bg-subtle: #f7f7fb; /* EXACT */
+  --bg-ink: #140c39; /* EXACT */
+  --surface-ink-card: #1c124a; /* DERIVED */
+
+  --text-primary: #171130; /* EXACT */
+  --text-secondary: #55506b; /* EXACT */
+  --text-muted: #8b8799; /* DERIVED */
+  --text-accent: var(--coral-500);
+  --text-on-ink: #ffffff;
+  --text-on-ink-secondary: rgba(255, 255, 255, 0.68);
+  --text-on-ink-muted: rgba(255, 255, 255, 0.46);
+
+  --border-subtle: #e3e1ec; /* EXACT */
+  --border-ink: rgba(255, 255, 255, 0.14); /* EXACT */
+  /* 22px grid overlay for "engineered" stat blocks on ink. */
+  --grid-ink-line: rgba(255, 255, 255, 0.09); /* EXACT */
+  --grid-ink-size: 22px; /* EXACT */
+
+  /* =========================================================================
+     TYPOGRAPHY
+     Outfit is the single Theerrv brand typeface across display, headings and
+     body. JetBrains Mono is reserved for technical/mono use.
+     ====================================================================== */
+  --font-display: "Unbounded Variable", "Unbounded", system-ui, sans-serif;
+  --font-body: "Schibsted Grotesk Variable", "Schibsted Grotesk", system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace,
+    "SF Mono", Menlo, monospace;
+
+  /* Display sizes are ~25% below a normal grotesque's. Unbounded runs very
+     wide, so matching the old numeric sizes would overrun every measure on the
+     page — these are set to the same optical width, not the same point size. */
+  --text-display-2xl: clamp(2.25rem, 1.5rem + 3vw, 4.25rem); /* 36 → 68 */
+  --text-display-xl: clamp(2rem, 1.55rem + 1.8vw, 3.25rem); /* 32 → 52 */
+  --text-display-lg: clamp(1.75rem, 1.5rem + 1.1vw, 2.5rem); /* 28 → 40 */
+
+  --text-h1: clamp(1.5rem, 1.32rem + 0.75vw, 2rem); /* → 32 */
+  --text-h2: clamp(1.3125rem, 1.19rem + 0.5vw, 1.625rem); /* → 26 */
+  /* H3 and H4 fall back to the body face — see globals.css. Unbounded at card
+     scale is wide enough to break a three-column grid. */
+  --text-h3: clamp(1.25rem, 1.16rem + 0.36vw, 1.4375rem); /* → 23 */
+  --text-h4: 1.125rem; /* 18 */
+
+  /* Body & UI */
+  --text-body-lg: 1.125rem; /* 18 */
+  --text-body: 1rem; /* 16 */
+  --text-body-sm: 0.875rem; /* 14 */
+  --text-overline: 0.75rem; /* 12 */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --tracking-display: -0.03em; /* −3% */
+  --tracking-heading: -0.02em; /* −2% */
+  --tracking-normal: 0em;
+  --tracking-overline: 0.14em; /* EXACT */
+
+  --leading-display: 1.04;
+  --leading-heading: 1.18;
+  --leading-body: 1.6; /* EXACT */
+
+  /* =========================================================================
+     SPACING — 4px base grid
+     ====================================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
+
+  /* Layout */
+  --container: 1200px; /* EXACT */
+  --measure: 680px; /* EXACT */
+  --gutter: 24px; /* EXACT */
+  --section-y: clamp(64px, 8vw, 128px); /* EXACT */
+
+  /* =========================================================================
+     RADIUS — restrained
+     ====================================================================== */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px; /* cards */
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* =========================================================================
+     ELEVATION — soft, indigo-tinted. Never harsh black.
+     ====================================================================== */
+  --shadow-xs: 0 1px 2px rgba(35, 24, 96, 0.06);
+  --shadow-sm: 0 2px 8px rgba(35, 24, 96, 0.08);
+  --shadow-md: 0 6px 16px rgba(35, 24, 96, 0.1);
+  --shadow-lg: 0 12px 28px rgba(35, 24, 96, 0.13);
+  --shadow-xl: 0 24px 56px rgba(35, 24, 96, 0.16);
+
+  /* =========================================================================
+     MOTION — short, confident moves. Nothing bounces or floats.
+     ====================================================================== */
+  --dur-fast: 140ms; /* EXACT */
+  --dur-base: 220ms; /* EXACT */
+  --dur-slow: 340ms; /* EXACT */
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1); /* EXACT */
+  --ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1); /* EXACT */
+  --hover-lift: -2px; /* EXACT */
+
+  /* =========================================================================
+     LAYERS
+     ====================================================================== */
+  --z-canvas: 0;
+  --z-content: 10;
+  --z-nav: 100;
+  --z-loader: 1000;
+}
