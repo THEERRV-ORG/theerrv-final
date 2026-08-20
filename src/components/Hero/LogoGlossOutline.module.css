@@ -1,0 +1,11 @@
+.outline {
+  overflow: visible;
+  pointer-events: none;
+}
+
+.path {
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.85));
+}

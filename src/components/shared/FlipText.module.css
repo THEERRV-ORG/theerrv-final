@@ -1,0 +1,42 @@
+.flipText {
+  display: inline;
+}
+
+.word {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.layerTop,
+.layerBottom {
+  display: block;
+  /* own line-height, independent of the block's tight leading, so the
+     clipped layer's glyphs never bleed past the word's clip box */
+  line-height: 1.15;
+  transition: transform 0.4s var(--ease-arch);
+}
+
+.layerBottom {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  transform: translateY(120%);
+}
+
+.flipText:hover .layerTop {
+  transform: translateY(-120%);
+}
+
+.flipText:hover .layerBottom {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layerTop,
+  .layerBottom {
+    transition: none;
+  }
+}

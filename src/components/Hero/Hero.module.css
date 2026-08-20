@@ -1,0 +1,284 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  /* section now owns its background — body no longer paints a fixed
+     page-wide gradient behind it, so this keeps the hero pixel-identical */
+  background: #060a16;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  animation: drift 16s var(--ease-arch) infinite alternate;
+}
+
+.orbGold {
+  top: -10%;
+  left: 8%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 620px;
+  max-height: 620px;
+  background: radial-gradient(circle, rgba(183, 154, 99, 0.32) 0%, rgba(183, 154, 99, 0) 70%);
+}
+
+.orbCoral {
+  bottom: -14%;
+  right: 4%;
+  width: 34vw;
+  height: 34vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(255, 90, 79, 0.22) 0%, rgba(255, 90, 79, 0) 70%);
+  animation-delay: -8s;
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(4%, 5%);
+  }
+}
+
+.glowFlash {
+  position: absolute;
+  top: 50%;
+  left: 77%;
+  width: min(540px, 40vw);
+  aspect-ratio: 933 / 583;
+  transform: translate(-50%, -50%) scale(0.6);
+  background: radial-gradient(circle, rgba(255, 90, 79, 0.55) 0%, rgba(183, 154, 99, 0.25) 40%, rgba(255, 90, 79, 0) 70%);
+  opacity: 0;
+  pointer-events: none;
+  animation: flashPulse 0.9s ease-out forwards;
+  animation-delay: 1.85s;
+}
+
+@keyframes flashPulse {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  35% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glowFlash {
+    display: none;
+  }
+}
+
+.finalLogoWrap {
+  position: absolute;
+  top: 50%;
+  left: 77%;
+  width: min(540px, 40vw);
+  aspect-ratio: 933 / 583;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  animation: revealLogo 0.6s ease forwards;
+  animation-delay: 2s;
+}
+
+.finalLogo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes revealLogo {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finalLogoWrap {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: clamp(7rem, 14vw, 9.5rem);
+  padding-bottom: clamp(4rem, 8vw, 6rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(2rem, 4vw, 2.75rem);
+  text-align: left;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.right {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.squareCard {
+  /* override DotFrame's inline-pill defaults for this card usage */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem !important;
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-arch) forwards;
+  animation-delay: 0.2s;
+}
+
+.badgeText {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: var(--gold-bright);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.headline .line {
+  display: block;
+  overflow: hidden;
+}
+
+.headline span {
+  opacity: 0;
+  transform: translateY(100%);
+  display: inline-block;
+  background: linear-gradient(120deg, var(--ivory) 30%, var(--gold-bright) 62%, var(--coral) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: revealLine var(--dur-slow) var(--ease-arch) forwards;
+}
+
+.headline .line:nth-child(1) span {
+  animation-delay: 0.3s;
+}
+.headline .line:nth-child(2) span {
+  animation-delay: 0.46s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealLine {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+  .headline span {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .content {
+    padding-top: 200px;
+  }
+
+  .finalLogoWrap,
+  .glowFlash {
+    top: 108px;
+    left: 50%;
+    width: min(220px, 58vw);
+  }
+
+  .grid {
+    text-align: center;
+  }
+
+  .left {
+    align-items: center;
+  }
+
+  .right {
+    justify-content: center;
+  }
+
+  .squareCard {
+    align-items: center !important;
+    text-align: center;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding-top: 180px;
+  }
+
+  .finalLogoWrap,
+  .glowFlash {
+    top: 96px;
+    width: min(180px, 55vw);
+  }
+}

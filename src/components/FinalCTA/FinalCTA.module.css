@@ -1,0 +1,113 @@
+.cta {
+  position: relative;
+  padding-block: clamp(6rem, 13vw, 10rem);
+  overflow: hidden;
+  text-align: center;
+  background: #0a1630 radial-gradient(1100px 700px at 50% 120%, rgba(255, 90, 79, 0.16), transparent 62%);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+}
+
+.orbGold {
+  top: -10%;
+  left: -6%;
+  width: 40vw;
+  height: 40vw;
+  max-width: 560px;
+  max-height: 560px;
+  background: radial-gradient(circle, rgba(183, 154, 99, 0.26) 0%, rgba(183, 154, 99, 0) 70%);
+}
+
+.orbCoral {
+  bottom: -16%;
+  right: -6%;
+  width: 36vw;
+  height: 36vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(255, 90, 79, 0.2) 0%, rgba(255, 90, 79, 0) 70%);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  padding: clamp(2.75rem, 6vw, 4.5rem) clamp(2rem, 6vw, 4rem);
+  background: var(--glass-fill-dark);
+  backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+  border: 1px solid var(--glass-border-dark);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 40px 80px -32px rgba(0, 0, 0, 0.6);
+}
+
+.statement {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.3rem, 6.4vw, 4.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ivory);
+}
+
+.statement .line {
+  display: block;
+}
+
+.statement .line:last-child {
+  background: linear-gradient(120deg, var(--gold-bright), var(--coral));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.body {
+  margin-top: 1.5rem;
+  max-width: 40ch;
+  margin-inline: auto;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-weight: 300;
+  color: var(--paper-soft);
+}
+
+.link {
+  display: inline-block;
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--navy-deep);
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--gold-bright) 130%);
+  padding: 1.05rem 2rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 12px 30px -10px rgba(183, 154, 99, 0.5);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -8px rgba(183, 154, 99, 0.65);
+}
+
+.link span {
+  display: inline-block;
+  transition: transform var(--dur-fast) ease;
+}
+
+.link:hover span {
+  transform: translateX(3px);
+}

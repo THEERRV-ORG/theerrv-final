@@ -1,0 +1,42 @@
+.frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.35rem;
+  border: 1px solid var(--glass-border-light);
+  background: var(--glass-fill-dark);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--coral);
+}
+
+.tl {
+  top: -3px;
+  left: -3px;
+}
+
+.tr {
+  top: -3px;
+  right: -3px;
+}
+
+.bl {
+  bottom: -3px;
+  left: -3px;
+}
+
+.br {
+  bottom: -3px;
+  right: -3px;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
