@@ -1,0 +1,95 @@
+.section {
+  padding-block: var(--section-y);
+  background: linear-gradient(180deg, #0a1630 0%, #0d1a38 100%);
+}
+
+.note {
+  max-width: 60ch;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--paper-soft);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.grid[data-columns="2"] {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid[data-columns="3"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  background: var(--glass-fill-dark);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border-dark);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+  transition: transform var(--dur-med) var(--ease-arch), border-color var(--dur-med) var(--ease-arch);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(183, 154, 99, 0.5);
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--gold-bright);
+}
+
+.title {
+  margin-top: 1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}
+
+.description {
+  margin-top: 0.85rem;
+  font-size: 0.98rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--paper-soft);
+  flex-grow: 1;
+}
+
+.tags {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tags li {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.7rem;
+}
+
+@media (max-width: 900px) {
+  .grid[data-columns="2"],
+  .grid[data-columns="3"] {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+}

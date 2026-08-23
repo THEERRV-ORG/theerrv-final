@@ -18,14 +18,27 @@ const GLYPHS = {
     </>
   ),
   2: (
-    // connected nodes
+    // automation loop
     <>
-      <circle cx="12" cy="14" r="3.2" />
-      <circle cx="36" cy="14" r="3.2" />
-      <circle cx="24" cy="34" r="3.2" />
-      <line x1="14.7" y1="16" x2="21.6" y2="31.5" />
-      <line x1="33.3" y1="16" x2="26.4" y2="31.5" />
-      <line x1="15.2" y1="14" x2="32.8" y2="14" />
+      <path d="M14 18a12 12 0 0 1 20-4" />
+      <path d="M34 30a12 12 0 0 1-20 4" />
+      <path d="M34 8v8h-8" />
+      <path d="M14 40v-8h8" />
+    </>
+  ),
+  3: (
+    // performance / speed
+    <>
+      <path d="M24 8a16 16 0 1 0 12 5.5" />
+      <line x1="24" y1="24" x2="33" y2="15" />
+      <circle cx="24" cy="24" r="1.8" fill="currentColor" stroke="none" />
+    </>
+  ),
+  4: (
+    // AI spark
+    <>
+      <path d="M24 10l3.2 8.8L36 22l-8.8 3.2L24 34l-3.2-8.8L12 22l8.8-3.2z" />
+      <circle cx="35" cy="34" r="1.6" fill="currentColor" stroke="none" />
     </>
   ),
 };
@@ -44,7 +57,7 @@ export default function ProjectGlyph({ index = 0 }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      {GLYPHS[index % 3]}
+      {GLYPHS[index % 5]}
     </svg>
   );
 }

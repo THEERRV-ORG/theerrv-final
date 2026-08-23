@@ -19,6 +19,11 @@ export default function Philosophy() {
               </Reveal>
             ))}
           </h2>
+          {philosophy.lead && (
+            <Reveal as="p" delay={280} className={styles.lead}>
+              {philosophy.lead}
+            </Reveal>
+          )}
         </div>
 
         <ul className={styles.grid}>

@@ -27,14 +27,9 @@ export default function SelectedWork() {
               <div className={styles.iconTile}>
                 <ProjectGlyph index={i} />
               </div>
-              <span className={styles.index}>PROJECT {project.index}</span>
+              <span className={styles.index}>{project.tags[0]}</span>
               <h3 className={styles.title}>{project.title}</h3>
               <p className={styles.description}>{project.description}</p>
-              <ul className={styles.tags}>
-                {project.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
             </Reveal>
           ))}
         </ul>
