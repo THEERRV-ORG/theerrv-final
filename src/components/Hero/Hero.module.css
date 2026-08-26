@@ -49,13 +49,11 @@
   }
 }
 
+/* Fills the .logoStage box (which owns the size/position now). */
 .glowFlash {
   position: absolute;
-  top: 50%;
-  left: 77%;
-  width: min(540px, 40vw);
-  aspect-ratio: 933 / 583;
-  transform: translate(-50%, -50%) scale(0.6);
+  inset: 0;
+  transform: scale(0.6);
   background: radial-gradient(circle, rgba(255, 90, 79, 0.55) 0%, rgba(183, 154, 99, 0.25) 40%, rgba(255, 90, 79, 0) 70%);
   opacity: 0;
   pointer-events: none;
@@ -66,15 +64,15 @@
 @keyframes flashPulse {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.6);
+    transform: scale(0.6);
   }
   35% {
     opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.15);
+    transform: scale(1.15);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.3);
+    transform: scale(1.3);
   }
 }
 
@@ -84,13 +82,22 @@
   }
 }
 
-.finalLogoWrap {
+/* The stage that carries the logo cluster. Desktop: absolutely positioned,
+   floating over the right side (unchanged from before). Mobile: made in-flow in
+   the media queries below, sitting between the kicker and the headline. */
+.logoStage {
   position: absolute;
   top: 50%;
   left: 77%;
   width: min(540px, 40vw);
   aspect-ratio: 933 / 583;
   transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.finalLogoWrap {
+  position: absolute;
+  inset: 0;
   opacity: 0;
   pointer-events: none;
   animation: revealLogo 0.6s ease forwards;
@@ -149,6 +156,53 @@
 
 .right {
   flex: 1;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+/* The hero kicker stays a small mono label (its long text would overpower the
+   H1 as a big heading), overriding the global .eyebrow big-heading treatment. */
+.eyebrow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  line-height: 1.15;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-arch) forwards;
+  animation-delay: 0.15s;
+}
+
+/* Line 1 — the name, warm gold. */
+.eyebrowName {
+  color: var(--gold-bright);
+}
+
+/* Line 2 — the tagline, a coral→gold gradient with a touch more weight. */
+.eyebrowTagline {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(100deg, var(--coral) 0%, #ff8a5f 45%, var(--gold-bright) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bodyText {
+  max-width: 42ch;
+  font-size: clamp(0.95rem, 1.35vw, 1.08rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--paper-soft);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-arch) forwards;
+  animation-delay: 0.85s;
 }
 
 .subline {
@@ -217,6 +271,10 @@
 .headline .line {
   display: block;
   overflow: hidden;
+  /* Room inside the clip box for descenders (the g in "Technologies"), cancelled
+     by an equal negative margin so line spacing is unchanged. */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 }
 
 /* inner text node — animates up from behind the .line mask */
@@ -236,6 +294,9 @@
 }
 .headline .line:nth-child(2) > span {
   animation-delay: 0.46s;
+}
+.headline .line:nth-child(3) > span {
+  animation-delay: 0.62s;
 }
 
 @keyframes fadeUp {
@@ -273,19 +334,15 @@
 
 @media (max-width: 860px) {
   .content {
-    padding-top: 200px;
-  }
-
-  .finalLogoWrap,
-  .glowFlash {
-    top: 108px;
-    left: 50%;
-    width: min(220px, 58vw);
+    /* Just clears the fixed navbar — the logo no longer floats at the top, so
+       the old ~200px reservation (and the big gap it created) is gone. */
+    padding-top: clamp(5.5rem, 16vw, 7rem);
+    padding-bottom: clamp(2.5rem, 8vw, 4rem);
   }
 
   .grid {
     flex-direction: column;
-    gap: clamp(2rem, 4vw, 2.75rem);
+    gap: clamp(1.25rem, 4vw, 1.75rem);
     text-align: center;
   }
 
@@ -293,10 +350,30 @@
     flex: none;
     width: 100%;
     align-items: center;
+    gap: clamp(1rem, 4vw, 1.5rem);
+  }
+
+  /* The logo drops into flow: centred, between the kicker and the headline. */
+  .logoStage {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: min(240px, 62vw);
+    align-self: center;
+    margin-block: 0.25rem;
   }
 
   .right {
-    display: none;
+    flex: none;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bodyText {
+    max-width: 52ch;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .squareCard {
@@ -308,12 +385,10 @@
 
 @media (max-width: 480px) {
   .content {
-    padding-top: 180px;
+    padding-top: clamp(5rem, 20vw, 6rem);
   }
 
-  .finalLogoWrap,
-  .glowFlash {
-    top: 96px;
-    width: min(180px, 55vw);
+  .logoStage {
+    width: min(200px, 58vw);
   }
 }

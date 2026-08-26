@@ -1,0 +1,127 @@
+/* Why Theerrv — two-column TheDisconnect-style layout. */
+
+.section {
+  padding-block: var(--section-y);
+  position: relative;
+}
+
+/* Two-column grid: story left, diagram card right */
+.grid {
+  display: grid;
+  gap: clamp(3rem, 6vw, 5rem);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .left {
+    position: sticky;
+    top: 120px;
+    align-self: start;
+  }
+}
+
+/* --- Left column -------------------------------------------------------- */
+
+.eyebrow {
+  color: var(--gold-bright);
+  margin-bottom: 1.75rem;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.headLine1 {
+  display: block;
+  color: var(--ivory);
+}
+
+.headLine2 {
+  display: block;
+  color: var(--coral);
+}
+
+.intro {
+  margin-top: clamp(1.25rem, 3vh, 1.75rem);
+  max-width: 52ch;
+  font-size: clamp(1rem, 1.5vw, 1.13rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--paper-soft);
+}
+
+/* --- Step rail ---------------------------------------------------------- */
+
+.rail {
+  border-top: 1px solid rgba(243, 240, 232, 0.1);
+}
+
+/* On narrow screens the list still needs breathing room below the intro. */
+@media (max-width: 1023px) {
+  .rail {
+    margin-top: clamp(1.75rem, 4vh, 2.75rem);
+  }
+}
+
+.row {
+  position: relative;
+  border-bottom: 1px solid rgba(243, 240, 232, 0.1);
+}
+
+.rowInner {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.875rem, 2vw, 1.5rem);
+  padding: clamp(0.875rem, 2.2vh, 1.25rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  padding-left: clamp(1rem, 1.8vw, 1.5rem);
+}
+
+/* Dotted-circle indicator (the scatter glyph equivalent) */
+.circle {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: clamp(2.75rem, 5.5vw, 3.5rem);
+  height: clamp(2.75rem, 5.5vw, 3.5rem);
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 106, 80, 0.4);
+  background: rgba(255, 106, 80, 0.05);
+}
+
+.circleNum {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2vw, 1.375rem);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--coral);
+}
+
+.rowBody {
+  min-width: 0;
+}
+
+.statement {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}
+
+.detail {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--paper-soft);
+}

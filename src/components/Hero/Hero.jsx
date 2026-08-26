@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
 import { hero } from "../../data/content";
 import LogoAssemble from "./LogoAssemble";
 import LogoGlossOutline from "./LogoGlossOutline";
@@ -14,16 +13,28 @@ export default function Hero() {
       <div className={`${styles.orb} ${styles.orbGold}`} aria-hidden="true" />
       <div className={`${styles.orb} ${styles.orbCoral}`} aria-hidden="true" />
 
-      <LogoAssemble />
-      <div className={styles.glowFlash} aria-hidden="true" />
-      <div className={styles.finalLogoWrap}>
-        <LogoMark trackRef={sectionRef} className={styles.finalLogo} />
-        <LogoGlossOutline className={styles.finalLogo} />
-      </div>
-
       <div className={`${styles.content} container`}>
         <div className={styles.grid}>
           <div className={styles.left}>
+            {hero.eyebrow && (
+              <p className={`eyebrow ${styles.eyebrow}`}>
+                <span className={styles.eyebrowName}>{hero.eyebrow}</span>
+                {hero.tagline && <span className={styles.eyebrowTagline}>{hero.tagline}</span>}
+              </p>
+            )}
+
+            {/* The logo "loads" here: on desktop this stage is absolutely
+                positioned and floats over the right side (unchanged); on mobile
+                it sits in flow, centred, between the kicker and the headline. */}
+            <div className={styles.logoStage} aria-hidden="true">
+              <LogoAssemble />
+              <div className={styles.glowFlash} />
+              <div className={styles.finalLogoWrap}>
+                <LogoMark trackRef={sectionRef} className={styles.finalLogo} />
+                <LogoGlossOutline className={styles.finalLogo} />
+              </div>
+            </div>
+
             <h1 className={styles.headline}>
               {hero.headline.map((line) => (
                 <span key={line} className={styles.line}>
@@ -32,21 +43,12 @@ export default function Hero() {
               ))}
             </h1>
             <p className={styles.subline}>{hero.subline}</p>
-            <div className={styles.actions}>
-              {hero.ctas.map((cta) => (
-                <Link
-                  key={cta.to}
-                  to={cta.to}
-                  className={`${styles.button} ${cta.primary ? styles.buttonPrimary : styles.buttonGhost}`}
-                >
-                  {cta.label}
-                  {cta.primary && <span aria-hidden="true"> →</span>}
-                </Link>
-              ))}
-            </div>
           </div>
-          <div className={styles.right} aria-hidden="true" />
+          <div className={styles.right}>
+            {hero.body && <p className={styles.bodyText}>{hero.body}</p>}
+          </div>
         </div>
+
       </div>
     </section>
   );

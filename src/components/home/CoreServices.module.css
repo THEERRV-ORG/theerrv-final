@@ -1,0 +1,149 @@
+.section {
+  padding-block: var(--section-y);
+}
+
+.grid {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.eyebrow {
+  color: var(--gold-bright);
+}
+
+.heading {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  max-width: 16ch;
+}
+
+.lead {
+  margin-top: 1.5rem;
+  max-width: 44ch;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--paper-soft);
+}
+
+/* --- The list --- */
+.list {
+  border-top: 1px solid var(--glass-border-dark);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0 1.25rem;
+  padding-block: clamp(1.4rem, 2.6vw, 2rem);
+  border-bottom: 1px solid var(--glass-border-dark);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* accent rule that scales in across the row on activation */
+.rowRule {
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--gold-bright), var(--coral));
+  transition: transform 420ms var(--ease-arch);
+}
+
+.row[data-active] .rowRule {
+  transform: scaleX(1);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  color: var(--paper-soft);
+  transition: color 420ms var(--ease-arch);
+}
+
+.row[data-active] .num {
+  color: var(--gold-bright);
+}
+
+.rowBody {
+  display: block;
+}
+
+.title {
+  display: block;
+  transform-origin: left;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+  transition: transform 420ms var(--ease-arch);
+}
+
+.row[data-active] .title {
+  transform: scale(1.03);
+}
+
+.outcome {
+  display: block;
+  margin-top: 0.65rem;
+  font-size: 0.98rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--paper-soft);
+  opacity: 0.8;
+  transition: opacity 420ms var(--ease-arch);
+}
+
+.row[data-active] .outcome {
+  opacity: 1;
+}
+
+/* --- Two-column layout: intro + list stack left, sheet sticky right --- */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 4rem;
+    row-gap: 4rem;
+    align-items: start;
+  }
+  .intro {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .sheet {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 110px;
+    align-self: start;
+  }
+  .list {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+/* On narrow screens the sheet leads the list. */
+@media (max-width: 1023px) {
+  .sheet {
+    order: 2;
+  }
+  .list {
+    order: 3;
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+  }
+}

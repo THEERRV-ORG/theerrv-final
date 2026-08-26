@@ -36,6 +36,7 @@ export default function Footer() {
               ))}
             </address>
 
+            {footer.closing && <p className={styles.closing}>{footer.closing}</p>}
             <p className={styles.signature}>{footer.signature}</p>
           </div>
 
@@ -91,6 +92,47 @@ export default function Footer() {
           >
             Chat on WhatsApp
           </a>
+        </div>
+
+        {/* Compact footer for small screens — shown in place of the full grid. */}
+        <div className={styles.mini}>
+          <Link to="/" className={styles.logo} aria-label="Theerrv Technologies, home">
+            <img src="/logo-mark-ivory.png" alt="" aria-hidden="true" className={styles.logoMark} width="40" height="25" />
+            <span className={styles.logoWord}>
+              THEERR<span className={styles.logoV}>V</span>
+            </span>
+          </Link>
+
+          <nav className={styles.miniLinks} aria-label="Footer">
+            <Link to="/services">Services</Link>
+            <Link to="/solutions">Solutions</Link>
+            <Link to="/case-studies">Case Studies</Link>
+            <Link to="/contact">Contact</Link>
+          </nav>
+
+          <div className={styles.miniContact}>
+            <a href={`mailto:${footer.email}`}>{footer.email}</a>
+            <a href={`tel:${footer.phone.replace(/\s/g, "")}`}>{footer.phone}</a>
+          </div>
+
+          <ul className={styles.miniSocial}>
+            {footer.social.map((s) => (
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  {...(s.href.startsWith("http")
+                    ? { target: "_blank", rel: "noreferrer noopener" }
+                    : {})}
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <p className={styles.miniLegal}>
+            © {year} {footer.legalName} LLP.
+          </p>
         </div>
       </footer>
     </div>

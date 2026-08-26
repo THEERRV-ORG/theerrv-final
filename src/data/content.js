@@ -56,6 +56,7 @@ export const footer = {
   brand: "THEERRV",
   legalName: "Theerrv Technologies",
   tagline: ["Custom software,", "engineered to hold."],
+  closing: "Built for what comes next.",
   address: ["Theerrv Technologies LLP", "Vellore, Tamil Nadu", "India 632001"],
   signature: "Dome for your Vision",
   email: "info@theerrv.com",
@@ -96,8 +97,8 @@ export const footer = {
     },
   ],
   social: [
-    { label: "LinkedIn", href: "#" },
-    { label: "Instagram", href: "#" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/theerrv-technologies/" },
+    { label: "Instagram", href: "https://www.instagram.com/theerrv_technologies" },
     { label: "WhatsApp", href: "https://wa.me/916369372124" },
   ],
 };
@@ -107,8 +108,10 @@ export const footer = {
    ========================================================================== */
 
 export const hero = {
-  eyebrow: "Theerrv Technologies — Dome for your Vision",
-  headline: ["Build, Modernize", "and Scale."],
+  eyebrow: "Theerrv Technologies",
+  tagline: "Dome for your vision",
+  scrollCue: "Scroll to explore",
+  headline: ["Build, Modernize,", "and Scale with", "Theerrv Technologies."],
   subline:
     "Software engineering, digital products, cloud solutions, automation, and AI — built to help your business move forward.",
   ctas: [
@@ -300,6 +303,130 @@ export const homeFaqs = {
 };
 
 /* ==========================================================================
+   HOME — SCROLL STORY (7-scene cinematic homepage over the 3D mark)
+   ========================================================================== */
+
+export const homeStory = {
+  // 02 — INTRO (editorial manifesto)
+  intro: {
+    eyebrow: "Our Philosophy",
+    lead: ["Technology should", "solve problems."],
+    paragraphs: [
+      "We build solutions that simplify complexity, accelerate growth, and create lasting impact.",
+      "Every product. Every process. Every decision — designed to move your business forward.",
+    ],
+    words: [
+      { word: "Build", note: "Turn ideas into reality.", tone: "build" },
+      { word: "Modernize", note: "Evolve without disruption.", tone: "modernize" },
+      { word: "Automate", note: "Do more with less effort.", tone: "automate" },
+      { word: "Optimize", note: "Make every step better.", tone: "optimize" },
+      { word: "Grow", note: "Scale with confidence.", tone: "grow" },
+    ],
+  },
+
+  // 03 — CORE SERVICES (the live operating system)
+  services: {
+    eyebrow: "Our Core Services",
+    heading: "Technology Services Designed Around Business Needs",
+    lead: "We engineer whole systems, not isolated features. Move through the services and watch the operating system beside them redraw itself for each one.",
+    items: [
+      { id: "custom-software", index: "01", title: "Custom Software Development", outcome: "Software shaped around how your business actually works." },
+      { id: "web-frontend", index: "02", title: "Web Design & Frontend Development", outcome: "Fast, accessible interfaces people genuinely enjoy using." },
+      { id: "api-backend", index: "03", title: "API & Backend Engineering", outcome: "Secure services and integrations behind your platforms." },
+      { id: "azure-cloud", index: "04", title: "Azure Cloud Solutions", outcome: "Azure environments built for scale, resilience and cost." },
+      { id: "modernization", index: "05", title: "Application Modernization", outcome: "Legacy systems modernized without losing business value." },
+      { id: "data-analytics", index: "06", title: "Data, Analytics & Reporting", outcome: "Operational data turned into decisions you can act on." },
+      { id: "ai-automation", index: "07", title: "AI Solutions & Automation", outcome: "Practical AI and automation inside your products." },
+      { id: "devops", index: "08", title: "DevOps & Performance Optimization", outcome: "Reliable delivery and performance, monitored at scale." },
+    ],
+  },
+
+  // 04 — BUSINESS TRANSFORMATION (the engagement arc, as a pinned timeline)
+  transform: {
+    eyebrow: "Business Transformation",
+    heading: "What should technology do for your business?",
+    lead: "Five outcomes we design and engineer for — the questions every serious technology decision should answer.",
+    phases: [
+      {
+        id: "build",
+        index: "01",
+        title: "Build",
+        summary: "Turn ideas into production-ready digital platforms.",
+        detail: "From first architecture to a product in production — engineered to be owned, extended, and scaled.",
+        deliverables: ["Product architecture", "Full-stack delivery", "Launch-ready release", "Handover & support"],
+      },
+      {
+        id: "modernize",
+        index: "02",
+        title: "Modernize",
+        summary: "Improve older systems without losing critical business value.",
+        detail: "Phased assessment and migration that reduces maintenance load and prepares legacy systems for what's next.",
+        deliverables: ["System assessment", "Phased migration", "Performance uplift", "Cloud readiness"],
+      },
+      {
+        id: "automate",
+        index: "03",
+        title: "Automate",
+        summary: "Reduce repetitive work and improve productivity.",
+        detail: "Manual handoffs replaced by systems that talk to each other, so teams spend time on work that needs judgement.",
+        deliverables: ["Workflow mapping", "System integrations", "Automated pipelines", "Fewer manual steps"],
+      },
+      {
+        id: "optimize",
+        index: "04",
+        title: "Optimize",
+        summary: "Identify bottlenecks and improve speed and stability.",
+        detail: "Targeted work across databases, APIs and infrastructure that removes friction and holds up under load.",
+        deliverables: ["Performance audit", "Query & API tuning", "Scalable architecture", "Monitoring in place"],
+      },
+      {
+        id: "ai",
+        index: "05",
+        title: "Add AI",
+        summary: "Introduce practical intelligence and workflow intelligence.",
+        detail: "AI features embedded in real business applications — useful, responsible, and with a human still in the loop.",
+        deliverables: ["Use-case scoping", "Model integration", "Intelligent workflows", "Human-in-the-loop"],
+      },
+    ],
+  },
+
+  // 05 — WHY THEERRV
+  why: {
+    eyebrow: "Why Theerrv",
+    lead: ["More than a", "technology vendor."],
+    sub: "A partner for what's next.",
+    intro: "At Theerrv Technologies, we combine technical capability with a business-focused mindset. We understand that every project is more than code — it is an investment in efficiency, customer experience, and future growth.",
+    points: [
+      { index: "01", statement: "We own the outcome.", detail: "From planning to deployment." },
+      { index: "02", statement: "We build for change.", detail: "Architecture that doesn't become tomorrow's problem." },
+      { index: "03", statement: "We start from the business.", detail: "Every decision traces back to a real goal." },
+      { index: "04", statement: "We build to last.", detail: "Quality, maintainability and long-term value." },
+      { index: "05", statement: "We deliver, reliably.", detail: "Open about progress, honest about trade-offs." },
+    ],
+  },
+
+  // 06 — IMPACT / RESULTS
+  impact: {
+    eyebrow: "From technology to real impact",
+    words: [
+      { word: "Efficiency", note: "Less friction. More output." },
+      { word: "Performance", note: "Systems that move with your business." },
+      { word: "Automation", note: "Less repetition. More focus." },
+      { word: "Better Data", note: "Decisions backed by clarity." },
+      { word: "Growth", note: "Technology built for what's next." },
+    ],
+  },
+
+  // 08 — FINAL CTA
+  cta: {
+    statement: "At Theerrv Technologies, we are committed to building software and digital experiences that help businesses adapt, grow, and lead with confidence.",
+    title: ["Let's build", "what's next."],
+    body: "Technology that works for your future.",
+    primary: { label: "Start Your Project", to: "/contact" },
+  },
+};
+
+/* ==========================================================================
    SERVICES PAGE
    ========================================================================== */
 
@@ -309,6 +436,23 @@ export const servicesPage = {
     eyebrow: "Services",
     headline: ["Our", "Services."],
     lead: "A comprehensive range of software and technology services designed to help businesses build, improve, and scale their digital capabilities — built around practical outcomes and long-term value.",
+  },
+  // Two-column editorial showcase: left intro, right numbered icon list.
+  showcase: {
+    eyebrow: "Services",
+    headline: ["Engineering", "solutions that"],
+    accent: "build, modernize, and transform businesses",
+    lead: "From product engineering to cloud, data, and AI — we deliver the capabilities you need to innovate, operate smarter, and stay ahead.",
+    items: [
+      { index: "01", icon: "software", tone: "ivory", category: "Software Engineering", title: "Custom Software Development", description: "Web applications, enterprise systems, and internal tools built around your business and your users." },
+      { index: "02", icon: "dotnet", tone: "coral", category: "Enterprise Development", title: ".NET Development", description: "Scalable, secure, and maintainable applications using modern .NET technologies." },
+      { index: "03", icon: "backend", tone: "violet", category: "Backend Engineering", title: "API & Backend Engineering", description: "Robust APIs and microservices that power your products and integrations." },
+      { index: "04", icon: "cloud", tone: "blue", category: "Cloud & Infrastructure", title: "Azure Cloud Solutions", description: "Cloud architecture, migration, and managed services on Microsoft Azure." },
+      { index: "05", icon: "modernize", tone: "pink", category: "Modernization", title: "Application Modernization", description: "Modernize legacy systems for better performance, agility, and long-term scalability." },
+      { index: "06", icon: "data", tone: "gold", category: "Data & Intelligence", title: "Data, Analytics & Reporting", description: "Transform data into real-time insights that drive smarter business decisions." },
+      { index: "07", icon: "ai", tone: "violet", category: "AI & Automation", title: "AI Solutions & Automation", description: "Intelligent automation, machine learning, and AI solutions that create real impact." },
+      { index: "08", icon: "devops", tone: "ivory", category: "Platform Engineering", title: "DevOps & Performance Optimization", description: "CI/CD, infrastructure automation, monitoring, and performance engineering at scale." },
+    ],
   },
   items: [
     {

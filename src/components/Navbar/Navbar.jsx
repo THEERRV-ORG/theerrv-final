@@ -24,6 +24,7 @@ export default function Navbar() {
   const [drawer, setDrawer] = useState(false);
   const [openMega, setOpenMega] = useState(null);
   const [accordion, setAccordion] = useState(null);
+  const [hidden, setHidden] = useState(false);
 
   const headerRef = useRef(null);
   const timer = useRef(null);
@@ -62,6 +63,29 @@ export default function Navbar() {
     observer.observe(hero);
     return () => observer.disconnect();
   }, [pathname]);
+
+  /* Hide the bar on scroll-down, reveal it on scroll-up or near the top. */
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 80) setHidden(false);
+      else if (y > lastY + 5) setHidden(true);
+      else if (y < lastY - 5) setHidden(false);
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* Moving the pointer up to the top edge brings the bar back. */
+  useEffect(() => {
+    const onMove = (e) => {
+      if (e.clientY < 90) setHidden(false);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
 
   /* Escape closes the innermost open layer first. */
   useEffect(() => {
@@ -117,6 +141,7 @@ export default function Navbar() {
       className={styles.nav}
       data-solid={solid ? "true" : "false"}
       data-mega={openMega ? "true" : "false"}
+      data-hidden={hidden && !drawer && !openMega ? "true" : "false"}
       onMouseLeave={scheduleClose}
     >
       <div className={styles.shell}>
@@ -167,7 +192,7 @@ export default function Navbar() {
 
           <div className={styles.actions}>
             <Link to={nav.cta.to} className={`${styles.btn} ${styles.btnAccent} ${styles.navCta}`}>
-              {nav.cta.label}
+              {nav.cta.label} <span aria-hidden="true">→</span>
             </Link>
             <button
               type="button"
