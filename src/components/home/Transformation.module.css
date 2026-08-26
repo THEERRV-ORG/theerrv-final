@@ -287,3 +287,48 @@
   align-items: baseline;
   gap: 1rem;
 }
+
+/* --- Mobile pinned timeline ---
+   The horizontal rail stays, but five word-labels won't fit side by side, so
+   only the index numbers sit under the dots; the active phase's name lives in
+   the panel below. Spacing tightens so header + rail + panel clear the pin. */
+@media (max-width: 1023px) {
+  .sticky {
+    padding-block: clamp(4.5rem, 12vh, 6rem) clamp(1rem, 3vh, 2rem);
+    justify-content: flex-start;
+  }
+
+  .header {
+    margin-bottom: clamp(1rem, 3vh, 1.75rem);
+  }
+
+  .rail {
+    margin-top: clamp(1.25rem, 4vh, 2.5rem);
+  }
+
+  /* Titles would collide at this width — drop them, keep the numbers centred. */
+  .labelTitle {
+    display: none;
+  }
+
+  .label {
+    gap: 0;
+  }
+
+  .labels {
+    height: 1rem;
+  }
+
+  .connector {
+    display: none;
+  }
+
+  .dock {
+    width: 100%;
+    margin-top: clamp(1.25rem, 4vh, 2.5rem);
+  }
+
+  .panel {
+    padding: clamp(1rem, 3vh, 1.5rem);
+  }
+}

@@ -174,14 +174,17 @@
   .base {
     display: none;
   }
+  .wrap {
+    padding: 0 1rem 1rem;
+  }
   .card {
-    padding: 2rem 1.5rem 1.75rem;
+    padding: 1.5rem 1.35rem;
   }
   .mini {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.25rem;
+    gap: 1rem;
   }
   .miniLinks {
     display: flex;

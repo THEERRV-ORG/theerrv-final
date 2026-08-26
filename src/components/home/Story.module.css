@@ -496,6 +496,15 @@
   justify-content: center;
 }
 
+/* Mobile: the closing CTA drops its full-screen height so it and the (short)
+   footer read together in one screen instead of a screenful each. */
+@media (max-width: 640px) {
+  .ctaPanel {
+    min-height: auto;
+    padding-block: clamp(1.5rem, 4vh, 2.5rem);
+  }
+}
+
 .ctaStatement {
   max-width: 54ch;
   margin-bottom: 1.75rem;

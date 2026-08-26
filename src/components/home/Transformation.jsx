@@ -15,17 +15,19 @@ export default function Transformation() {
   const { transform } = homeStory;
   const phases = transform.phases;
   const reduced = usePrefersReducedMotion();
-  const [wide, setWide] = useState(true);
+  const [tall, setTall] = useState(true);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px) and (min-height: 640px)");
-    const on = () => setWide(mq.matches);
+    // The pin needs enough vertical room to be worth it; width no longer gates
+    // it, so phones get the same scroll-driven timeline (the rail adapts below).
+    const mq = window.matchMedia("(min-height: 600px)");
+    const on = () => setTall(mq.matches);
     on();
     mq.addEventListener("change", on);
     return () => mq.removeEventListener("change", on);
   }, []);
 
-  return wide && !reduced ? (
+  return tall && !reduced ? (
     <Timeline transform={transform} phases={phases} />
   ) : (
     <StackedList transform={transform} phases={phases} />
