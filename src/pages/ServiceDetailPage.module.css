@@ -1,0 +1,347 @@
+/* Service detail page — cinematic hero over an atmospheric dark stage. */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: 82svh;
+  padding-block: clamp(9rem, 18vw, 14rem) clamp(3rem, 7vw, 5rem);
+  background:
+    radial-gradient(120% 80% at 78% 6%, rgba(45, 30, 110, 0.5), transparent 55%),
+    radial-gradient(90% 60% at 8% 96%, rgba(150, 45, 40, 0.24), transparent 58%),
+    linear-gradient(180deg, #05070f 0%, #070d1e 60%, #05070f 100%);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Drifting glows, as on the home hero. */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  animation: sdDrift 18s var(--ease-arch) infinite alternate;
+}
+
+.orbGold {
+  top: -16%;
+  right: 6%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 620px;
+  max-height: 620px;
+  background: radial-gradient(circle, rgba(183, 154, 99, 0.26) 0%, rgba(183, 154, 99, 0) 70%);
+}
+
+.orbCoral {
+  bottom: -24%;
+  left: 2%;
+  width: 34vw;
+  height: 34vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(255, 90, 79, 0.18) 0%, rgba(255, 90, 79, 0) 70%);
+  animation-delay: -9s;
+}
+
+@keyframes sdDrift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(4%, 5%); }
+}
+
+/* Oversized ghosted index numeral — the cinematic backdrop for the title. */
+.ghostNum {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: clamp(-2rem, 2vw, 4rem);
+  transform: translateY(-46%);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(16rem, 42vw, 42rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: rgba(243, 240, 232, 0.035);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease;
+}
+
+.back:hover {
+  color: var(--gold-bright);
+}
+
+.back span {
+  transition: transform var(--dur-fast) ease;
+}
+
+.back:hover span {
+  transform: translateX(-3px);
+}
+
+/* The category, now a normal display-title label rather than a mono eyebrow. */
+.category {
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  letter-spacing: -0.01em;
+  background: linear-gradient(115deg, var(--gold-bright) 15%, var(--coral) 95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title {
+  margin-top: clamp(0.75rem, 1.6vw, 1.1rem);
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6.5vw, 5.2rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--ivory);
+  text-shadow: 0 4px 50px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  max-width: 58ch;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--paper);
+}
+
+/* --- Body --- */
+.body {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) var(--section-y);
+  background: linear-gradient(180deg, #05070f 0%, #070d1e 60%, #05070f 100%);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  }
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 1.25rem;
+}
+
+.spaced {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.para {
+  max-width: 62ch;
+  margin-bottom: 1.1rem;
+  font-size: clamp(1.02rem, 1.4vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--paper-soft);
+}
+
+.para:first-of-type {
+  color: var(--paper);
+}
+
+.outcomes {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.outcomes li {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  font-size: 1.02rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ivory);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-top: 0.1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 90, 79, 0.12);
+  color: var(--coral);
+}
+
+.check svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+/* --- Included card --- */
+.included {
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border-dark);
+  background: var(--glass-fill-dark-strong);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 40px 80px -48px rgba(0, 0, 0, 0.55);
+}
+
+@media (min-width: 900px) {
+  .included {
+    position: sticky;
+    top: 110px;
+  }
+}
+
+.capabilities {
+  display: grid;
+  gap: 0;
+}
+
+.capabilities li {
+  display: flex;
+  gap: 0.85rem;
+  align-items: baseline;
+  padding-block: 0.85rem;
+  font-size: 0.98rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--paper);
+  border-bottom: 1px solid var(--line-on-dark);
+}
+
+.capabilities li:last-child {
+  border-bottom: 0;
+}
+
+.dash {
+  flex-shrink: 0;
+  width: 14px;
+  height: 1px;
+  margin-top: 0.7rem;
+  background: var(--coral);
+}
+
+/* --- Tech stack chips --- */
+.stackWrap {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  padding-top: clamp(1.5rem, 3vw, 2rem);
+  border-top: 1px solid var(--line-on-dark-strong);
+}
+
+.stackLabel {
+  margin-bottom: 1rem;
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  color: var(--paper);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border-dark);
+  background: rgba(243, 240, 232, 0.04);
+  white-space: nowrap;
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+
+.chip:hover {
+  border-color: rgba(217, 189, 133, 0.5);
+  color: var(--gold-bright);
+}
+
+/* --- Pager --- */
+.pager {
+  margin-top: clamp(3rem, 7vw, 5rem);
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .pager {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pagerLink {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border-dark);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.pagerLink:hover {
+  border-color: rgba(217, 189, 133, 0.5);
+  background: rgba(243, 240, 232, 0.03);
+}
+
+.pagerNext {
+  text-align: right;
+}
+
+.pagerDir {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+.pagerTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}

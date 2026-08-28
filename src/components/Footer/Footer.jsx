@@ -106,7 +106,7 @@ export default function Footer() {
           <nav className={styles.miniLinks} aria-label="Footer">
             <Link to="/services">Services</Link>
             <Link to="/solutions">Solutions</Link>
-            <Link to="/case-studies">Case Studies</Link>
+            <Link to="/insights">Insights</Link>
             <Link to="/contact">Contact</Link>
           </nav>
 

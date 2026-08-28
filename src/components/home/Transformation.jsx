@@ -113,7 +113,13 @@ function Timeline({ transform, phases }) {
   }, [active, N]);
 
   return (
-    <section ref={sectionRef} className={styles.section} style={{ height: `calc(100svh * ${N})` }}>
+    <section
+      ref={sectionRef}
+      className={styles.section}
+      /* One pinned viewport plus ~40svh of scroll per phase, so a single scroll
+         advances one phase instead of the old ~80svh (which read as 2+ scrolls). */
+      style={{ height: `calc(100svh + ${N} * 40svh)` }}
+    >
       <div className={styles.sticky}>
         <div className="container">
           <Header transform={transform} />

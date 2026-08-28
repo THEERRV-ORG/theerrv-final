@@ -1,5 +1,5 @@
+import { Link } from "react-router-dom";
 import Reveal from "../shared/Reveal";
-import ServiceIcon from "./ServiceIcon";
 import styles from "./ServicesShowcase.module.css";
 
 /**
@@ -34,18 +34,21 @@ export default function ServicesShowcase({ showcase }) {
         <ol className={styles.list}>
           {items.map((it, i) => (
             <Reveal as="li" key={it.index} delay={i * 40} className={styles.row}>
-              <span className={styles.num}>{it.index}</span>
-              <span className={`${styles.iconTile} ${styles[`tone_${it.tone}`]}`}>
-                <ServiceIcon name={it.icon} />
-              </span>
-              <div className={styles.body}>
-                <p className={styles.category}>{it.category}</p>
-                <h3 className={styles.title}>{it.title}</h3>
-                <p className={styles.desc}>{it.description}</p>
-              </div>
-              <span className={styles.arrow} aria-hidden="true">
-                →
-              </span>
+              <Link
+                to={it.slug ? `/services/${it.slug}` : "/services"}
+                className={styles.rowLink}
+                aria-label={`${it.title} — learn more`}
+              >
+                <span className={styles.num}>{it.index}</span>
+                <div className={styles.body}>
+                  <p className={styles.category}>{it.category}</p>
+                  <h3 className={styles.title}>{it.title}</h3>
+                  <p className={styles.desc}>{it.description}</p>
+                </div>
+                <span className={styles.arrow} aria-hidden="true">
+                  →
+                </span>
+              </Link>
             </Reveal>
           ))}
         </ol>

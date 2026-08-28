@@ -31,16 +31,16 @@ function smoothstep(a, b, x) {
  * `t` runs 0 (top / hero) → 1 (bottom / footer).
  */
 const AXIS_X = [
-  { t: 0.0, x: 3.4 },
-  { t: 0.0625, x: 3.9 }, // hero — centre/right
-  { t: 0.1875, x: -5.3 }, // purpose — left
-  { t: 0.3125, x: 6.3 }, // services — right
-  { t: 0.4375, x: -6.7 }, // transformation — left
-  { t: 0.5625, x: 5.6 }, // why — right
-  { t: 0.6875, x: -7.9 }, // impact — strong left, widest
-  { t: 0.8125, x: 6.2 }, // faq — right
-  { t: 0.9375, x: 2.6 }, // cta — converge centre/right
-  { t: 1.0, x: 1.8 }, // footer
+  { t: 0.0, x: 4.2 },
+  { t: 0.0625, x: 4.9 }, // hero — centre/right
+  { t: 0.1875, x: -8.6 }, // purpose — left
+  { t: 0.3125, x: 9.6 }, // services — right
+  { t: 0.4375, x: -10.2 }, // transformation — left
+  { t: 0.5625, x: 9.0 }, // why — right
+  { t: 0.6875, x: -11.2 }, // impact — strong left, widest
+  { t: 0.8125, x: 9.6 }, // faq — right
+  { t: 0.9375, x: 3.4 }, // cta — converge centre/right
+  { t: 1.0, x: 2.2 }, // footer
 ];
 
 function axisX(t) {
@@ -62,7 +62,7 @@ function axisPoint(t) {
 // Both ribbons wrap the SAME invisible axis, but with different radius and a
 // different number of turns and phase — so they are related, not mirrored, and
 // their crossings never land in the same place twice.
-function helixCurve(phase, radius, turns) {
+function helixCurve(phase, radius, turns, xOffset = 0) {
   const pts = [];
   const N = 64;
   for (let i = 0; i < N; i++) {
@@ -71,7 +71,7 @@ function helixCurve(phase, radius, turns) {
     const a = axisPoint(t);
     pts.push(
       new THREE.Vector3(
-        a.x + Math.cos(theta) * radius,
+        a.x + xOffset + Math.cos(theta) * radius,
         a.y,
         a.z + Math.sin(theta) * radius,
       ),
@@ -89,7 +89,7 @@ function helixCurve(phase, radius, turns) {
     const theta = (1 + tt * ratio) * turns * Math.PI * 2 + phase;
     pts.push(
       new THREE.Vector3(
-        base.x * (1 - tt * 0.5) + Math.cos(theta) * radius,
+        base.x * (1 - tt * 0.5) + xOffset + Math.cos(theta) * radius,
         base.y - tt * BOTTOM_EXTRA,
         base.z + Math.sin(theta) * radius,
       ),
@@ -98,16 +98,16 @@ function helixCurve(phase, radius, turns) {
   return new THREE.CatmullRomCurve3(pts, false, "centripetal");
 }
 
-// SAME turn count and opposite phase keeps the two strips on opposite sides of
-// the shared axis for the whole length, so there is always a clear gap between
-// them — they never drift into alignment. Different radii (and different
-// self-twist, set in Ribbons) keep them related but not a mirror image.
+// Opposite offsets hold each strip in its own lane, so there is always a clear
+// gap between the two the whole length. A small orbit radius and low turn count
+// keep the twist a subtle weave rather than a coiled double helix. Different
+// radii and phase keep them related, not a mirror image.
 export function ribbonACurve() {
-  return helixCurve(0, 2.6, 3.3);
+  return helixCurve(0, 1.4, 1.6, -3.6);
 }
 
 export function ribbonBCurve() {
-  return helixCurve(Math.PI, 3.7, 3.3);
+  return helixCurve(Math.PI, 1.6, 1.6, 3.6);
 }
 
 /**

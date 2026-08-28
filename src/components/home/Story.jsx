@@ -113,8 +113,8 @@ export default function Story() {
           </div>
         </section>
 
-        {/* 07 — FAQ (the quiet rest beat; ribbons thin out here) */}
-        <FAQ transparent eyebrow="FAQ" heading="Questions, answered." items={homeFaqs.items} />
+        {/* 07 — FAQ (temporarily hidden) */}
+        {/* <FAQ transparent eyebrow="FAQ" heading="Questions, answered." items={homeFaqs.items} /> */}
 
         {/* 08 — FINAL CTA (ribbons converge again) */}
         <section id="contact" className={`${styles.panel} ${styles.ctaPanel}`}>

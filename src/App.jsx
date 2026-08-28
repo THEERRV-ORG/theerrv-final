@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
+import ServiceDetailPage from "./pages/ServiceDetailPage";
 import SolutionsPage from "./pages/SolutionsPage";
-import CaseStudiesPage from "./pages/CaseStudiesPage";
+// import CaseStudiesPage from "./pages/CaseStudiesPage"; // temporarily hidden
 import InsightsPage from "./pages/InsightsPage";
-import CareersPage from "./pages/CareersPage";
+// import CareersPage from "./pages/CareersPage"; // temporarily hidden
 import ContactPage from "./pages/ContactPage";
 import LocationsPage from "./pages/LocationsPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -15,11 +17,13 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="about" element={<AboutPage />} />
         <Route path="services" element={<ServicesPage />} />
+        <Route path="services/:slug" element={<ServiceDetailPage />} />
         <Route path="solutions" element={<SolutionsPage />} />
-        <Route path="case-studies" element={<CaseStudiesPage />} />
+        {/* <Route path="case-studies" element={<CaseStudiesPage />} /> */}
         <Route path="insights" element={<InsightsPage />} />
-        <Route path="careers" element={<CareersPage />} />
+        {/* <Route path="careers" element={<CareersPage />} /> */}
         <Route path="contact" element={<ContactPage />} />
         <Route path="locations" element={<LocationsPage />} />
         <Route path="*" element={<NotFoundPage />} />

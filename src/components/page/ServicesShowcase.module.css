@@ -86,16 +86,36 @@
 
 .row {
   position: relative;
-  display: grid;
-  grid-template-columns: 3.2rem 3.6rem 1fr 1.5rem;
-  align-items: center;
-  gap: 0 1.25rem;
-  padding-block: clamp(1.25rem, 2.4vw, 1.9rem);
   border-bottom: 1px solid var(--glass-border-dark);
 }
 
 .row:first-child {
   border-top: 1px solid var(--glass-border-dark);
+}
+
+/* The whole row is a link into the service's detail page. */
+.rowLink {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.2rem 1fr 1.5rem;
+  align-items: center;
+  gap: 0 1.25rem;
+  padding-block: clamp(1.25rem, 2.4vw, 1.9rem);
+  padding-inline: clamp(0.5rem, 1.5vw, 1rem);
+  margin-inline: clamp(-0.5rem, -1.5vw, -1rem);
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-md);
+  transition: background var(--dur-fast) ease;
+}
+
+.rowLink:hover {
+  background: rgba(243, 240, 232, 0.03);
+}
+
+.rowLink:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
 }
 
 /* node dot on the rail */
@@ -117,37 +137,6 @@
   font-weight: 600;
   font-size: clamp(1.6rem, 2.4vw, 2.1rem);
   letter-spacing: -0.02em;
-  color: var(--gold-bright);
-}
-
-.iconTile {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: rgba(243, 240, 232, 0.05);
-  border: 1px solid var(--glass-border-dark);
-  box-shadow: inset 0 1px 0 var(--glass-highlight);
-  color: var(--ivory);
-}
-
-.tone_ivory {
-  color: var(--ivory);
-}
-.tone_coral {
-  color: #ff7a5f;
-}
-.tone_violet {
-  color: #9a7cf0;
-}
-.tone_blue {
-  color: #6a8cff;
-}
-.tone_pink {
-  color: #e070c0;
-}
-.tone_gold {
   color: var(--gold-bright);
 }
 
@@ -190,9 +179,17 @@
   transition: transform var(--dur-fast) ease, opacity var(--dur-fast) ease;
 }
 
-.row:hover .arrow {
+.rowLink:hover .arrow {
   opacity: 1;
   transform: translateX(4px);
+}
+
+.rowLink:hover .title {
+  color: var(--gold-bright);
+}
+
+.title {
+  transition: color var(--dur-fast) ease;
 }
 
 @media (max-width: 980px) {
@@ -206,11 +203,9 @@
 }
 
 @media (max-width: 560px) {
-  .row {
+  .rowLink {
     grid-template-columns: 2.4rem 1fr;
-    grid-template-areas:
-      "num body"
-      "icon body";
+    grid-template-areas: "num body";
     gap: 0.5rem 1rem;
     align-items: start;
   }
@@ -220,11 +215,6 @@
   }
   .num {
     grid-area: num;
-  }
-  .iconTile {
-    grid-area: icon;
-    width: 44px;
-    height: 44px;
   }
   .body {
     grid-area: body;

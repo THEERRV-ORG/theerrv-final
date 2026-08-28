@@ -180,6 +180,7 @@ export default function Navbar() {
                 <NavLink
                   key={item.label}
                   to={item.to}
+                  end={item.to === "/"}
                   className={({ isActive }) =>
                     `${styles.linkNav} ${isActive ? styles.active : ""}`
                   }

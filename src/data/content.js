@@ -11,43 +11,13 @@
 export const nav = {
   brand: "THEERRV",
   links: [
-    {
-      label: "Services",
-      to: "/services",
-      mega: {
-        eyebrow: "Services",
-        title: ["Engineering", "solutions that", "drive real impact"],
-        body: "End-to-end engineering across products, data, cloud and automation to help you build, scale and grow.",
-        cta: { label: "Explore all services", to: "/services" },
-        items: [
-          { label: "Product Engineering", to: "/services", body: "Full-stack delivery on .NET and React, architecture to production." },
-          { label: "Cloud Platforms", to: "/services", body: "Azure environments built for cost, resilience and scale." },
-          { label: "Data & Analytics", to: "/services", body: "Pipelines that turn scattered operational data into something usable." },
-          { label: "Automation", to: "/services", body: "Removing the manual steps between systems that eat a team's week." },
-          { label: "AI Inside Products", to: "/services", body: "AI features embedded in business applications, not run as experiments." },
-          { label: "DevOps & CI/CD", to: "/services", body: "Pipelines and monitoring that make releases routine rather than eventful." },
-        ],
-      },
-    },
-    {
-      label: "Solutions",
-      to: "/solutions",
-      mega: {
-        eyebrow: "Solutions",
-        title: ["Outcomes, not", "a list of", "technologies"],
-        body: "We start from the result the business needs, then choose the stack that gets there and stays maintainable.",
-        cta: { label: "How we work", to: "/solutions" },
-        items: [
-          { label: "Business Automation", to: "/solutions", body: "Manual handoffs replaced by systems that talk to each other." },
-          { label: "Analytics & Reporting", to: "/solutions", body: "Live visibility into how the operation is actually performing." },
-          { label: "AI Solutions", to: "/solutions", body: "Intelligence where the rules run out, with a human still in the loop." },
-          { label: "Enterprise Applications", to: "/solutions", body: "The internal platforms an operation runs on, built to be owned." },
-        ],
-      },
-    },
-    { label: "Case Studies", to: "/case-studies" },
+    { label: "Home", to: "/" },
+    { label: "About", to: "/about" },
+    { label: "Services", to: "/services" },
+    { label: "Solutions", to: "/solutions" },
+    // { label: "Case Studies", to: "/case-studies" }, // temporarily hidden
     { label: "Insights", to: "/insights" },
-    { label: "Careers", to: "/careers" },
+    // { label: "Careers", to: "/careers" }, // temporarily hidden
   ],
   cta: { label: "Start Your Project", to: "/contact" },
 };
@@ -88,9 +58,10 @@ export const footer = {
     {
       title: "Company",
       links: [
-        { label: "Case Studies", to: "/case-studies" },
+        { label: "About", to: "/about" },
+        // { label: "Case Studies", to: "/case-studies" }, // temporarily hidden
         { label: "Insights", to: "/insights" },
-        { label: "Careers", to: "/careers" },
+        // { label: "Careers", to: "/careers" }, // temporarily hidden
         { label: "Locations", to: "/locations" },
         { label: "Contact", to: "/contact" },
       ],
@@ -444,14 +415,222 @@ export const servicesPage = {
     accent: "build, modernize, and transform businesses",
     lead: "From product engineering to cloud, data, and AI — we deliver the capabilities you need to innovate, operate smarter, and stay ahead.",
     items: [
-      { index: "01", icon: "software", tone: "ivory", category: "Software Engineering", title: "Custom Software Development", description: "Web applications, enterprise systems, and internal tools built around your business and your users." },
-      { index: "02", icon: "dotnet", tone: "coral", category: "Enterprise Development", title: ".NET Development", description: "Scalable, secure, and maintainable applications using modern .NET technologies." },
-      { index: "03", icon: "backend", tone: "violet", category: "Backend Engineering", title: "API & Backend Engineering", description: "Robust APIs and microservices that power your products and integrations." },
-      { index: "04", icon: "cloud", tone: "blue", category: "Cloud & Infrastructure", title: "Azure Cloud Solutions", description: "Cloud architecture, migration, and managed services on Microsoft Azure." },
-      { index: "05", icon: "modernize", tone: "pink", category: "Modernization", title: "Application Modernization", description: "Modernize legacy systems for better performance, agility, and long-term scalability." },
-      { index: "06", icon: "data", tone: "gold", category: "Data & Intelligence", title: "Data, Analytics & Reporting", description: "Transform data into real-time insights that drive smarter business decisions." },
-      { index: "07", icon: "ai", tone: "violet", category: "AI & Automation", title: "AI Solutions & Automation", description: "Intelligent automation, machine learning, and AI solutions that create real impact." },
-      { index: "08", icon: "devops", tone: "ivory", category: "Platform Engineering", title: "DevOps & Performance Optimization", description: "CI/CD, infrastructure automation, monitoring, and performance engineering at scale." },
+      {
+        index: "01", icon: "software", tone: "ivory", slug: "custom-software",
+        category: "Software Engineering", title: "Custom Software Development",
+        description: "Web applications, enterprise systems, and internal tools built around your business and your users.",
+        detail: {
+          subtitle: "Software shaped around your operations, not the other way around.",
+          stack: ["React", "TypeScript", ".NET / C#", "Node.js", "PostgreSQL", "REST & GraphQL", "Docker", "Azure"],
+          overview: [
+            "Off-the-shelf tools force your business to bend to their assumptions. We build custom software that fits your workflows, your data, and your goals — from the first planning session through architecture, development, testing, and long-term support.",
+            "Every decision traces back to a real business outcome: less manual work, cleaner data, faster decisions, and a platform you own and can grow.",
+          ],
+          capabilities: [
+            "Requirements discovery and technical planning",
+            "System architecture and data modelling",
+            "Full-stack development on modern, maintainable stacks",
+            "Third-party and internal system integration",
+            "Automated testing and QA",
+            "Deployment, monitoring, and ongoing support",
+          ],
+          outcomes: [
+            "A platform aligned to how your business actually works",
+            "Reduced manual effort and fewer error-prone handoffs",
+            "Architecture that scales instead of becoming tomorrow's problem",
+            "Full ownership of the code and the roadmap",
+          ],
+        },
+      },
+      {
+        index: "02", icon: "dotnet", tone: "coral", slug: "dotnet-development",
+        category: "Enterprise Development", title: ".NET Development",
+        description: "Scalable, secure, and maintainable applications using modern .NET technologies.",
+        detail: {
+          subtitle: "Reliable, scalable Microsoft-based development.",
+          stack: [".NET / C#", "ASP.NET Core", "Entity Framework Core", "SQL Server", "xUnit", "Docker", "Azure"],
+          overview: [
+            "We build modern backend systems, enterprise applications, and business platforms on .NET — with a focus on maintainability, performance, and security that holds up as the system grows.",
+            "From line-of-business applications to high-throughput services, we use the current .NET ecosystem and proven patterns so the codebase stays clean and easy to extend.",
+          ],
+          capabilities: [
+            "ASP.NET Core web apps and Web APIs",
+            "Enterprise application and business-platform development",
+            "Entity Framework and SQL data layers",
+            "Authentication, authorization, and security hardening",
+            "Background processing and scheduled jobs",
+            "Testing, CI, and maintainable architecture",
+          ],
+          outcomes: [
+            "Secure, performant applications built to last",
+            "A maintainable codebase that welcomes change",
+            "Lower long-term cost of ownership",
+            "A stack your team (or ours) can support with confidence",
+          ],
+        },
+      },
+      {
+        index: "03", icon: "backend", tone: "violet", slug: "api-backend",
+        category: "Backend Engineering", title: "API & Backend Engineering",
+        description: "Robust APIs and microservices that power your products and integrations.",
+        detail: {
+          subtitle: "Secure integrations and strong application foundations.",
+          stack: [".NET / Node.js", "REST", "GraphQL", "PostgreSQL", "Redis", "RabbitMQ / Service Bus", "OpenAPI"],
+          overview: [
+            "The reliability of your product depends on what sits behind it. We design and build APIs, business-logic layers, integrations, and backend services engineered for flexibility, performance, and future expansion.",
+            "Whether it's a clean REST or GraphQL API for your frontend, or the connective tissue between systems that never spoke to each other, we build backends that stay stable under load.",
+          ],
+          capabilities: [
+            "REST and GraphQL API design and development",
+            "Business-logic and service-layer architecture",
+            "Third-party integrations and webhooks",
+            "Message queues and event-driven processing",
+            "Authentication, rate limiting, and API security",
+            "Documentation, versioning, and observability",
+          ],
+          outcomes: [
+            "APIs your teams and partners can build on",
+            "Systems that integrate instead of duplicating work",
+            "Backends that stay reliable as traffic grows",
+            "A foundation ready for the next product you ship",
+          ],
+        },
+      },
+      {
+        index: "04", icon: "cloud", tone: "blue", slug: "azure-cloud",
+        category: "Cloud & Infrastructure", title: "Azure Cloud Solutions",
+        description: "Cloud architecture, migration, and managed services on Microsoft Azure.",
+        detail: {
+          subtitle: "Practical cloud services for modern business systems.",
+          stack: ["Azure App Service", "Azure Functions", "Service Bus", "Blob Storage", "Azure SQL", "Bicep / Terraform", "Application Insights"],
+          overview: [
+            "We help businesses adopt and optimise Microsoft Azure for hosting, background processing, messaging, storage, and cloud-native delivery — with a focus on practical implementation and real operational value, not cloud for its own sake.",
+            "From a first migration to a cost-tuned, resilient production environment, we design cloud setups that are secure, observable, and priced for what you actually use.",
+          ],
+          capabilities: [
+            "Azure architecture and environment setup",
+            "App Service, Functions, and container hosting",
+            "Storage, databases, and messaging (Service Bus, Queues)",
+            "Migration of existing applications to Azure",
+            "Cost optimisation and right-sizing",
+            "Monitoring, alerting, and resilience",
+          ],
+          outcomes: [
+            "A cloud environment built for cost and resilience",
+            "Smooth migration with minimal disruption",
+            "Clear visibility into spend and performance",
+            "Infrastructure that scales with demand",
+          ],
+        },
+      },
+      {
+        index: "05", icon: "modernize", tone: "pink", slug: "application-modernization",
+        category: "Modernization", title: "Application Modernization",
+        description: "Modernize legacy systems for better performance, agility, and long-term scalability.",
+        detail: {
+          subtitle: "Upgrade legacy systems for better performance and flexibility.",
+          stack: [".NET", "Docker", "Azure", "CI/CD", "SQL", "Automated testing"],
+          overview: [
+            "Legacy systems don't have to be rewritten from scratch to move forward. We modernise older applications through structured assessment, phased migration, and targeted technical improvements that reduce maintenance pain and prepare systems for growth.",
+            "We protect the business logic that still works, retire what doesn't, and move you onto a foundation that's easier and cheaper to run.",
+          ],
+          capabilities: [
+            "Legacy system assessment and modernisation roadmap",
+            "Phased, low-risk migration planning",
+            "Re-platforming and cloud readiness",
+            "Codebase refactoring and dependency upgrades",
+            "Data migration and integrity checks",
+            "Performance and security improvements",
+          ],
+          outcomes: [
+            "Lower maintenance cost and technical risk",
+            "Better performance and security",
+            "A system ready for cloud and future features",
+            "Continuity — critical functionality preserved",
+          ],
+        },
+      },
+      {
+        index: "06", icon: "data", tone: "gold", slug: "data-analytics",
+        category: "Data & Intelligence", title: "Data, Analytics & Reporting",
+        description: "Transform data into real-time insights that drive smarter business decisions.",
+        detail: {
+          subtitle: "Turn scattered operational data into decisions.",
+          stack: ["SQL", "Power BI", "Python", "Azure Data Factory", "ETL pipelines", "Data warehousing"],
+          overview: [
+            "Most businesses already have the data they need — it's just trapped in disconnected systems and spreadsheets. We build the pipelines, dashboards, and reporting platforms that turn raw operational data into clear, real-time business intelligence.",
+            "From KPI tracking to executive reporting, we help you see how the operation is actually performing and act on it with confidence.",
+          ],
+          capabilities: [
+            "Data pipelines and integration across systems",
+            "Dashboards and real-time reporting",
+            "KPI tracking and executive reporting",
+            "Data warehousing and modelling",
+            "Automated, scheduled reports",
+            "Data quality and validation",
+          ],
+          outcomes: [
+            "One clear view of how the business is performing",
+            "Faster, better-informed decisions",
+            "Less time spent assembling reports by hand",
+            "Trustworthy, consistent numbers",
+          ],
+        },
+      },
+      {
+        index: "07", icon: "ai", tone: "violet", slug: "ai-automation",
+        category: "AI & Automation", title: "AI Solutions & Automation",
+        description: "Intelligent automation, machine learning, and AI solutions that create real impact.",
+        detail: {
+          subtitle: "Intelligence where the rules run out — with a human in the loop.",
+          stack: ["Python", "LLM APIs", "scikit-learn / PyTorch", "Vector databases", ".NET / Node integration", "Workflow automation"],
+          overview: [
+            "AI should do more than demo well. We embed practical intelligence and automation into real business applications — useful, responsible, and with a human still in control where it matters.",
+            "From automating repetitive workflows to adding machine learning where fixed rules fall short, we focus on the places where AI creates measurable value.",
+          ],
+          capabilities: [
+            "Workflow and process automation",
+            "AI features embedded in business applications",
+            "Machine learning models for prediction and classification",
+            "Document and data extraction",
+            "LLM integration and assistants, with guardrails",
+            "Human-in-the-loop review and oversight",
+          ],
+          outcomes: [
+            "Repetitive work handled automatically",
+            "Intelligence applied where rules can't reach",
+            "Responsible AI you can actually trust in production",
+            "Measurable time and cost savings",
+          ],
+        },
+      },
+      {
+        index: "08", icon: "devops", tone: "ivory", slug: "devops",
+        category: "Platform Engineering", title: "DevOps & Performance Optimization",
+        description: "CI/CD, infrastructure automation, monitoring, and performance engineering at scale.",
+        detail: {
+          subtitle: "Make releases routine, not eventful.",
+          stack: ["GitHub Actions", "Azure DevOps", "Docker", "Terraform / Bicep", "Kubernetes", "Grafana / App Insights"],
+          overview: [
+            "Shipping should be boring. We set up the pipelines, infrastructure automation, and monitoring that make releases routine and problems visible before your customers find them.",
+            "From CI/CD and infrastructure-as-code to performance engineering, we help teams move faster with more confidence and fewer surprises.",
+          ],
+          capabilities: [
+            "CI/CD pipeline design and automation",
+            "Infrastructure as code",
+            "Monitoring, logging, and alerting",
+            "Performance profiling and optimisation",
+            "Release and rollback strategy",
+            "Security and reliability hardening",
+          ],
+          outcomes: [
+            "Fast, repeatable, low-drama deployments",
+            "Issues caught early through real observability",
+            "Better performance under real-world load",
+            "A platform your team can operate with confidence",
+          ],
+        },
+      },
     ],
   },
   items: [
@@ -895,5 +1074,65 @@ export const locationsPage = {
     body: "Contact us and we'll be happy to discuss how we can work together.",
     label: "Talk to Us",
     to: "/contact",
+  },
+};
+
+/* ==========================================================================
+   ABOUT PAGE — six sections, each a camera station for the 3D logo scene.
+   ========================================================================== */
+
+export const aboutPage = {
+  seoTitle: "About Theerrv Technologies | Building Digital Solutions for a Smarter Tomorrow",
+  hero: {
+    eyebrow: "About Us",
+    headline: ["Building digital solutions", "for a smarter tomorrow."],
+    lead: "Driven by vision, powered by innovation, and built on trust, Theerrv Technologies creates modern software, digital tools, and web experiences that help businesses grow in a digital-first world.",
+  },
+  about: {
+    eyebrow: "About Us",
+    heading: "Vision, brought to life.",
+    paragraphs: [
+      "At Theerrv Technologies, we believe every successful venture begins with a clear vision and the determination to bring it to life. Founded in July 2026, our company was created to deliver innovative and dependable digital solutions that support business growth in an increasingly technology-driven world.",
+      "As a modern startup focused on software engineering, tool development, and web design, we are committed to building solutions that are functional, scalable, and future-ready. Our approach combines creativity, precision, and a strong understanding of evolving business needs to create meaningful digital experiences.",
+      "What defines us is not only what we build, but also how we build it — with collaboration, professionalism, and a commitment to quality. At Theerrv Technologies, we aim to create lasting value for businesses through thoughtful solutions that drive progress and support long-term success.",
+    ],
+  },
+  missionVision: {
+    eyebrow: "Mission & Vision",
+    items: [
+      {
+        label: "Our Mission",
+        body: "To deliver innovative, reliable, and impactful digital solutions that help businesses grow, adapt, and succeed in a rapidly changing world.",
+      },
+      {
+        label: "Our Vision",
+        body: "To become a trusted technology partner known for excellence, innovation, and integrity, building digital solutions that contribute to a smarter and more connected future.",
+      },
+    ],
+  },
+  why: {
+    eyebrow: "Why Choose Us",
+    heading: "Why Theerrv Technologies",
+    points: [
+      { index: "01", title: "Modern Approach", body: "We build with a forward-thinking mindset, creating solutions that are relevant, scalable, and aligned with future needs." },
+      { index: "02", title: "Quality First", body: "We maintain high standards across every stage of our work, from concept to delivery." },
+      { index: "03", title: "Business-Focused Solutions", body: "We design and develop with purpose, ensuring our solutions support real business goals and long-term growth." },
+      { index: "04", title: "Innovation with Value", body: "We believe technology should do more than function — it should create meaningful impact." },
+      { index: "05", title: "Trusted Collaboration", body: "We value strong relationships, transparent communication, and a collaborative approach to every project." },
+    ],
+  },
+  story: {
+    eyebrow: "Our Story",
+    heading: "Five friends, one vision.",
+    paragraphs: [
+      "Theerrv Technologies began with a shared dream among five school friends who always envisioned building something meaningful together. Over the years, that dream continued to grow, shaped by friendship, trust, and a common ambition to create a business with purpose.",
+      "After completing our graduation in 2022, we moved into the next stage of our journey, gaining experience and preparing ourselves for the future we had long imagined. In July 2026, that vision became a reality with the launch of Theerrv Technologies.",
+      "Today, our company stands as the result of that shared journey — a modern technology startup built on commitment, collaboration, and the belief that great ideas can become lasting impact when supported by the right vision and dedication.",
+    ],
+  },
+  closing: {
+    statement: "At Theerrv Technologies, we are committed to building digital solutions that empower businesses, inspire progress, and create long-term value.",
+    tagline: ["Built on trust.", "Driven by innovation.", "Focused on the future."],
+    cta: { label: "Start Your Project", to: "/contact" },
   },
 };

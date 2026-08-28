@@ -11,6 +11,10 @@
 export const frameState = {
   /** Whole-homepage scroll progress, 0 (top) .. 1 (bottom). ScrollTrigger owns it. */
   scroll: 0,
+  /** Continuous camera-station position for the About logo scene, 0 .. (stations-1). */
+  progress: 0,
+  /** True once a scene may fade its subject in (no preloader here — set on mount). */
+  revealed: false,
   /** Normalised pointer, -1 .. 1 on both axes. */
   pointer: { x: 0, y: 0 },
   /** Damped pointer, written by the scene each frame. */

@@ -16,13 +16,6 @@ export default function Hero() {
       <div className={`${styles.content} container`}>
         <div className={styles.grid}>
           <div className={styles.left}>
-            {hero.eyebrow && (
-              <p className={`eyebrow ${styles.eyebrow}`}>
-                <span className={styles.eyebrowName}>{hero.eyebrow}</span>
-                {hero.tagline && <span className={styles.eyebrowTagline}>{hero.tagline}</span>}
-              </p>
-            )}
-
             {/* The logo "loads" here: on desktop this stage is absolutely
                 positioned and floats over the right side (unchanged); on mobile
                 it sits in flow, centred, between the kicker and the headline. */}

@@ -6,8 +6,7 @@
   justify-content: center;
   overflow: hidden;
   isolation: isolate;
-  /* section now owns its background — body no longer paints a fixed
-     page-wide gradient behind it, so this keeps the hero pixel-identical */
+  /* Solid dark ground for the hero. */
   background: #060a16;
 }
 
