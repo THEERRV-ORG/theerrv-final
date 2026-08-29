@@ -190,13 +190,13 @@
   background-image: linear-gradient(120deg, #ff8a5f, var(--coral));
 }
 .tone_automate {
-  background-image: linear-gradient(120deg, #6a8cff, #9a6ce0);
+  background-image: linear-gradient(120deg, var(--gold-bright), #e6c98f);
 }
 .tone_optimize {
   background-image: linear-gradient(120deg, #9a6ce0, #c07ad9);
 }
 .tone_grow {
-  background-image: linear-gradient(120deg, var(--gold-bright), #e6c98f);
+  background-image: linear-gradient(120deg, #6a8cff, #9a6ce0);
 }
 
 @media (max-width: 900px) {

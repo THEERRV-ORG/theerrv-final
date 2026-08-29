@@ -27,16 +27,18 @@ export default function ServiceDetailPage() {
 
   return (
     <>
+      {/* Cinematic side rail — sits at the left-most middle of the page. */}
+      <Link to="/services" className={styles.backSide}>
+        <span className={styles.backArrow} aria-hidden="true">←</span>
+        <span className={styles.backText}>All services</span>
+      </Link>
+
       <section className={styles.hero} data-nav-hero>
         <div className={`${styles.orb} ${styles.orbGold}`} aria-hidden="true" />
         <div className={`${styles.orb} ${styles.orbCoral}`} aria-hidden="true" />
         <span className={styles.ghostNum} aria-hidden="true">{index}</span>
 
         <div className={`${styles.heroInner} container`}>
-          <Link to="/services" className={styles.back}>
-            <span aria-hidden="true">←</span> All services
-          </Link>
-
           <Reveal as="p" className={styles.category}>{category}</Reveal>
           <Reveal as="h1" delay={60} className={styles.title}>{title}</Reveal>
           <Reveal as="p" delay={140} className={styles.subtitle}>{detail.subtitle}</Reveal>
@@ -76,17 +78,6 @@ export default function ServiceDetailPage() {
                 </li>
               ))}
             </ul>
-
-            {detail.stack && (
-              <div className={styles.stackWrap}>
-                <h2 className={`${styles.sectionLabel} ${styles.stackLabel}`}>Tech stack</h2>
-                <ul className={styles.stack}>
-                  {detail.stack.map((t) => (
-                    <li key={t} className={styles.chip}>{t}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </aside>
         </div>
 

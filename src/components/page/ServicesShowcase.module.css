@@ -16,30 +16,27 @@
   top: 120px;
 }
 
+/* Big display-heading eyebrow, matching every other page's hero. */
 .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  text-transform: none;
   color: var(--gold-bright);
 }
 
 .eyebrowLine {
-  width: clamp(40px, 8vw, 90px);
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold), transparent);
+  display: none;
 }
 
 .headline {
   margin-top: 1.75rem;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.4rem, 4vw, 3.7rem);
-  line-height: 1.04;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
   letter-spacing: -0.03em;
   color: var(--ivory);
 }
@@ -68,20 +65,9 @@
   color: var(--paper-soft);
 }
 
-/* --- Right list with timeline rail --- */
+/* --- Right list --- */
 .list {
   position: relative;
-}
-
-/* the vertical rail running down the number column */
-.list::before {
-  content: "";
-  position: absolute;
-  top: 2.4rem;
-  bottom: 2.4rem;
-  left: 1.6rem;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, var(--line-on-dark-strong) 8%, var(--line-on-dark-strong) 92%, transparent);
 }
 
 .row {
@@ -116,20 +102,6 @@
 .rowLink:focus-visible {
   outline: 2px solid var(--gold-bright);
   outline-offset: 2px;
-}
-
-/* node dot on the rail */
-.row::before {
-  content: "";
-  position: absolute;
-  left: 1.6rem;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold-bright);
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 4px rgba(6, 10, 22, 1);
 }
 
 .num {

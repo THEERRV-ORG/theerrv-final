@@ -133,9 +133,10 @@
 }
 
 .labelIndex {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0;
 }
 
 .labelTitle {

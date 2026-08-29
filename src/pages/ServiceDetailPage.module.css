@@ -1,17 +1,106 @@
 /* Service detail page — cinematic hero over an atmospheric dark stage. */
 
+/* Top-anchored cinematic hero: the category / title / subtitle sit at the top of
+   the page, and the body (overview, outcome, what's included) begins beneath it. */
 .hero {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  display: flex;
-  align-items: flex-end;
-  min-height: 82svh;
-  padding-block: clamp(9rem, 18vw, 14rem) clamp(3rem, 7vw, 5rem);
+  padding-block: clamp(8rem, 15vw, 12rem) clamp(3rem, 7vw, 5rem);
   background:
     radial-gradient(120% 80% at 78% 6%, rgba(45, 30, 110, 0.5), transparent 55%),
     radial-gradient(90% 60% at 8% 96%, rgba(150, 45, 40, 0.24), transparent 58%),
     linear-gradient(180deg, #05070f 0%, #070d1e 60%, #05070f 100%);
+}
+
+/* --- Cinematic left-middle "All services" side rail --- */
+.backSide {
+  /* A glass film-strip tab clinging to the left edge, with a pulsing coral→gold
+     gradient spine running down its edge. */
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.15rem 0.8rem 1.15rem 0.95rem;
+  text-decoration: none;
+  color: var(--paper-soft);
+  background: linear-gradient(90deg, rgba(12, 20, 42, 0.7), rgba(12, 20, 42, 0.26));
+  border: 1px solid var(--glass-border-dark);
+  border-left: 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 22px 55px -32px rgba(0, 0, 0, 0.65);
+  transition: transform var(--dur-med) var(--ease-arch), color var(--dur-fast) ease,
+    box-shadow var(--dur-med) ease;
+}
+
+/* The pulsing gradient spine, pinned to the very edge. */
+.backSide::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--gold-bright), var(--coral));
+  box-shadow: 0 0 16px -2px rgba(255, 90, 79, 0.6);
+  animation: backGlow 3.6s ease-in-out infinite;
+}
+
+@keyframes backGlow {
+  0%, 100% { opacity: 0.72; box-shadow: 0 0 10px -3px rgba(255, 90, 79, 0.4); }
+  50% { opacity: 1; box-shadow: 0 0 24px 0 rgba(217, 189, 133, 0.62); }
+}
+
+.backArrow {
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--gold-bright);
+  transition: transform var(--dur-med) var(--ease-arch);
+}
+
+.backText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.backSide:hover {
+  transform: translateY(-50%) translateX(5px);
+  color: var(--gold-bright);
+  box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.72), 0 0 32px -10px rgba(217, 189, 133, 0.4);
+}
+
+.backSide:hover .backArrow {
+  transform: translateX(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backSide::before {
+    animation: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .backSide {
+    gap: 0.55rem;
+    padding: 0.85rem 0.55rem 0.85rem 0.7rem;
+  }
+  .backText {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+  }
 }
 
 .heroInner {
@@ -79,38 +168,14 @@
   }
 }
 
-.back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--paper-soft);
-  text-decoration: none;
-  transition: color var(--dur-fast) ease;
-}
-
-.back:hover {
-  color: var(--gold-bright);
-}
-
-.back span {
-  transition: transform var(--dur-fast) ease;
-}
-
-.back:hover span {
-  transform: translateX(-3px);
-}
-
-/* The category, now a normal display-title label rather than a mono eyebrow. */
+/* The category label — same size/weight as the "About Us" eyebrow. */
 .category {
   margin-top: clamp(1.75rem, 4vw, 2.75rem);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
   background: linear-gradient(115deg, var(--gold-bright) 15%, var(--coral) 95%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -122,9 +187,9 @@
   max-width: 18ch;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.6rem, 6.5vw, 5.2rem);
-  line-height: 1;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   color: var(--ivory);
   text-shadow: 0 4px 50px rgba(0, 0, 0, 0.5);
 }
@@ -260,41 +325,6 @@
   height: 1px;
   margin-top: 0.7rem;
   background: var(--coral);
-}
-
-/* --- Tech stack chips --- */
-.stackWrap {
-  margin-top: clamp(1.75rem, 3vw, 2.5rem);
-  padding-top: clamp(1.5rem, 3vw, 2rem);
-  border-top: 1px solid var(--line-on-dark-strong);
-}
-
-.stackLabel {
-  margin-bottom: 1rem;
-}
-
-.stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.chip {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.01em;
-  color: var(--paper);
-  padding: 0.5rem 0.85rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--glass-border-dark);
-  background: rgba(243, 240, 232, 0.04);
-  white-space: nowrap;
-  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
-}
-
-.chip:hover {
-  border-color: rgba(217, 189, 133, 0.5);
-  color: var(--gold-bright);
 }
 
 /* --- Pager --- */

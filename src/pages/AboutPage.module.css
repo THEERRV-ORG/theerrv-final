@@ -140,13 +140,13 @@
   margin-bottom: 1.5rem;
 }
 
-/* Hero */
+/* Hero — matches the home-page hero headline exactly. */
 .heroHead {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(3rem, 7.5vw, 6.4rem);
-  line-height: 0.98;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   color: var(--ivory);
   text-shadow: 0 6px 60px rgba(0, 0, 0, 0.6);
 }
@@ -250,9 +250,9 @@
 
 .pointNum {
   flex-shrink: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: clamp(1.4rem, 2.6vw, 2rem);
-  font-variant-numeric: tabular-nums;
   line-height: 1;
   letter-spacing: -0.02em;
   background: linear-gradient(140deg, var(--coral) 0%, #ff8a5f 45%, var(--gold-bright) 100%);
