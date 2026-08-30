@@ -12,6 +12,8 @@ export default function Hero() {
     <section id="top" className={styles.hero} ref={sectionRef} data-bg="#060a16" data-nav-hero>
       <div className={`${styles.orb} ${styles.orbGold}`} aria-hidden="true" />
       <div className={`${styles.orb} ${styles.orbCoral}`} aria-hidden="true" />
+      {/* Glow burst: originates at the logo position and sweeps the whole hero */}
+      <div className={styles.glowFlash} aria-hidden="true" />
 
       <div className={`${styles.content} container`}>
         <div className={styles.grid}>
@@ -21,7 +23,6 @@ export default function Hero() {
                 it sits in flow, centred, between the kicker and the headline. */}
             <div className={styles.logoStage} aria-hidden="true">
               <LogoAssemble />
-              <div className={styles.glowFlash} />
               <div className={styles.finalLogoWrap}>
                 <LogoMark trackRef={sectionRef} className={styles.finalLogo} />
                 <LogoGlossOutline className={styles.finalLogo} />

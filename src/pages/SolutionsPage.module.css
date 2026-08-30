@@ -1,0 +1,593 @@
+/* Solutions — cinematic full-height stages over one fixed lit ground.
+   Type scale, weights and palette match the home / about / services pages. */
+
+.page {
+  position: relative;
+}
+
+/* --- Fixed atmosphere --------------------------------------------------- */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 80% at 82% 8%, rgba(52, 34, 128, 0.5), transparent 56%),
+    radial-gradient(110% 70% at 10% 94%, rgba(150, 45, 40, 0.24), transparent 56%),
+    linear-gradient(180deg, #04060d 0%, #070d1e 52%, #04060d 100%);
+}
+
+/* Soft coloured light pools drifting over the ground, blended additively. */
+.lights {
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(42% 34% at 22% 22%, rgba(122, 108, 255, 0.16), transparent 62%),
+    radial-gradient(38% 30% at 86% 30%, rgba(217, 189, 133, 0.12), transparent 62%),
+    radial-gradient(50% 44% at 58% 100%, rgba(255, 90, 79, 0.1), transparent 60%);
+  animation: solLights 26s var(--ease-arch) infinite alternate;
+  will-change: transform, opacity;
+}
+
+@keyframes solLights {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+  to   { transform: translate3d(-2.5%, -2%, 0) scale(1.06); opacity: 1; }
+}
+
+/* Key beam raking down from the upper left. */
+.lights::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(148deg, rgba(197, 180, 255, 0.08) 0%, transparent 34%);
+  animation: solBeam 18s var(--ease-arch) infinite alternate;
+}
+
+@keyframes solBeam {
+  from { opacity: 0.5; }
+  to   { opacity: 1; }
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(125% 95% at 50% 42%, transparent 52%, rgba(2, 3, 8, 0.5) 100%),
+    linear-gradient(180deg, rgba(2, 3, 8, 0.45) 0%, transparent 18%, transparent 82%, rgba(2, 3, 8, 0.55) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lights,
+  .lights::after {
+    animation: none;
+  }
+  /* JS leaves --p at 0 here, so the hero would stay lit under the stages —
+     drop the pin entirely instead. */
+  .heroPin {
+    height: auto;
+  }
+  .hero {
+    position: static;
+    height: auto;
+    min-height: 100svh;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Left-edge rail ----------------------------------------------------- */
+
+.rail {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 1.5rem 1rem 1.5rem 1.35rem;
+  /* Retires while the hero is on screen and once the stages are behind you. */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(-0.6rem);
+  transition: opacity var(--dur-med) ease, transform var(--dur-med) var(--ease-arch);
+}
+
+.railOn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Pulsing coral→gold spine, the same signature used by the service pages. */
+.railLine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--coral));
+  box-shadow: 0 0 18px -2px rgba(255, 90, 79, 0.55);
+  animation: railGlow 3.6s ease-in-out infinite;
+}
+
+@keyframes railGlow {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+.railDot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  opacity: 0.4;
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-arch);
+}
+
+.railDot:hover {
+  opacity: 0.8;
+  transform: translateX(3px);
+}
+
+.railNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--paper-soft);
+  transition: color var(--dur-fast) ease;
+}
+
+/* The rail stays a narrow numeric spine so it never crowds the copy on the
+   stages whose text sits on the left. The title is a hover affordance only —
+   the active stage is signalled by colour and weight instead. */
+.railName {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--gold-bright);
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width var(--dur-med) var(--ease-arch), opacity var(--dur-fast) ease;
+}
+
+.railDot:hover .railName {
+  max-width: 14rem;
+  opacity: 1;
+}
+
+.railDotOn {
+  opacity: 1;
+}
+
+.railDotOn .railNum {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .rail {
+    display: none;
+  }
+}
+
+/* --- Hero --------------------------------------------------------------- */
+
+/* The pin: a tall track whose sticky child holds the hero on screen for an
+   extra beat before the first stage takes over. */
+.heroPin {
+  --p: 0; /* scroll progress through the hold, set by JS */
+  position: relative;
+  height: 175svh;
+}
+
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(7rem, 14vh, 10rem) clamp(5rem, 12vh, 8rem);
+  /* Recedes as it is handed over: fades, drifts up, and settles back slightly,
+     so the stage does not simply cut on top of it. */
+  opacity: clamp(0, calc(1 - var(--p)), 1);
+  transform: translateY(calc(var(--p) * -3.5vh)) scale(calc(1 - var(--p) * 0.05));
+  will-change: opacity, transform;
+}
+
+/* Asymmetric composition: the headline owns the left and most of the width,
+   the supporting copy sits low and right, which leaves the frame off-balance
+   in the way a title card is. */
+.hero :global(.container) {
+  display: flex;
+  width: 100%;
+}
+
+/* Headline and copy run side by side from the same top line, and the two
+   paragraphs stack within their column. */
+.heroInner {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: clamp(1.75rem, 4vh, 2.75rem);
+  align-content: center;
+}
+
+@media (min-width: 1000px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: start;
+    gap: clamp(2rem, 4.5vw, 4rem);
+  }
+}
+
+.heroHeadCol {
+  min-width: 0;
+}
+
+.heroTextCol {
+  min-width: 0;
+  display: grid;
+  gap: clamp(0.9rem, 2vh, 1.35rem);
+}
+
+@media (min-width: 1000px) {
+  /* Nudged down to sit on the headline's cap height rather than the eyebrow,
+     so the two columns start on the same optical line. */
+  .heroTextCol {
+    padding-top: clamp(0.4rem, 1.4vh, 0.9rem);
+  }
+}
+
+.eyebrow {
+  color: var(--gold-bright);
+  margin-bottom: 1.5rem;
+}
+
+/* Identical scale to the home and about hero headlines. */
+.heroHead {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.headLine1 {
+  color: var(--ivory);
+  text-shadow: 0 6px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Stepped: the second line starts where the first one's weight ends, so the
+   two read as a descending stair rather than a stacked block. */
+.headLine2 {
+  margin-left: clamp(0px, 6vw, 5.5rem);
+  background: linear-gradient(100deg, var(--coral) 0%, #ff8a5f 44%, var(--gold-bright) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 28px rgba(255, 90, 79, 0.28));
+}
+
+/* The band is a matched pair: both columns share size, weight, colour and
+   hairline, so they read as two halves of one block rather than a lead and a
+   footnote. */
+.lead,
+.heroSupport {
+  padding-left: clamp(0.85rem, 1.5vw, 1.25rem);
+  border-left: 1px solid rgba(217, 189, 133, 0.28);
+  font-size: clamp(1rem, 1.35vw, 1.12rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--paper);
+}
+
+/* --- Solution stages ---------------------------------------------------- */
+
+.stage {
+  position: relative;
+  z-index: 0; /* own stacking context so the ghost numeral stays behind copy */
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  /* Tight enough that the longest stage (04, whose title wraps) still lands
+     inside one screen at 900px tall. */
+  padding-block: clamp(4rem, 9vh, 6.5rem);
+}
+
+/* Scrim on the copy side so the type always wins over the light and numeral. */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 7, 15, 0.9) 0%,
+    rgba(5, 7, 15, 0.66) 44%,
+    rgba(5, 7, 15, 0) 76%
+  );
+}
+
+/* Even stages mirror: copy right, scrim from the right. */
+.stage:nth-child(even)::before {
+  background: linear-gradient(
+    270deg,
+    rgba(5, 7, 15, 0.9) 0%,
+    rgba(5, 7, 15, 0.66) 44%,
+    rgba(5, 7, 15, 0) 76%
+  );
+}
+
+.stage :global(.container) {
+  width: 100%;
+}
+
+/* Giant ghost numeral, behind the stage scrim so the copy side stays quiet. */
+.ghostNum {
+  position: absolute;
+  top: 50%;
+  right: 4vw;
+  transform: translateY(-50%);
+  z-index: -2;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(16rem, 34vw, 30rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  background: linear-gradient(160deg, var(--coral) 0%, var(--gold-bright) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
+.stage:nth-child(even) .ghostNum {
+  right: auto;
+  left: 4vw;
+}
+
+/* Two columns from the tablet up — prose beside the "can include" list — so a
+   stage carrying three paragraphs and six items still sits in one screen. */
+.stageInner {
+  position: relative;
+  max-width: 60rem;
+  margin-right: auto;
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .stageInner {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+}
+
+.prose {
+  min-width: 0;
+}
+
+.stage:nth-child(even) .stageInner {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Odd stages (02, 04) put their copy on the left, which is where the fixed rail
+   lives — reserve a gutter for it wherever the rail is on screen. */
+@media (min-width: 1101px) {
+  .stage:nth-child(odd) .stageInner {
+    padding-left: 4rem;
+  }
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.1rem, 4.6vw, 3.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: var(--ivory);
+  text-shadow: 0 4px 44px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--gold-bright);
+}
+
+.description {
+  margin-top: clamp(0.9rem, 2vh, 1.2rem);
+  max-width: 54ch;
+  font-size: clamp(0.98rem, 1.35vw, 1.06rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--paper-soft);
+}
+
+/* The opening paragraph carries the idea; the rest support it. */
+.description:first-of-type {
+  margin-top: clamp(1.1rem, 2.6vh, 1.6rem);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.7;
+  color: var(--paper);
+}
+
+/* --- "What this can include" --------------------------------------------- */
+
+.includesCard {
+  position: relative;
+  padding: clamp(1.25rem, 2.6vw, 1.75rem) clamp(1.3rem, 2.8vw, 1.9rem);
+  border: 1px solid var(--glass-border-dark);
+  border-left: 0;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: linear-gradient(140deg, rgba(24, 34, 68, 0.55), rgba(10, 16, 36, 0.3));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 40px 80px -52px rgba(0, 0, 0, 0.7);
+}
+
+.includesCard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--coral));
+  box-shadow: 0 0 18px -2px rgba(255, 90, 79, 0.45);
+}
+
+.includesLabel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: var(--gold-bright);
+  margin-bottom: 1rem;
+}
+
+.includes {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.include {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.94rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--paper);
+}
+
+/* Small coral tick rather than a bullet glyph. */
+.include::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--coral);
+}
+
+/* --- Closing ------------------------------------------------------------- */
+
+/* The page's last word. Centred and framed by a rule above and below, so it
+   reads as a deliberate closing rather than one more left-aligned paragraph
+   that happens to be last. */
+.closingSection {
+  position: relative;
+  padding-block: clamp(5rem, 13vh, 9rem);
+  text-align: center;
+}
+
+.closingStatement {
+  position: relative;
+  max-width: 46ch;
+  margin-inline: auto;
+  padding-top: clamp(2rem, 5vh, 3rem);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.3rem, 2.5vw, 1.95rem);
+  line-height: 1.42;
+  letter-spacing: -0.022em;
+  color: var(--ivory);
+  text-wrap: balance; /* keeps the centred block from ending on a stray word */
+}
+
+/* Short gradient rule centred above the statement. */
+.closingStatement::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(2.5rem, 6vw, 4rem);
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--coral), var(--gold-bright));
+  box-shadow: 0 0 18px -2px rgba(255, 90, 79, 0.5);
+}
+
+/* --- Mobile: copy stacks full width, scrim protects from the bottom ------ */
+
+@media (max-width: 899px) {
+  /* No pin on a phone: the hold costs a screen of scrolling and the stepped
+     headline has no room to step. The hero just flows. */
+  .heroPin {
+    height: auto;
+  }
+  .hero {
+    position: static;
+    height: auto;
+    min-height: auto;
+    opacity: 1;
+    transform: none;
+    padding-block: clamp(6rem, 20vw, 8rem) clamp(3rem, 10vw, 5rem);
+  }
+  .headLine2 {
+    margin-left: 0;
+  }
+
+  .stage {
+    min-height: auto;
+    padding-block: clamp(3.5rem, 12vw, 5rem);
+  }
+
+  .stage::before,
+  .stage:nth-child(even)::before {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 7, 15, 0.4) 0%,
+      rgba(5, 7, 15, 0.78) 46%,
+      rgba(5, 7, 15, 0.92) 100%
+    );
+  }
+
+  .stageInner,
+  .stage:nth-child(even) .stageInner {
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
+  .ghostNum,
+  .stage:nth-child(even) .ghostNum {
+    right: -2vw;
+    left: auto;
+    font-size: clamp(12rem, 46vw, 18rem);
+    opacity: 0.05;
+  }
+}

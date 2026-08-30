@@ -122,10 +122,16 @@
 }
 
 .inner {
+  position: relative;
   max-width: 40rem;
   margin-right: auto; /* copy on the left by default */
   display: flex;
   flex-direction: column;
+}
+
+/* Wider inner for sections that need more horizontal space (e.g. 2-col points) */
+.innerWide {
+  max-width: 52rem;
 }
 
 /* Odd sections flip the copy to the right, opposite the mark. */
@@ -178,11 +184,45 @@
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(2.3rem, 5.2vw, 4.2rem);
-  line-height: 1.02;
+  line-height: 1.08;
   letter-spacing: -0.03em;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Line 1: "Vision," — ivory, full impact weight */
+.headLine1 {
   color: var(--ivory);
-  margin-bottom: clamp(1.25rem, 3vh, 2rem);
   text-shadow: 0 4px 44px rgba(0, 0, 0, 0.5);
+}
+
+/* Line 2: "brought to life." — coral→gold gradient */
+.headLine2 {
+  background: linear-gradient(100deg, var(--coral) 0%, #ff8a5f 44%, var(--gold-bright) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 28px rgba(255, 90, 79, 0.28));
+}
+
+/* Thin coral hairline separating heading from body */
+.headRule {
+  width: clamp(2.5rem, 6vw, 4rem);
+  height: 2px;
+  margin-block: clamp(1.4rem, 3vh, 2rem);
+  background: linear-gradient(90deg, var(--coral), var(--gold-bright));
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* First paragraph: larger, ivory — the opening lede */
+.lede {
+  max-width: 54ch;
+  font-size: clamp(1.08rem, 1.6vw, 1.22rem);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--ivory);
 }
 
 .para {
@@ -194,10 +234,6 @@
   color: var(--paper-soft);
 }
 
-.para:first-of-type {
-  color: var(--paper);
-}
-
 /* Mission & Vision cards */
 /* Mission and Vision stacked vertically. */
 .mvGrid {
@@ -205,26 +241,59 @@
   gap: 1.25rem;
 }
 
+/* --- Accent pane: a glass panel carried on a coral→gold spine, with an
+   editorial numeral in the header. Shared by the mission/vision cards and the
+   "why choose us" points so the whole page reads as one system. --- */
 .mvCard {
-  padding: clamp(1.5rem, 3vw, 2rem);
-  border-radius: var(--radius-lg);
+  position: relative;
+  padding: clamp(1.4rem, 2.8vw, 1.9rem) clamp(1.5rem, 3vw, 2rem);
+}
+
+.point {
+  position: relative;
+  padding: clamp(1rem, 2vw, 1.4rem) clamp(1.2rem, 2.4vw, 1.6rem);
   border: 1px solid var(--glass-border-dark);
-  background: var(--glass-fill-dark-strong);
+  border-left: 0;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: linear-gradient(120deg, rgba(24, 34, 68, 0.62), rgba(10, 16, 36, 0.34));
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
-  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 40px 80px -48px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 40px 80px -52px rgba(0, 0, 0, 0.7);
+  transition: transform var(--dur-med) var(--ease-arch), border-color var(--dur-fast) ease;
+}
+
+.mvCard::before,
+.point::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(180deg, var(--gold-bright), var(--coral));
+  box-shadow: 0 0 18px -2px rgba(255, 90, 79, 0.55);
+}
+
+.mvCard:hover,
+.point:hover {
+  transform: translateX(4px);
+  border-color: rgba(217, 189, 133, 0.4);
+}
+
+.paneHead {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 1.6vw, 1.1rem);
+  margin-bottom: 0.7rem;
 }
 
 .mvLabel {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(1.25rem, 2.4vw, 1.6rem);
-  letter-spacing: -0.01em;
-  background: linear-gradient(120deg, var(--gold-bright), var(--coral));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.75rem;
+  letter-spacing: -0.015em;
+  color: var(--ivory);
 }
 
 .mvBody {
@@ -235,52 +304,76 @@
 }
 
 
-/* Why points */
+/* Why points — 2-column grid so all 5 fit in one viewport */
 .points {
-  border-top: 1px solid var(--line-on-dark);
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr 1fr;
 }
 
-.point {
-  display: flex;
-  gap: clamp(1rem, 2.4vw, 1.75rem);
-  align-items: baseline;
-  padding-block: clamp(1rem, 2.4vh, 1.5rem);
-  border-bottom: 1px solid var(--line-on-dark);
+/* Last point spans both columns when count is odd */
+.points > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
-.pointNum {
-  flex-shrink: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.4rem, 2.6vw, 2rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  background: linear-gradient(140deg, var(--coral) 0%, #ff8a5f 45%, var(--gold-bright) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.pointBody {
-  min-width: 0;
+@media (max-width: 639px) {
+  .points {
+    grid-template-columns: 1fr;
+  }
+  .points > :last-child:nth-child(odd) {
+    grid-column: auto;
+  }
 }
 
 .pointTitle {
-  display: block;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   color: var(--ivory);
 }
 
 .pointText {
   display: block;
-  margin-top: 0.3rem;
   font-size: 0.98rem;
   font-weight: 300;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--paper-soft);
+}
+
+/* ── Our Story cinematic elements ─────────────────────────── */
+
+/* Constellation: absolute to the section, full bleed, behind everything */
+.constellationBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.45; filter: drop-shadow(0 0 4px rgba(255, 90, 79, 0.5)); }
+  50%       { opacity: 0.9;  filter: drop-shadow(0 0 12px rgba(255, 90, 79, 0.85)); }
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0;   transform: scale(1.8); }
+}
+
+.node {
+  animation: nodePulse 3.6s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.nodeRing {
+  animation: ringPulse 3.6s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
 }
 
 /* Closing */

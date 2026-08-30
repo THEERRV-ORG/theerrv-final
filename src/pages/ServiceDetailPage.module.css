@@ -36,8 +36,22 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 22px 55px -32px rgba(0, 0, 0, 0.65);
+  opacity: 1;
   transition: transform var(--dur-med) var(--ease-arch), color var(--dur-fast) ease,
-    box-shadow var(--dur-med) ease;
+    box-shadow var(--dur-med) ease, opacity var(--dur-med) ease,
+    visibility 0s linear 0s;
+}
+
+/* Retires once the closing CTA arrives — it belongs to the reading part of the
+   page. Slides back toward the edge as it goes rather than blinking out, and
+   drops out of the tab order while hidden. */
+.backSideOut {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transform: translateY(-50%) translateX(-0.9rem);
+  transition: transform var(--dur-med) var(--ease-arch), opacity var(--dur-med) ease,
+    visibility 0s linear var(--dur-med);
 }
 
 /* The pulsing gradient spine, pinned to the very edge. */
@@ -92,14 +106,75 @@
   }
 }
 
+/* A vertical tab pinned to the left edge needs a margin to live in, and a
+   phone has none — at 375px it sat on top of the copy. A floating pill would
+   still cover text as the page scrolls under it, so on small screens the link
+   simply drops back into the flow above the title, where it cannot overlap
+   anything. It also stays put rather than retiring, since in-flow it scrolls
+   away on its own. */
 @media (max-width: 700px) {
+  /* The same restrained ghost-button treatment the site already uses for
+     secondary actions: hairline border, barely-there fill, gold accent only on
+     press. No glow, no gradient, nothing that competes with the title. */
   .backSide {
+    position: static;
+    transform: none;
+    /* display:flex would otherwise stretch it across the whole column. */
+    width: fit-content;
+    align-self: flex-start;
+    flex-direction: row;
+    align-items: center;
     gap: 0.55rem;
-    padding: 0.85rem 0.55rem 0.85rem 0.7rem;
+    margin-bottom: clamp(1.25rem, 3.5vw, 1.75rem);
+    padding: 0.55rem 1.15rem;
+    min-height: 44px; /* comfortable tap target */
+    border: 1px solid var(--glass-border-dark);
+    border-radius: var(--radius-pill);
+    background: rgba(243, 240, 232, 0.04);
+    color: var(--ivory);
+    box-shadow: none;
+    animation: none;
   }
+
+  /* The edge spine belongs to the desktop rail, not to a button. */
+  .backSide::before {
+    display: none;
+  }
+
+  .backSide:hover,
+  .backSide:active {
+    transform: none;
+    color: var(--ivory);
+    border-color: var(--gold);
+    background: rgba(243, 240, 232, 0.08);
+  }
+
+  /* A plain glyph, not a badge — sized to sit on the text's optical line. */
+  .backArrow {
+    font-size: 0.95rem;
+    line-height: 1;
+    color: var(--gold-bright);
+    background: none;
+    box-shadow: none;
+  }
+
+  /* In the flow there is nothing to retire from — keep it visible and let it
+     scroll off naturally. */
+  .backSideOut {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+  }
+
   .backText {
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-transform: none;
   }
 }
 

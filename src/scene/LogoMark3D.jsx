@@ -16,69 +16,41 @@ import { STATION_COUNT } from "./LogoRig";
    ======================================================================== */
 
 const TARGET_WIDTH = 10;
-const DEPTH_RATIO = 0.062;
 
-const vertexShader = /* glsl */ `
-  varying vec3 vNormalView;
-  varying vec3 vViewDir;
-  varying float vDepth;
-  void main() {
-    vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    vNormalView = normalize(normalMatrix * normal);
-    vViewDir = normalize(-mv.xyz);
-    vDepth = -mv.z;
-    gl_Position = projectionMatrix * mv;
-  }
-`;
+/* The mark reads as bent tubing rather than a cut-out slab. ExtrudeGeometry
+   gives us that if the bevel radius carries the whole thickness: a thin flat
+   core with a full-radius round on each face makes the cross-section a
+   stadium, i.e. a round pipe. PIPE_RADIUS is a fraction of the viewBox width;
+   it doubles as the bevel's inset, so it has to stay well under half the
+   thinnest stroke in the artwork or narrow spots pinch. */
+const PIPE_RADIUS_RATIO = 0.015;
+const PIPE_CORE_RATIO = 0.45; // flat core between the two rounded faces, in radii
 
-const fragmentShader = /* glsl */ `
-  precision highp float;
-  uniform vec3 uColor;
-  uniform vec3 uAccent;
-  uniform vec3 uInk;
-  uniform float uReveal;
-  uniform float uFogNear;
-  uniform float uFogFar;
-  uniform float uSpecular;
-  uniform float uRimAccent;
-  varying vec3 vNormalView;
-  varying vec3 vViewDir;
-  varying float vDepth;
-  void main() {
-    vec3 n = normalize(vNormalView);
-    vec3 v = normalize(vViewDir);
-    vec3 keyDir = normalize(vec3(-0.42, 0.78, 0.62));
-    vec3 fillDir = normalize(vec3(0.72, -0.22, 0.35));
-    float key = pow(dot(n, keyDir) * 0.5 + 0.5, 1.8);
-    float fill = max(dot(n, fillDir), 0.0) * 0.26;
-    vec3 h = normalize(keyDir + v);
-    float spec = pow(max(dot(n, h), 0.0), 46.0) * uSpecular;
-    float rim = pow(1.0 - max(dot(n, v), 0.0), 3.4);
-    vec3 color = uColor * (0.26 + key * 0.86 + fill);
-    color += vec3(1.0) * spec;
-    color += uAccent * rim * uRimAccent;
-    float fog = smoothstep(uFogNear, uFogFar, vDepth);
-    color = mix(color, uInk, fog);
-    gl_FragColor = vec4(color, uReveal);
-  }
-`;
-
-function makeMaterial(color, specular, rimAccent) {
-  return new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader,
+/**
+ * Real physically-based material rather than a hand-written highlight: the
+ * mark is lacquered tubing, so it wants a coloured base under a clear coat,
+ * picking up the studio environment set up by StudioLighting. `sheen` keeps
+ * the dark navy from going flat where nothing is reflecting into it.
+ */
+function makeMaterial({ color, roughness, clearcoatRoughness, envMapIntensity, metalness, sheen, clearcoat = 1 }) {
+  return new THREE.MeshPhysicalMaterial({
+    color: new THREE.Color(color),
+    // A little metalness pushes the surface from "matte plastic" toward
+    // polished automotive lacquer — it is what makes the environment actually
+    // show up in the body colour rather than only in the coat.
+    metalness,
+    roughness,
+    clearcoat,
+    clearcoatRoughness,
+    envMapIntensity,
+    specularIntensity: 1,
+    specularColor: new THREE.Color("#ffffff"),
+    sheen,
+    sheenColor: new THREE.Color("#8fa6ff"),
+    sheenRoughness: 0.5,
     side: THREE.DoubleSide,
     transparent: true,
-    uniforms: {
-      uColor: { value: new THREE.Color(color) },
-      uAccent: { value: new THREE.Color("#ff5a4f") },
-      uInk: { value: new THREE.Color("#070d1e") },
-      uReveal: { value: 0 },
-      uFogNear: { value: 26 },
-      uFogFar: { value: 72 },
-      uSpecular: { value: specular },
-      uRimAccent: { value: rimAccent },
-    },
+    opacity: 0,
   });
 }
 
@@ -87,12 +59,14 @@ export default function LogoMark3D({ quality }) {
   const groupRef = useRef(null);
   const revealRef = useRef(0);
 
+  // bevelSegments is what makes the pipe round rather than chamfered, so it
+  // carries far more weight here than it did for the old slab profile.
   const detail =
     quality.tier === "low"
-      ? { curveSegments: 6, bevelSegments: 1 }
+      ? { curveSegments: 6, bevelSegments: 4 }
       : quality.tier === "medium"
-        ? { curveSegments: 10, bevelSegments: 2 }
-        : { curveSegments: 16, bevelSegments: 3 };
+        ? { curveSegments: 10, bevelSegments: 7 }
+        : { curveSegments: 16, bevelSegments: 11 };
 
   const { coralGeo, navyGeo, fitScale, center } = useMemo(() => {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${MARK_VIEWBOX}">
@@ -102,20 +76,23 @@ export default function LogoMark3D({ quality }) {
 
     const parsed = new SVGLoader().parse(svg);
     const [vbW] = MARK_VIEWBOX.split(" ").map(Number).slice(2);
-    const depth = vbW * DEPTH_RATIO;
+    const radius = vbW * PIPE_RADIUS_RATIO;
 
     const extrude = (shapePath) => {
       const shapes = shapePath.toShapes();
       const geo = new THREE.ExtrudeGeometry(shapes, {
-        depth,
+        // Bevel radius equal on both axes and carrying nearly all the depth is
+        // what rounds the profile off into tubing.
+        depth: radius * PIPE_CORE_RATIO,
         bevelEnabled: true,
-        bevelThickness: depth * 0.14,
-        bevelSize: depth * 0.1,
+        bevelThickness: radius,
+        bevelSize: radius,
         bevelOffset: 0,
         bevelSegments: detail.bevelSegments,
         curveSegments: detail.curveSegments,
       });
       geo.scale(1, -1, 1); // SVG y-down → scene y-up
+      geo.computeVertexNormals(); // smooth the many bevel rings into one round surface
       return geo;
     };
 
@@ -132,21 +109,39 @@ export default function LogoMark3D({ quality }) {
   }, [detail.bevelSegments, detail.curveSegments]);
 
   // Slightly stronger specular + rim than the reference for a more premium,
-  // cinematic glint as the mark turns under the (DOM) key lighting.
-  const coralMat = useMemo(() => makeMaterial("#ff5a4f", 0.45, 0.28), []);
-  const bodyMat = useMemo(() => makeMaterial("#f3f0e8", 0.78, 0.13), []);
+  // cinematic glint as the mark turns under the (DOM) key lighting. The indigo
+  // ribbon gets a higher ambient floor than the coral: it is a genuinely dark
+  // colour, and without the lift the unlit side of the tubing goes to black
+  // against an almost-black page.
+  // The crescents are a bright colour and can take a tighter, glossier coat.
+  // The ribbon is a dark navy, so it leans on a stronger environment response
+  // and a little sheen to stay legible against an almost-black page.
+  // Gloss lives in the clear coat, not in the environment response: a high
+  // envMapIntensity plus metalness washes the base colour out (it turned the
+  // coral to pale peach), so both stay low and the shine comes from the tight
+  // coat instead. That keeps the rendered colour close to the flat artwork.
+  // Base deliberately deeper than the target #ff644e: the crescents face the
+  // key light almost head-on, so a lighter base lands well past it and reads
+  // as peach. A partial coat keeps them saturated rather than white-veiled.
+  const coralMat = useMemo(
+    () => makeMaterial({ color: "#c23b28", roughness: 0.24, clearcoatRoughness: 0.06, envMapIntensity: 0.4, metalness: 0.02, sheen: 0, clearcoat: 0.45 }),
+    []
+  );
+  const bodyMat = useMemo(
+    () => makeMaterial({ color: "#1a0d62", roughness: 0.12, clearcoatRoughness: 0.025, envMapIntensity: 0.85, metalness: 0.06, sheen: 0.12 }),
+    []
+  );
 
-  // Colour from the CSS token layer, so scene and DOM never drift apart. The
-  // ribbon is the light ivory (reversed lockup on the dark ground).
+  // Colour from the CSS token layer, so scene and DOM never drift apart. These
+  // are the mark's own brand colours — indigo ribbon over coral crescents, as
+  // drawn in logo-theerrv.svg — not the reversed white lockup.
   useEffect(() => {
-    const ink = readColorToken("--navy-deep", "#070d1e");
-    const accent = readColorToken("--coral", "#ff5a4f");
-    coralMat.uniforms.uColor.value = accent;
-    bodyMat.uniforms.uColor.value = readColorToken("--ivory", "#f3f0e8");
-    for (const m of [coralMat, bodyMat]) {
-      m.uniforms.uAccent.value = accent;
-      m.uniforms.uInk.value = ink;
-    }
+    coralMat.color = readColorToken("--brand-coral-base", "#c23b28");
+    // The true lockup ink, not the lifted variant: with real lights and an
+    // environment behind it, the navy reads on its own.
+    bodyMat.color = readColorToken("--brand-indigo", "#231860");
+    coralMat.needsUpdate = true;
+    bodyMat.needsUpdate = true;
   }, [coralMat, bodyMat]);
 
   useEffect(() => {
@@ -164,8 +159,16 @@ export default function LogoMark3D({ quality }) {
 
     const target = frameState.revealed ? 1 : 0;
     revealRef.current += (target - revealRef.current) * Math.min(fadeDt * 2.2, 1);
-    coralMat.uniforms.uReveal.value = revealRef.current;
-    bodyMat.uniforms.uReveal.value = revealRef.current;
+    // Drop out of the transparent pass once opaque: a double-sided transparent
+    // solid self-sorts badly, and the mark overlaps itself constantly.
+    const opaque = revealRef.current > 0.995;
+    for (const m of [coralMat, bodyMat]) {
+      m.opacity = revealRef.current;
+      if (m.transparent === opaque) {
+        m.transparent = !opaque;
+        m.needsUpdate = true;
+      }
+    }
 
     const g = groupRef.current;
     if (!g) return;

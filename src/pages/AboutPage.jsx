@@ -45,10 +45,18 @@ export default function AboutPage() {
         <section className={styles.section}>
           <div className="container">
             <div className={styles.inner}>
-              <Reveal as="p" className={`eyebrow ${styles.eyebrow}`}>{about.eyebrow}</Reveal>
-              <Reveal as="h2" delay={60} className={styles.heading}>{about.heading}</Reveal>
+              <Reveal as="h2" className={styles.heading}>
+                <span className={styles.headLine1}>Vision,</span>
+                <span className={styles.headLine2}>brought to life.</span>
+              </Reveal>
+              <div className={styles.headRule} aria-hidden="true" />
               {about.paragraphs.map((p, i) => (
-                <Reveal as="p" key={i} delay={120 + i * 60} className={styles.para}>{p}</Reveal>
+                <Reveal
+                  as="p"
+                  key={i}
+                  delay={120 + i * 60}
+                  className={i === 0 ? styles.lede : styles.para}
+                >{p}</Reveal>
               ))}
             </div>
           </div>
@@ -61,7 +69,9 @@ export default function AboutPage() {
               <div className={styles.mvGrid}>
                 {missionVision.items.map((item, i) => (
                   <Reveal as="article" key={item.label} delay={80 + i * 90} className={styles.mvCard}>
-                    <h3 className={styles.mvLabel}>{item.label}</h3>
+                    <div className={styles.paneHead}>
+                      <h3 className={styles.mvLabel}>{item.label}</h3>
+                    </div>
                     <p className={styles.mvBody}>{item.body}</p>
                   </Reveal>
                 ))}
@@ -73,17 +83,16 @@ export default function AboutPage() {
         {/* 3 — Why Choose Us */}
         <section className={styles.section}>
           <div className="container">
-            <div className={styles.inner}>
+            <div className={`${styles.inner} ${styles.innerWide}`}>
               <Reveal as="p" className={`eyebrow ${styles.eyebrow}`}>{why.eyebrow}</Reveal>
               <Reveal as="h2" delay={60} className={styles.heading}>{why.heading}</Reveal>
               <ol className={styles.points}>
                 {why.points.map((pt, i) => (
                   <Reveal as="li" key={pt.index} delay={100 + i * 50} className={styles.point}>
-                    <span className={styles.pointNum}>{pt.index}</span>
-                    <span className={styles.pointBody}>
+                    <div className={styles.paneHead}>
                       <span className={styles.pointTitle}>{pt.title}</span>
-                      <span className={styles.pointText}>{pt.body}</span>
-                    </span>
+                    </div>
+                    <span className={styles.pointText}>{pt.body}</span>
                   </Reveal>
                 ))}
               </ol>
@@ -93,12 +102,44 @@ export default function AboutPage() {
 
         {/* 4 — Our Story */}
         <section className={styles.section}>
+          {/* Constellation: full-section cinematic background, five friends as nodes */}
+          <svg className={styles.constellationBg} viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            {/* Connection lines — hair-thin, very low opacity */}
+            <line x1="120" y1="520" x2="340" y2="180" stroke="rgba(255,90,79,0.12)" strokeWidth="1"/>
+            <line x1="340" y1="180" x2="620" y2="560" stroke="rgba(255,90,79,0.08)" strokeWidth="1"/>
+            <line x1="620" y1="560" x2="870" y2="140" stroke="rgba(217,189,133,0.1)" strokeWidth="1"/>
+            <line x1="870" y1="140" x2="1080" y2="480" stroke="rgba(217,189,133,0.12)" strokeWidth="1"/>
+            <line x1="120" y1="520" x2="620" y2="560" stroke="rgba(255,90,79,0.05)" strokeWidth="0.6"/>
+            <line x1="340" y1="180" x2="870" y2="140" stroke="rgba(217,189,133,0.05)" strokeWidth="0.6"/>
+            <line x1="120" y1="520" x2="1080" y2="480" stroke="rgba(255,90,79,0.03)" strokeWidth="0.5"/>
+            {/* Node 1 */}
+            <circle cx="120" cy="520" r="3" fill="rgba(255,90,79,0.5)" className={styles.node}/>
+            <circle cx="120" cy="520" r="14" fill="rgba(255,90,79,0.04)" className={styles.nodeRing}/>
+            {/* Node 2 */}
+            <circle cx="340" cy="180" r="2.5" fill="rgba(255,90,79,0.45)" className={styles.node} style={{animationDelay:"0.7s"}}/>
+            <circle cx="340" cy="180" r="11" fill="rgba(255,90,79,0.03)" className={styles.nodeRing} style={{animationDelay:"0.7s"}}/>
+            {/* Node 3 — centre, slightly larger */}
+            <circle cx="620" cy="560" r="4" fill="rgba(217,189,133,0.5)" className={styles.node} style={{animationDelay:"1.2s"}}/>
+            <circle cx="620" cy="560" r="18" fill="rgba(217,189,133,0.035)" className={styles.nodeRing} style={{animationDelay:"1.2s"}}/>
+            {/* Node 4 */}
+            <circle cx="870" cy="140" r="2.5" fill="rgba(255,90,79,0.4)" className={styles.node} style={{animationDelay:"1.8s"}}/>
+            <circle cx="870" cy="140" r="11" fill="rgba(255,90,79,0.03)" className={styles.nodeRing} style={{animationDelay:"1.8s"}}/>
+            {/* Node 5 */}
+            <circle cx="1080" cy="480" r="3" fill="rgba(217,189,133,0.5)" className={styles.node} style={{animationDelay:"1s"}}/>
+            <circle cx="1080" cy="480" r="14" fill="rgba(217,189,133,0.03)" className={styles.nodeRing} style={{animationDelay:"1s"}}/>
+          </svg>
+
           <div className="container">
             <div className={styles.inner}>
               <Reveal as="p" className={`eyebrow ${styles.eyebrow}`}>{story.eyebrow}</Reveal>
-              <Reveal as="h2" delay={60} className={styles.heading}>{story.heading}</Reveal>
+
+              <Reveal as="h2" delay={60} className={styles.heading}>
+                <span className={styles.headLine1}>Five friends,</span>
+                <span className={styles.headLine2}>one vision.</span>
+              </Reveal>
+
               {story.paragraphs.map((p, i) => (
-                <Reveal as="p" key={i} delay={120 + i * 60} className={styles.para}>{p}</Reveal>
+                <Reveal as="p" key={i} delay={120 + i * 60} className={i === 0 ? styles.lede : styles.para}>{p}</Reveal>
               ))}
             </div>
           </div>

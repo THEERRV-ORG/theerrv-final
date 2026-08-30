@@ -20,9 +20,10 @@
 .chromeTitle,
 .chromeIndex,
 .cap {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -172,7 +173,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: clamp(0.8125rem, 3.043cqw, 0.9375rem);
   line-height: 1.15;
   font-variant-numeric: tabular-nums;

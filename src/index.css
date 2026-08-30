@@ -15,6 +15,23 @@
   --gold-bright: #d9bd85;
   --coral: #ff5a4f;
 
+  /* Brand mark, as drawn in logo-theerrv.svg. --brand-indigo is the ribbon and
+     --brand-coral the crescents; the 3D mark reads both so the object on the
+     about page matches the printed lockup. --brand-indigo-lit is the same hue
+     opened up in value so it still reads as indigo against the dark ground
+     rather than crushing to black. */
+  /* Sampled from the home hero's own artwork (public/logo-navy.png is a flat
+     #1a0d62) so the 3D mark on the about page matches the 2D one on the home
+     page. --brand-indigo-lit is kept for any flat-shaded use that needs the
+     hue opened up; the lit 3D mark uses the true ink. */
+  --brand-indigo: #1a0d62;
+  --brand-indigo-lit: #3832a6;
+  --brand-coral: #ff644e;
+  /* Pre-lighting base for the 3D mark's crescents. They face the studio key
+     almost head-on, so feeding them --brand-coral directly renders well past
+     it as peach; this deeper base resolves to --brand-coral once lit. */
+  --brand-coral-base: #c23b28;
+
   --ink: #14161c;
   --ink-soft: rgba(20, 22, 28, 0.62);
   --paper: rgba(243, 240, 232, 0.86);

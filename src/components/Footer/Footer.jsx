@@ -84,14 +84,6 @@ export default function Footer() {
           <span>
             © {year} {footer.legalName} LLP. All rights reserved.
           </span>
-          <a
-            className={styles.whatsapp}
-            href={footer.whatsapp}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Chat on WhatsApp
-          </a>
         </div>
 
         {/* Compact footer for small screens — shown in place of the full grid. */}

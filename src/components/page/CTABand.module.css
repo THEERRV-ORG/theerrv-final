@@ -9,11 +9,37 @@
   --p: 0; /* scroll progress, set by JS: 0 at rest → 1 resolved */
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-lg);
-  background: #0a0f22;
+  /* Rounded at the top, square at the bottom so the card runs straight into the
+     footer panel below it as one continuous surface. */
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  /* Exactly the band's own colour. Anything lighter and the card's edge reads
+     as an outline drawn around the section, since the band's side padding
+     leaves a darker margin all the way round it. The shape still reads where
+     the prism light falls; it just no longer has a hard rectangle boundary. */
+  background: var(--navy-deep);
   min-height: clamp(560px, 78vh, 660px);
   display: flex;
-  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.6);
+}
+
+/* The light layers are larger than the card and clipped by its overflow. Once
+   the section resolves, `.mark` loses its blur entirely, so its bright ivory
+   band gets sliced by the card's edge and reads as a hard white line down the
+   side. This fades the two vertical edges back into the band colour so no
+   light layer can ever land sharply on the boundary. Kept narrow (4%) so it
+   trims the stray edge without eating into the mark itself. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--navy-deep) 0,
+    rgba(7, 13, 30, 0) 4%,
+    rgba(7, 13, 30, 0) 96%,
+    var(--navy-deep) 100%
+  );
 }
 
 /* Light layers sit slightly outside the card so the heavy blur never reveals a
@@ -56,8 +82,11 @@
   top: 3%;
   width: min(720px, 94%);
   aspect-ratio: 1.59;
-  -webkit-mask: url("/logo-theerrv-inverse.svg") no-repeat center / contain;
-  mask: url("/logo-theerrv-inverse.svg") no-repeat center / contain;
+  /* A sealed single-colour silhouette, not the two-tone lockup: the lockup's two
+     paths meet along a seam, and masking through it cut hairline gaps across the
+     mark. This one fills AND strokes both subpaths so the union is watertight. */
+  -webkit-mask: url("/logo-theerrv-mask.svg") no-repeat center / contain;
+  mask: url("/logo-theerrv-mask.svg") no-repeat center / contain;
   background-image: linear-gradient(
     112deg,
     rgba(255, 255, 255, 0.1) 0 30%,
@@ -77,23 +106,16 @@
   }
 }
 
-.grain {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.12;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-}
-
 .scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(
     to top,
-    #070b18 18%,
-    rgba(7, 11, 24, 0.86) 42%,
-    rgba(7, 11, 24, 0) 72%
+    #070d1e 0%,
+    #070d1e 12%,
+    rgba(7, 13, 30, 0.88) 38%,
+    rgba(7, 13, 30, 0) 68%
   );
 }
 
@@ -206,14 +228,11 @@
     width: min(720px, 56%);
   }
   /* Left-to-right scrim so the copy column stays readable while the mark lands
-     on the right. */
+     on the right — bottom stays dark to dissolve into the footer. */
   .scrim {
-    background: linear-gradient(
-      100deg,
-      #070b18 0 26%,
-      rgba(7, 11, 24, 0.72) 46%,
-      rgba(7, 11, 24, 0) 70%
-    );
+    background:
+      linear-gradient(to top, #070d1e 0%, #070d1e 10%, rgba(7,13,30,0) 32%),
+      linear-gradient(100deg, #070d1e 0 26%, rgba(7,13,30,0.72) 46%, rgba(7,13,30,0) 70%);
   }
   .inner {
     max-width: 62%;

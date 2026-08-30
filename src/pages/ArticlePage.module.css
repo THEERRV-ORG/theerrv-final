@@ -1,0 +1,468 @@
+/* Insights article — cinematic editorial template. */
+
+/* --- Reading progress --- */
+.progressTrack {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  z-index: 120;
+  pointer-events: none;
+  background: rgba(243, 240, 232, 0.06);
+}
+
+.progressBar {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--gold-bright), var(--coral));
+  box-shadow: 0 0 14px rgba(255, 90, 79, 0.55);
+  will-change: transform;
+}
+
+/* --- Left-edge "All insights" tab (same language as the service pages) --- */
+.backSide {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.15rem 0.8rem 1.15rem 0.95rem;
+  text-decoration: none;
+  color: var(--paper-soft);
+  background: linear-gradient(90deg, rgba(12, 20, 42, 0.7), rgba(12, 20, 42, 0.26));
+  border: 1px solid var(--glass-border-dark);
+  border-left: 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 22px 55px -32px rgba(0, 0, 0, 0.65);
+  transition: transform var(--dur-med) var(--ease-arch), color var(--dur-fast) ease,
+    box-shadow var(--dur-med) ease;
+}
+
+.backSide::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, var(--gold-bright), var(--coral));
+  animation: articleGlow 3.6s ease-in-out infinite;
+}
+
+@keyframes articleGlow {
+  0%, 100% { opacity: 0.72; box-shadow: 0 0 10px -3px rgba(255, 90, 79, 0.4); }
+  50% { opacity: 1; box-shadow: 0 0 24px 0 rgba(217, 189, 133, 0.6); }
+}
+
+.backArrow {
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--gold-bright);
+  transition: transform var(--dur-med) var(--ease-arch);
+}
+
+.backText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.backSide:hover {
+  transform: translateY(-50%) translateX(5px);
+  color: var(--gold-bright);
+}
+
+.backSide:hover .backArrow {
+  transform: translateX(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backSide::before { animation: none; }
+}
+
+@media (max-width: 900px) {
+  .backSide { display: none; }
+}
+
+/* --- Hero --- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: 74svh;
+  padding-block: clamp(8rem, 16vw, 12rem) clamp(3rem, 7vw, 5rem);
+  background:
+    radial-gradient(120% 80% at 74% 4%, rgba(45, 30, 110, 0.55), transparent 56%),
+    radial-gradient(90% 60% at 8% 96%, rgba(150, 45, 40, 0.26), transparent 58%),
+    linear-gradient(180deg, #05070f 0%, #070d1e 62%, #05070f 100%);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  animation: articleDrift 18s var(--ease-arch) infinite alternate;
+}
+
+.orbGold {
+  top: -16%;
+  right: 6%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 620px;
+  max-height: 620px;
+  background: radial-gradient(circle, rgba(183, 154, 99, 0.26) 0%, rgba(183, 154, 99, 0) 70%);
+}
+
+.orbCoral {
+  bottom: -24%;
+  left: 2%;
+  width: 34vw;
+  height: 34vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(255, 90, 79, 0.18) 0%, rgba(255, 90, 79, 0) 70%);
+  animation-delay: -9s;
+}
+
+@keyframes articleDrift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(4%, 5%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb { animation: none; }
+}
+
+.category {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--gold-bright);
+}
+
+.title {
+  margin-top: clamp(0.75rem, 1.6vw, 1.1rem);
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ivory);
+  text-shadow: 0 6px 60px rgba(0, 0, 0, 0.6);
+}
+
+.meta {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(243, 240, 232, 0.5);
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--coral);
+}
+
+/* --- Body --- */
+.body {
+  padding-block: clamp(3.5rem, 8vw, 6rem) clamp(3rem, 7vw, 5rem);
+  background: linear-gradient(180deg, #05070f 0%, #070d1e 55%, #05070f 100%);
+}
+
+.col {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.lede {
+  font-size: clamp(1.1rem, 1.9vw, 1.32rem);
+  font-weight: 300;
+  line-height: 1.62;
+  color: rgba(243, 240, 232, 0.88);
+}
+
+.rule {
+  height: 1px;
+  margin-block: clamp(2rem, 4vw, 2.75rem);
+  background: var(--line-on-dark);
+}
+
+/* --- Markdown prose --- */
+.prose p {
+  margin-bottom: 1.4rem;
+  font-size: clamp(1rem, 1.4vw, 1.08rem);
+  font-weight: 300;
+  line-height: 1.78;
+  color: var(--paper-soft);
+}
+
+.prose h2 {
+  margin: clamp(2.75rem, 5vw, 3.75rem) 0 1.2rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.14;
+  letter-spacing: -0.022em;
+  color: var(--ivory);
+}
+
+.prose h3 {
+  margin: 2.25rem 0 0.85rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--ivory);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose a {
+  color: var(--gold-bright);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(217, 189, 133, 0.4);
+  transition: text-decoration-color var(--dur-fast) ease;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--gold-bright);
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 1.6rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.prose li {
+  position: relative;
+  padding-left: 1.6rem;
+  font-size: clamp(1rem, 1.4vw, 1.05rem);
+  font-weight: 300;
+  line-height: 1.62;
+  color: var(--paper-soft);
+}
+
+/* Plain bullets get a coral dash. */
+.prose li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.82em;
+  width: 12px;
+  height: 1px;
+  background: var(--coral);
+}
+
+.prose ol {
+  counter-reset: prose-ol;
+}
+
+.prose ol > li {
+  counter-increment: prose-ol;
+}
+
+.prose ol > li::before {
+  content: counter(prose-ol, decimal-leading-zero);
+  top: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92em;
+  color: var(--gold-bright);
+}
+
+/* "- ✅ item" becomes an outcome check. The class is written by the markdown
+   renderer into raw HTML, so it must be :global — CSS Modules would otherwise
+   hash it and the rule would never match. */
+.prose :global(li.check) {
+  padding-left: 2.15rem;
+  color: var(--ivory);
+}
+
+.prose :global(li.check)::before {
+  content: "";
+  top: 0.15em;
+  left: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background:
+    rgba(255, 90, 79, 0.14)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ff5a4f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5 6.5 12 13 4'/%3E%3C/svg%3E")
+    center / 0.85rem no-repeat;
+}
+
+/* "> quote" becomes the accent pull quote (:global for the same reason). */
+.prose :global(blockquote.pull) {
+  margin: clamp(2.75rem, 5vw, 3.5rem) 0;
+  padding-left: clamp(1.25rem, 2.5vw, 2rem);
+  border-left: 3px solid var(--coral);
+}
+
+.prose :global(blockquote.pull) p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 2.7vw, 1.95rem);
+  line-height: 1.26;
+  letter-spacing: -0.02em;
+  background: linear-gradient(100deg, var(--coral) 0%, #ff8a5f 46%, var(--gold-bright) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: clamp(2rem, 4vw, 3rem) 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border-dark);
+}
+
+.prose hr {
+  height: 1px;
+  border: 0;
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0;
+  background: var(--line-on-dark);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.16em 0.42em;
+  border-radius: 6px;
+  background: rgba(243, 240, 232, 0.07);
+  color: var(--gold-bright);
+}
+
+.prose pre {
+  margin: 1.75rem 0;
+  padding: 1.25rem 1.4rem;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border-dark);
+  background: rgba(8, 13, 30, 0.85);
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  color: var(--paper);
+}
+
+/* --- Keep reading --- */
+.more {
+  padding-block: clamp(3rem, 6vw, 4.5rem);
+  background: #05070f;
+  border-top: 1px solid var(--line-on-dark);
+}
+
+.moreLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 1.5rem;
+}
+
+.moreGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 720px) {
+  .moreGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.moreCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border-dark);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+
+.moreCard:hover {
+  border-color: rgba(217, 189, 133, 0.5);
+  background: rgba(243, 240, 232, 0.03);
+}
+
+.moreCat {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--gold-bright);
+}
+
+.moreTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  letter-spacing: -0.01em;
+  color: var(--ivory);
+}
+
+.moreMeta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+}

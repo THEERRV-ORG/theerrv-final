@@ -7,6 +7,18 @@
   padding: 0 clamp(1.5rem, 4vw, 2rem) clamp(2rem, 4vw, 3rem);
 }
 
+/* When a CTA band sits directly above: square the top, fade the seam, and hide
+   the top border so the two panels dissolve into each other. */
+:global(main:has([data-cta-band])) + .wrap .card {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border-top-color: transparent;
+  /* Dark-to-transparent overlay at the top that matches the CTA card's dark
+     bottom (scrim → #070b18), dissolving the hard colour cut. */
+  background:
+    linear-gradient(to bottom, #070d1e 0%, rgba(7, 13, 30, 0) 22%),
+    radial-gradient(120% 92% at 50% 0%, #1a2450 0%, #101a3a 42%, #0a1024 82%);
+}
+
 .card {
   position: relative;
   overflow: hidden;
@@ -18,7 +30,6 @@
     #101a3a 42%,
     #0a1024 82%
   );
-  border: 1px solid var(--glass-border-dark);
   color: var(--ivory);
 }
 
@@ -92,10 +103,10 @@
 
 .signature {
   margin-top: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
   color: var(--paper-faint);
 }
 
@@ -105,11 +116,10 @@
 }
 
 .colTitle {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--gold-bright);
   margin-bottom: 1rem;
 }
@@ -175,7 +185,10 @@
     display: none;
   }
   .wrap {
-    padding: 0 1rem 1rem;
+    /* Matches CTABand's `.band` inset exactly, so the two cards share an edge
+       and read as one panel — the flat 1rem here left the footer 8px wider
+       than the CTA on each side. */
+    padding: 0 clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 4vw, 2rem);
   }
   .card {
     padding: 1.5rem 1.35rem;
@@ -214,10 +227,10 @@
     gap: 1.25rem;
   }
   .miniSocial a {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
     color: rgba(243, 240, 232, 0.86);
     text-decoration: none;
   }

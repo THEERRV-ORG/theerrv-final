@@ -122,11 +122,13 @@
   align-items: center;
 }
 
+/* Display font, sentence case — the same treatment the mobile drawer links
+   already use, so the two navigations read as one system. */
 .linkNav {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   text-decoration: none;
   color: var(--paper-soft);
   transition: color var(--dur-fast) ease;
@@ -145,10 +147,10 @@
   border: 0;
   cursor: pointer;
   font: inherit;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--paper-soft);
 }
 
@@ -387,18 +389,6 @@
 
 .btnAccent:hover span {
   transform: translateX(3px);
-}
-
-.navCta {
-  padding: 0.7rem 1.3rem;
-}
-
-/* Mobile: only the hamburger navigates — the nav links are already hidden below
-   1024px, and the top-bar CTA is dropped too (it still lives in the drawer). */
-@media (max-width: 1023px) {
-  .navCta {
-    display: none;
-  }
 }
 
 .toggle {

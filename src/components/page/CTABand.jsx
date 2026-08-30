@@ -69,11 +69,16 @@ export default function CTABand({
   }, []);
 
   return (
-    <section className={styles.band} id="contact">
+    /* data-cta-band lets the footer square its top corners so the two panels
+       read as one continuous surface. */
+    <section className={styles.band} id="contact" data-cta-band>
       <div className={styles.card} ref={cardRef}>
         <div className={`${styles.light} ${styles.prism}`} aria-hidden="true" />
         <div className={`${styles.light} ${styles.mark}`} aria-hidden="true" />
-        <div className={styles.grain} aria-hidden="true" />
+        {/* No card-level grain: the app already lays a fixed grain over the
+            whole viewport, and a second copy clipped to this card lightened
+            its interior only — which drew a visible rectangle around the
+            section against the band. */}
         <div className={styles.scrim} aria-hidden="true" />
 
         <div className={styles.inner}>

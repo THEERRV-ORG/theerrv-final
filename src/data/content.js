@@ -18,8 +18,8 @@ export const nav = {
     // { label: "Case Studies", to: "/case-studies" }, // temporarily hidden
     { label: "Insights", to: "/insights" },
     // { label: "Careers", to: "/careers" }, // temporarily hidden
+    { label: "Contact", to: "/contact" },
   ],
-  cta: { label: "Start Your Project", to: "/contact" },
 };
 
 export const footer = {
@@ -36,14 +36,12 @@ export const footer = {
     {
       title: "Services",
       links: [
-        { label: "Custom Software", to: "/services" },
-        { label: ".NET Development", to: "/services" },
-        { label: "React Development", to: "/services" },
-        { label: "API & Microservices", to: "/services" },
-        { label: "Azure Cloud", to: "/services" },
-        { label: "AI Solutions", to: "/services" },
-        { label: "Data & Analytics", to: "/services" },
-        { label: "DevOps & CI/CD", to: "/services" },
+        { label: "Product Engineering", to: "/services/product-engineering" },
+        { label: "Modernization", to: "/services/modernization" },
+        { label: "Cloud & DevOps", to: "/services/cloud-devops" },
+        { label: "Data & Automation", to: "/services/data-automation" },
+        { label: "APIs & Security", to: "/services/apis-integration" },
+        { label: "AI & Consulting", to: "/services/ai-consulting" },
       ],
     },
     {
@@ -62,7 +60,7 @@ export const footer = {
         // { label: "Case Studies", to: "/case-studies" }, // temporarily hidden
         { label: "Insights", to: "/insights" },
         // { label: "Careers", to: "/careers" }, // temporarily hidden
-        { label: "Locations", to: "/locations" },
+        { label: "Locations", to: "/contact#location" },
         { label: "Contact", to: "/contact" },
       ],
     },
@@ -301,14 +299,12 @@ export const homeStory = {
     heading: "Technology Services Designed Around Business Needs",
     lead: "We engineer whole systems, not isolated features. Move through the services and watch the operating system beside them redraw itself for each one.",
     items: [
-      { id: "custom-software", index: "01", title: "Custom Software Development", outcome: "Software shaped around how your business actually works." },
-      { id: "web-frontend", index: "02", title: "Web Design & Frontend Development", outcome: "Fast, accessible interfaces people genuinely enjoy using." },
-      { id: "api-backend", index: "03", title: "API & Backend Engineering", outcome: "Secure services and integrations behind your platforms." },
-      { id: "azure-cloud", index: "04", title: "Azure Cloud Solutions", outcome: "Azure environments built for scale, resilience and cost." },
-      { id: "modernization", index: "05", title: "Application Modernization", outcome: "Legacy systems modernized without losing business value." },
-      { id: "data-analytics", index: "06", title: "Data, Analytics & Reporting", outcome: "Operational data turned into decisions you can act on." },
-      { id: "ai-automation", index: "07", title: "AI Solutions & Automation", outcome: "Practical AI and automation inside your products." },
-      { id: "devops", index: "08", title: "DevOps & Performance Optimization", outcome: "Reliable delivery and performance, monitored at scale." },
+      { id: "product-engineering", index: "01", title: "Product Engineering & Custom Software", outcome: "Software built around how your business actually works." },
+      { id: "modernization", index: "02", title: "Modernization, Architecture & Performance", outcome: "Existing systems made faster, stabler and cheaper to maintain." },
+      { id: "cloud-devops", index: "03", title: "Cloud, DevOps & Scalable Platforms", outcome: "Reliable hosting and automated releases that scale with you." },
+      { id: "data-automation", index: "04", title: "Data, Analytics & Business Automation", outcome: "Scattered data and manual work turned into clear, automated flows." },
+      { id: "apis-integration", index: "05", title: "APIs, Integrations, Reliability & Security", outcome: "Systems connected, secure and dependable — even under load." },
+      { id: "ai-consulting", index: "06", title: "AI Solutions & Technical Consulting", outcome: "Practical AI, plus senior engineering guidance you can trust." },
     ],
   },
 
@@ -402,7 +398,7 @@ export const homeStory = {
    ========================================================================== */
 
 export const servicesPage = {
-  seoTitle: "Services | Custom Software, Cloud, AI, Web Design & DevOps | Theerrv Technologies",
+  seoTitle: "Services | Product Engineering, Modernization, Cloud, Data & AI | Theerrv Technologies",
   hero: {
     eyebrow: "Services",
     headline: ["Our", "Services."],
@@ -416,320 +412,197 @@ export const servicesPage = {
     lead: "From product engineering to cloud, data, and AI — we deliver the capabilities you need to innovate, operate smarter, and stay ahead.",
     items: [
       {
-        index: "01", icon: "software", tone: "ivory", slug: "custom-software",
-        category: "Software Engineering", title: "Custom Software Development",
-        description: "Web applications, enterprise systems, and internal tools built around your business and your users.",
+        index: "01", slug: "product-engineering",
+        category: "Software Engineering", title: "Product Engineering & Custom Software",
+        description: "Software built around how your business actually works — not the other way round.",
         detail: {
-          subtitle: "Software shaped around your operations, not the other way around.",
-          stack: ["React", "TypeScript", ".NET / C#", "Node.js", "PostgreSQL", "REST & GraphQL", "Docker", "Azure"],
+          subtitle: "Software built around how your business actually works — not the other way round.",
           overview: [
-            "Off-the-shelf tools force your business to bend to their assumptions. We build custom software that fits your workflows, your data, and your goals — from the first planning session through architecture, development, testing, and long-term support.",
-            "Every decision traces back to a real business outcome: less manual work, cleaner data, faster decisions, and a platform you own and can grow.",
+            "Off-the-shelf tools force you to change your process to fit them. We build applications that fit your process, so your team keeps working the way it already knows.",
+            "We provide end-to-end product engineering across frontend, backend, databases, integrations, testing, deployment and ongoing support — one team owning the whole path from technical design to post-launch enhancement.",
           ],
           capabilities: [
-            "Requirements discovery and technical planning",
-            "System architecture and data modelling",
-            "Full-stack development on modern, maintainable stacks",
-            "Third-party and internal system integration",
-            "Automated testing and QA",
-            "Deployment, monitoring, and ongoing support",
+            "Custom web applications, customer portals, admin applications and internal business tools",
+            "Full-stack product development using React, TypeScript, C#, ASP.NET Core and SQL Server",
+            "API design, business logic, database architecture and third-party integrations",
+            "Reusable UI components, dashboards, forms, role-based experiences and responsive applications",
+            "Background processing, asynchronous workflows and event-driven functionality",
+            "Incremental delivery, so features release without waiting for one large launch",
+            "Technical design, implementation, testing, production release and post-launch enhancement",
           ],
           outcomes: [
-            "A platform aligned to how your business actually works",
-            "Reduced manual effort and fewer error-prone handoffs",
-            "Architecture that scales instead of becoming tomorrow's problem",
-            "Full ownership of the code and the roadmap",
+            "Custom web apps, customer portals and internal tools built to your exact workflow",
+            "Dashboards, forms and role-based access so each person sees only what they need",
+            "Your new software connected to the tools and systems you already use",
+            "Features shipped in stages, so you see value early instead of waiting for one big launch",
           ],
         },
       },
       {
-        index: "02", icon: "dotnet", tone: "coral", slug: "dotnet-development",
-        category: "Enterprise Development", title: ".NET Development",
-        description: "Scalable, secure, and maintainable applications using modern .NET technologies.",
+        index: "02", slug: "modernization",
+        category: "Modernization", title: "Modernization, Architecture & Performance",
+        description: "Make your existing software faster, more stable, and cheaper to maintain — without a risky rebuild.",
         detail: {
-          subtitle: "Reliable, scalable Microsoft-based development.",
-          stack: [".NET / C#", "ASP.NET Core", "Entity Framework Core", "SQL Server", "xUnit", "Docker", "Azure"],
+          subtitle: "Make your existing software faster, more stable, and cheaper to maintain — without a risky rebuild.",
           overview: [
-            "We build modern backend systems, enterprise applications, and business platforms on .NET — with a focus on maintainability, performance, and security that holds up as the system grows.",
-            "From line-of-business applications to high-throughput services, we use the current .NET ecosystem and proven patterns so the codebase stays clean and easy to extend.",
+            "Your current system doesn't have to be thrown away to get better. We fix the slow, fragile parts and leave you with a platform that's easier to grow.",
+            "We assess the architecture, identify technical debt and performance bottlenecks, and create a controlled path toward a more maintainable, scalable and efficient platform.",
+            "The result is lower maintenance risk, better developer productivity, stronger application performance and a safer path for future growth.",
           ],
           capabilities: [
-            "ASP.NET Core web apps and Web APIs",
-            "Enterprise application and business-platform development",
-            "Entity Framework and SQL data layers",
-            "Authentication, authorization, and security hardening",
-            "Background processing and scheduled jobs",
-            "Testing, CI, and maintainable architecture",
+            "Legacy application assessment and technical debt identification",
+            "AngularJS and older frontend migration toward React and modern component architecture",
+            "Legacy .NET modernization toward current ASP.NET Core services",
+            "Monolith-to-modular or monolith-to-service decomposition based on business value",
+            "API extraction, integration-layer modernization and service boundary design",
+            "Architecture reviews, with Clean Architecture, DDD and CQRS applicability assessment",
+            "SQL Server query, indexing, stored procedure and execution-plan optimization",
+            "Backend API profiling, caching, repeated-call reduction and concurrency-aware tuning",
+            "React performance work including lazy loading, code splitting and render optimization",
+            "Before-and-after performance measurement to demonstrate measurable improvement",
           ],
           outcomes: [
-            "Secure, performant applications built to last",
-            "A maintainable codebase that welcomes change",
-            "Lower long-term cost of ownership",
-            "A stack your team (or ours) can support with confidence",
+            "Slow applications and databases sped up, with clear before-and-after proof",
+            "Ageing code untangled so new features ship faster and break less",
+            "Outdated frontends and legacy systems migrated to modern, supported versions",
+            "Reduced risk and cost of maintaining an old system",
           ],
         },
       },
       {
-        index: "03", icon: "backend", tone: "violet", slug: "api-backend",
-        category: "Backend Engineering", title: "API & Backend Engineering",
-        description: "Robust APIs and microservices that power your products and integrations.",
+        index: "03", slug: "cloud-devops",
+        category: "Cloud & Platform", title: "Cloud, DevOps & Scalable Platforms",
+        description: "Software that's reliable to run, quick to update, and ready to scale as you grow.",
         detail: {
-          subtitle: "Secure integrations and strong application foundations.",
-          stack: [".NET / Node.js", "REST", "GraphQL", "PostgreSQL", "Redis", "RabbitMQ / Service Bus", "OpenAPI"],
+          subtitle: "Software that's reliable to run, quick to update, and ready to scale as you grow.",
           overview: [
-            "The reliability of your product depends on what sits behind it. We design and build APIs, business-logic layers, integrations, and backend services engineered for flexibility, performance, and future expansion.",
-            "Whether it's a clean REST or GraphQL API for your frontend, or the connective tissue between systems that never spoke to each other, we build backends that stay stable under load.",
+            "Slow, manual releases hold teams back and invite mistakes. We set up cloud hosting and automated delivery so updates go out safely and often.",
+            "We help teams adopt Azure, improve deployment processes, and build platforms that are easier to release, monitor and scale.",
           ],
           capabilities: [
-            "REST and GraphQL API design and development",
-            "Business-logic and service-layer architecture",
-            "Third-party integrations and webhooks",
-            "Message queues and event-driven processing",
-            "Authentication, rate limiting, and API security",
-            "Documentation, versioning, and observability",
+            "Azure application hosting and cloud architecture using App Service, Functions and WebJobs",
+            "Azure Service Bus, Storage and event-driven application patterns",
+            "Docker-based application packaging and containerized deployments",
+            "CI/CD pipelines for .NET, React and supporting services",
+            "Automated build, unit and integration testing, and deployment workflows",
+            "Environment-specific configuration and promotion across development, staging and production",
+            "Git branching and repository workflow guidance",
+            "Quality gates, deployment validation and rollback-oriented practices",
+            "Cloud readiness, application refactoring and modernization",
+            "Independent deployment paths for distributed services and microservices",
           ],
           outcomes: [
-            "APIs your teams and partners can build on",
-            "Systems that integrate instead of duplicating work",
-            "Backends that stay reliable as traffic grows",
-            "A foundation ready for the next product you ship",
+            "Applications hosted on Azure for reliability and room to grow",
+            "Automated releases, so updates ship faster with fewer errors",
+            "Separate test and live environments to catch problems before customers do",
+            "Safe rollback when something goes wrong, with monitoring built in",
           ],
         },
       },
       {
-        index: "04", icon: "cloud", tone: "blue", slug: "azure-cloud",
-        category: "Cloud & Infrastructure", title: "Azure Cloud Solutions",
-        description: "Cloud architecture, migration, and managed services on Microsoft Azure.",
+        index: "04", slug: "data-automation",
+        category: "Data & Automation", title: "Data, Analytics & Business Automation",
+        description: "Turn scattered data and manual work into clear reports and automated processes.",
         detail: {
-          subtitle: "Practical cloud services for modern business systems.",
-          stack: ["Azure App Service", "Azure Functions", "Service Bus", "Blob Storage", "Azure SQL", "Bicep / Terraform", "Application Insights"],
+          subtitle: "Turn scattered data and manual work into clear reports and automated processes.",
           overview: [
-            "We help businesses adopt and optimise Microsoft Azure for hosting, background processing, messaging, storage, and cloud-native delivery — with a focus on practical implementation and real operational value, not cloud for its own sake.",
-            "From a first migration to a cost-tuned, resilient production environment, we design cloud setups that are secure, observable, and priced for what you actually use.",
+            "Manual reporting and copying data between systems eats time and creates errors. We connect your data and automate the repetitive work, so your team gets answers instead of spreadsheets.",
+            "We connect operational data, databases, APIs and reporting tools to reduce manual work and give teams better visibility into their business.",
+            "The result is less manual effort, more consistent data, and operational information you can actually act on.",
           ],
           capabilities: [
-            "Azure architecture and environment setup",
-            "App Service, Functions, and container hosting",
-            "Storage, databases, and messaging (Service Bus, Queues)",
-            "Migration of existing applications to Azure",
-            "Cost optimisation and right-sizing",
-            "Monitoring, alerting, and resilience",
+            "Data engineering and source-to-target pipeline design",
+            "ETL automation, extraction, transformation and validation",
+            "Scheduled and asynchronous processing using C#, Azure Functions and WebJobs",
+            "Database staging, import patterns, data-quality checks and reprocessing workflows",
+            "Replacement of repetitive manual reporting and data-extraction processes",
+            "SQL Server schema, data-model and query optimization",
+            "KPI dashboards, executive reporting and operational analytics",
+            "Interactive filters, drill-downs and trend visualizations",
+            "Power BI integration and data-driven reporting",
+            "Real-time dashboards and live updates using SignalR",
+            "Forecasting and anomaly-oriented presentation where the data model supports it",
           ],
           outcomes: [
-            "A cloud environment built for cost and resilience",
-            "Smooth migration with minimal disruption",
-            "Clear visibility into spend and performance",
-            "Infrastructure that scales with demand",
+            "The repetitive reporting and data entry your team does by hand, automated",
+            "Data from different systems brought into one reliable place",
+            "KPI and executive dashboards with filters, drill-downs and trends, including Power BI",
+            "Live dashboards that update in real time as your business changes",
           ],
         },
       },
       {
-        index: "05", icon: "modernize", tone: "pink", slug: "application-modernization",
-        category: "Modernization", title: "Application Modernization",
-        description: "Modernize legacy systems for better performance, agility, and long-term scalability.",
+        index: "05", slug: "apis-integration",
+        category: "Integration & Security", title: "APIs, Integrations, Reliability & Security",
+        description: "Keep your systems connected, secure, and dependable — even under load.",
         detail: {
-          subtitle: "Upgrade legacy systems for better performance and flexibility.",
-          stack: [".NET", "Docker", "Azure", "CI/CD", "SQL", "Automated testing"],
+          subtitle: "Keep your systems connected, secure, and dependable — even under load.",
           overview: [
-            "Legacy systems don't have to be rewritten from scratch to move forward. We modernise older applications through structured assessment, phased migration, and targeted technical improvements that reduce maintenance pain and prepare systems for growth.",
-            "We protect the business logic that still works, retire what doesn't, and move you onto a foundation that's easier and cheaper to run.",
+            "As you add tools, they need to talk to each other safely and stay up when it matters. We build the connections and safeguards that keep everything running.",
+            "We engineer APIs, integrations and distributed services with reliability, observability and application-level security built into the design.",
+            "That means earlier failure detection, faster troubleshooting, stronger access control and more confidence in production.",
           ],
           capabilities: [
-            "Legacy system assessment and modernisation roadmap",
-            "Phased, low-risk migration planning",
-            "Re-platforming and cloud readiness",
-            "Codebase refactoring and dependency upgrades",
-            "Data migration and integrity checks",
-            "Performance and security improvements",
+            "REST API design, versioning, validation, documentation and error handling",
+            "Domain and service-layer architecture with clear separation of concerns",
+            "Third-party API integrations and secure API-to-API communication",
+            "Microservices, bounded contexts and event-driven communication where appropriate",
+            "Queues, publish/subscribe patterns, background workers and asynchronous workflows",
+            "Retry, timeout, circuit-breaker and graceful-degradation strategies",
+            "Structured logging, health checks, dependency checks and operational monitoring",
+            "Failure detection, alerting and root-cause investigation",
+            "OAuth 2.0, JWT authentication and role-based authorization",
+            "Enterprise identity integration, including Active Directory where applicable",
+            "Security-focused architecture and code reviews",
+            "Authentication and authorization test coverage",
           ],
           outcomes: [
-            "Lower maintenance cost and technical risk",
-            "Better performance and security",
-            "A system ready for cloud and future features",
-            "Continuity — critical functionality preserved",
+            "Your software connected securely to third-party tools and services",
+            "Safeguards built in, so one failure doesn't take everything down",
+            "Problems caught early with monitoring, health checks and alerts",
+            "Access protected with secure logins and role-based permissions",
           ],
         },
       },
       {
-        index: "06", icon: "data", tone: "gold", slug: "data-analytics",
-        category: "Data & Intelligence", title: "Data, Analytics & Reporting",
-        description: "Transform data into real-time insights that drive smarter business decisions.",
+        index: "06", slug: "ai-consulting",
+        category: "AI & Consulting", title: "AI Solutions & Technical Consulting",
+        description: "Add practical AI to your business, and get senior technical guidance you can trust.",
         detail: {
-          subtitle: "Turn scattered operational data into decisions.",
-          stack: ["SQL", "Power BI", "Python", "Azure Data Factory", "ETL pipelines", "Data warehousing"],
+          subtitle: "Add practical AI to your business, and get senior technical guidance you can trust.",
           overview: [
-            "Most businesses already have the data they need — it's just trapped in disconnected systems and spreadsheets. We build the pipelines, dashboards, and reporting platforms that turn raw operational data into clear, real-time business intelligence.",
-            "From KPI tracking to executive reporting, we help you see how the operation is actually performing and act on it with confidence.",
+            "AI is only useful when it solves a real problem. We add AI where it creates measurable value, and advise you honestly on the engineering decisions behind it.",
+            "We add practical AI capabilities to existing products while providing senior technical guidance on architecture, modernization and engineering decisions.",
+            "Best fit: startups validating a technical direction, businesses modernizing existing systems, and teams that need experienced technical leadership without building a large engineering team.",
           ],
           capabilities: [
-            "Data pipelines and integration across systems",
-            "Dashboards and real-time reporting",
-            "KPI tracking and executive reporting",
-            "Data warehousing and modelling",
-            "Automated, scheduled reports",
-            "Data quality and validation",
+            "AI chatbots and natural-language interfaces for internal and customer-facing workflows",
+            "LLM integration into existing web applications and APIs",
+            "RAG-style knowledge experiences where suitable data and retrieval architecture exist",
+            "AI-assisted document, data and workflow processing",
+            "Natural-language query experiences over structured business data",
+            "AI-assisted development workflows for code generation, refactoring and test creation",
+            "AI proof-of-concepts followed by production-oriented architecture",
+            "Architecture assessments and solution reviews",
+            "Technical debt assessment and prioritization",
+            "Performance and scalability assessments",
+            "Codebase and engineering-practice reviews",
+            "Technical roadmaps and mentoring for internal development teams",
           ],
           outcomes: [
-            "One clear view of how the business is performing",
-            "Faster, better-informed decisions",
-            "Less time spent assembling reports by hand",
-            "Trustworthy, consistent numbers",
-          ],
-        },
-      },
-      {
-        index: "07", icon: "ai", tone: "violet", slug: "ai-automation",
-        category: "AI & Automation", title: "AI Solutions & Automation",
-        description: "Intelligent automation, machine learning, and AI solutions that create real impact.",
-        detail: {
-          subtitle: "Intelligence where the rules run out — with a human in the loop.",
-          stack: ["Python", "LLM APIs", "scikit-learn / PyTorch", "Vector databases", ".NET / Node integration", "Workflow automation"],
-          overview: [
-            "AI should do more than demo well. We embed practical intelligence and automation into real business applications — useful, responsible, and with a human still in control where it matters.",
-            "From automating repetitive workflows to adding machine learning where fixed rules fall short, we focus on the places where AI creates measurable value.",
-          ],
-          capabilities: [
-            "Workflow and process automation",
-            "AI features embedded in business applications",
-            "Machine learning models for prediction and classification",
-            "Document and data extraction",
-            "LLM integration and assistants, with guardrails",
-            "Human-in-the-loop review and oversight",
-          ],
-          outcomes: [
-            "Repetitive work handled automatically",
-            "Intelligence applied where rules can't reach",
-            "Responsible AI you can actually trust in production",
-            "Measurable time and cost savings",
-          ],
-        },
-      },
-      {
-        index: "08", icon: "devops", tone: "ivory", slug: "devops",
-        category: "Platform Engineering", title: "DevOps & Performance Optimization",
-        description: "CI/CD, infrastructure automation, monitoring, and performance engineering at scale.",
-        detail: {
-          subtitle: "Make releases routine, not eventful.",
-          stack: ["GitHub Actions", "Azure DevOps", "Docker", "Terraform / Bicep", "Kubernetes", "Grafana / App Insights"],
-          overview: [
-            "Shipping should be boring. We set up the pipelines, infrastructure automation, and monitoring that make releases routine and problems visible before your customers find them.",
-            "From CI/CD and infrastructure-as-code to performance engineering, we help teams move faster with more confidence and fewer surprises.",
-          ],
-          capabilities: [
-            "CI/CD pipeline design and automation",
-            "Infrastructure as code",
-            "Monitoring, logging, and alerting",
-            "Performance profiling and optimisation",
-            "Release and rollback strategy",
-            "Security and reliability hardening",
-          ],
-          outcomes: [
-            "Fast, repeatable, low-drama deployments",
-            "Issues caught early through real observability",
-            "Better performance under real-world load",
-            "A platform your team can operate with confidence",
+            "AI chatbots and assistants for customer and internal workflows",
+            "Staff and customers asking questions in plain language over your own data",
+            "Document, data and workflow processing automated with AI",
+            "Senior technical reviews, roadmaps and mentoring — without hiring a full team",
           ],
         },
       },
     ],
   },
-  items: [
-    {
-      index: "01",
-      title: "Custom Software Development",
-      subtitle: "Tailored Software for Real Business Needs",
-      description:
-        "We develop custom software that aligns with your operations, workflows, and long-term goals. From planning and architecture to development and support, we create dependable applications that solve real problems and support growth.",
-    },
-    {
-      index: "02",
-      title: "Web Design & Frontend Development",
-      subtitle: "Modern Digital Experiences That Strengthen Your Brand",
-      description:
-        "We create responsive, user-friendly websites and web applications with clear user journeys, strong visual appeal, and high usability — experiences that look professional and perform effectively across devices.",
-    },
-    {
-      index: "03",
-      title: ".NET Development",
-      subtitle: "Reliable, Scalable Microsoft-Based Development",
-      description:
-        "We build modern backend systems, enterprise applications, and business platforms using .NET technologies, with a focus on maintainability, performance, security, and long-term scalability.",
-    },
-    {
-      index: "04",
-      title: "React Development",
-      subtitle: "Interactive and High-Performance Frontend Applications",
-      description:
-        "We build modern frontend applications using React to deliver fast, responsive, engaging experiences — customer-facing platforms, portals, dashboards, and internal business tools.",
-    },
-    {
-      index: "05",
-      title: "API & Backend Engineering",
-      subtitle: "Secure Integrations and Strong Application Foundations",
-      description:
-        "We design and build APIs, business logic layers, integrations, and backend services that support flexibility, performance, and future expansion — the systems behind your digital platforms.",
-    },
-    {
-      index: "06",
-      title: "Microservices & Distributed Systems",
-      subtitle: "Scalable Architectures for Evolving Platforms",
-      description:
-        "For businesses that require modular, scalable, and resilient systems, we design microservices and distributed architectures that support growth, flexibility, and maintainability.",
-    },
-    {
-      index: "07",
-      title: "Azure Cloud Solutions",
-      subtitle: "Practical Cloud Services for Modern Business Systems",
-      description:
-        "We help businesses adopt and optimize Microsoft Azure for hosting, background processing, messaging, storage, and cloud-native application delivery — focused on practical implementation and operational value.",
-    },
-    {
-      index: "08",
-      title: "Application Modernization",
-      subtitle: "Upgrade Legacy Systems for Better Performance and Flexibility",
-      description:
-        "We modernize older applications through structured assessments, phased migration, and technical improvements that reduce maintenance challenges and prepare systems for future growth.",
-    },
-    {
-      index: "09",
-      title: "Data Engineering & Analytics",
-      subtitle: "Turn Data into Visibility and Better Decisions",
-      description:
-        "We build ETL workflows, reporting systems, dashboards, and analytics solutions that help organizations understand performance, track KPIs, and make informed decisions based on reliable data.",
-    },
-    {
-      index: "10",
-      title: "DevOps & CI/CD",
-      subtitle: "Improve Delivery Speed, Quality, and Reliability",
-      description:
-        "We implement modern DevOps practices, automated pipelines, and release workflows that help teams deploy more efficiently, reduce risk, and improve software quality.",
-    },
-    {
-      index: "11",
-      title: "Performance Optimization",
-      subtitle: "Faster Applications, Better User Experience",
-      description:
-        "We analyze and improve software performance across databases, APIs, web applications, and infrastructure, helping businesses reduce bottlenecks and improve stability.",
-    },
-    {
-      index: "12",
-      title: "Security, Authentication & Authorization",
-      subtitle: "Secure Access and Better Application Control",
-      description:
-        "We implement authentication, authorization, and role-based access approaches that strengthen application security and help ensure users access the right systems and data appropriately.",
-    },
-    {
-      index: "13",
-      title: "AI Solutions & Business Automation",
-      subtitle: "Practical AI Integration for Modern Workflows",
-      description:
-        "We help businesses explore and implement AI capabilities that improve user experience, automate workflows, and add intelligent functionality to digital products and internal systems.",
-    },
-  ],
   cta: {
-    heading: "Need a trusted technology partner for your next project?",
-    body: "Let's discuss your requirements.",
-    label: "Talk to Our Team",
+    heading: "Not sure which service fits?",
+    body: "Tell us your problem — we'll point you to the right one.",
+    label: "Talk to us",
     to: "/contact",
   },
   faqs: {
@@ -737,28 +610,36 @@ export const servicesPage = {
     heading: "Services Questions",
     items: [
       {
-        q: "What software development services do you offer?",
-        a: "Custom software development, .NET and React development, API and backend engineering, microservices, cloud solutions, application modernization, DevOps, data analytics, performance optimization, and AI integration.",
+        q: "What services do you offer?",
+        a: "Six, and they cover a project end to end: product engineering and custom software, modernization and performance, cloud and DevOps, data and business automation, APIs and security, and AI solutions with technical consulting. Most engagements draw on two or three of them.",
       },
       {
-        q: "Do you develop custom web applications?",
-        a: "Yes. We build custom web applications tailored to specific business needs, including portals, dashboards, internal systems, and customer-facing platforms.",
+        q: "Do I have to rebuild my existing system to improve it?",
+        a: "No. We assess the architecture, find the technical debt and the real bottlenecks, then fix the slow and fragile parts in controlled stages — so you get a faster, cheaper-to-maintain platform without the risk of a full rewrite.",
       },
       {
-        q: "Can you modernize legacy applications?",
-        a: "Yes. We help businesses modernize older applications through phased improvements, technology upgrades, cloud readiness, and architecture enhancements.",
+        q: "Which technologies do you work with?",
+        a: "Our core stack is .NET 8, C#, ASP.NET Core, React, TypeScript, SQL Server, Azure, Docker and Power BI, alongside Clean Architecture, DDD, CQRS, CI/CD and modern testing practices. We take on other technologies where a project calls for it.",
       },
       {
-        q: "Do you provide cloud services?",
-        a: "Yes. We provide Azure cloud solutions, including hosting, serverless workflows, storage, messaging, and modernization support for cloud-based applications.",
+        q: "Can you automate our manual reporting and data entry?",
+        a: "Yes. We build the pipelines that bring data from different systems into one reliable place, replace the repetitive reporting your team does by hand, and deliver KPI and executive dashboards with filters, drill-downs and live updates.",
       },
       {
-        q: "What is included in your DevOps and CI/CD services?",
-        a: "Automated pipelines, testing workflows, deployment processes, environment management, and release improvements that support faster, more reliable software delivery.",
+        q: "How do you keep releases safe and systems reliable?",
+        a: "Automated CI/CD pipelines, separate test and live environments, quality gates and rollback-oriented practices — plus health checks, structured logging, alerting and retry and circuit-breaker patterns so one failure doesn't take everything down.",
       },
       {
-        q: "Do you offer support for analytics and dashboards?",
-        a: "Yes. We create data pipelines, dashboards, KPI reports, and analytics solutions that help businesses gain visibility and make better decisions.",
+        q: "Is your AI work practical or experimental?",
+        a: "Practical. We add AI where it creates measurable value — chatbots and natural-language interfaces, LLM integration into existing apps, and AI-assisted document and workflow processing — and we'll tell you honestly when AI isn't the right answer.",
+      },
+      {
+        q: "Do you provide technical guidance without building the whole product?",
+        a: "Yes. Architecture assessments, technical debt prioritization, performance reviews, roadmaps and mentoring for your internal team — senior engineering guidance without you hiring a full team.",
+      },
+      {
+        q: "Do you deliver everything in one large launch?",
+        a: "No. We ship in stages so you see value early instead of waiting for one big release, with technical design, testing, production release and post-launch enhancement all covered.",
       },
     ],
   },
@@ -773,38 +654,92 @@ export const solutionsPage = {
   hero: {
     eyebrow: "Solutions",
     headline: ["Business", "Solutions."],
-    lead: "Our solutions are designed around business outcomes. We help companies improve efficiency, modernize operations, make better decisions, and create stronger digital foundations through focused technology.",
+    lead: "At Theerrv Technologies, our solutions are designed to address real business and technology challenges through practical, scalable, and outcome-driven implementation. We help organizations improve operational efficiency, modernize critical systems, strengthen decision-making through data, and introduce intelligent capabilities that support long-term digital growth.",
+    support:
+      "Our approach combines software engineering, cloud enablement, integration, automation, analytics, and AI to deliver solutions that are not only technically robust, but also aligned with business goals, operational workflows, and future scalability. Whether the need is process optimization, better visibility into data, modernization of core applications, or the introduction of AI-powered experiences, we focus on building solutions that create measurable value and sustainable impact.",
   },
   items: [
     {
       index: "01",
       title: "Business Automation",
-      subtitle: "Reduce Manual Work and Improve Operational Efficiency",
-      description:
-        "We help businesses automate repetitive tasks, streamline workflows, connect systems, and reduce dependency on manual processes — improving productivity, lowering error rates, and creating more efficient day-to-day operations.",
+      subtitle: "Process Automation for Greater Efficiency and Control",
+      paragraphs: [
+        "Modern businesses often lose time and productivity to repetitive manual tasks, disconnected systems, and inefficient operational workflows. Our Business Automation solutions are designed to reduce manual effort, improve consistency, and enable faster execution across business processes.",
+        "We build automation solutions that connect applications, streamline approvals, move data between systems, validate inputs, trigger background operations, and eliminate repetitive tasks that slow down teams. These solutions can include workflow-based applications, backend process automation, scheduled jobs, ETL pipelines, and cloud-based event-driven services.",
+        "By introducing automation into operational processes, businesses can reduce error rates, improve turnaround times, increase visibility, and create more reliable day-to-day execution.",
+      ],
+      includesLabel: "What our automation solutions can include",
+      includes: [
+        "Workflow automation for internal business processes",
+        "System-to-system integration and data synchronization",
+        "Background processing and scheduled task execution",
+        "ETL and data preparation pipelines",
+        "Validation and exception-handling workflows",
+        "Operational dashboards for process visibility",
+      ],
     },
     {
       index: "02",
       title: "Analytics & Reporting",
-      subtitle: "Make Better Decisions with Clear, Actionable Data",
-      description:
-        "We deliver dashboards, reporting platforms, and real-time insights that turn raw operational data into useful business intelligence. From KPI tracking to executive reporting, we help businesses gain clarity and confidence.",
+      subtitle: "Data Platforms, Dashboards, and Reporting for Better Decision-Making",
+      paragraphs: [
+        "Data becomes valuable when it is structured, accessible, and connected to business decisions. Our Analytics & Reporting solutions help organizations transform raw operational data into meaningful insight through reporting systems, KPI dashboards, and real-time visibility tools.",
+        "We design and implement data flows, reporting layers, and dashboard experiences that help stakeholders monitor performance, identify trends, and act with greater confidence. Our solutions can support executive reporting, operational dashboards, management KPIs, and near real-time visibility across departments or business functions.",
+        "In addition to presentation, we also focus on the underlying data quality and engineering required to make analytics reliable. This includes data extraction, transformation, validation, storage optimization, and query performance improvements where needed.",
+      ],
+      includesLabel: "What our analytics solutions can include",
+      includes: [
+        "KPI dashboards and executive reporting",
+        "Operational and performance monitoring dashboards",
+        "Real-time and near real-time reporting experiences",
+        "Data extraction, transformation, and validation pipelines",
+        "SQL optimization for reporting workloads",
+        "Decision-support systems and business visibility tools",
+      ],
     },
     {
       index: "03",
       title: "AI Solutions",
-      subtitle: "Add Intelligence to Digital Products and Workflows",
-      description:
-        "Our AI solutions focus on practical use cases — natural-language interfaces, intelligent search, chatbot experiences, workflow support, and AI-assisted automation — adopted in a way that is useful, responsible, and aligned with business goals.",
+      subtitle: "Practical AI Integration for Business Systems and Digital Products",
+      paragraphs: [
+        "Artificial intelligence creates the most value when it is applied to real workflows, real data, and real user needs. Our AI Solutions focus on practical implementation that enhances business applications, improves user interaction, and supports smarter decision-making and automation.",
+        "We help organizations integrate AI capabilities into existing or new systems through intelligent search, chatbot interfaces, natural-language interactions, AI-assisted workflows, and business process support. Depending on the use case, this may involve document interaction, knowledge retrieval experiences, prompt-driven workflows, or AI-powered assistants embedded into digital platforms.",
+        "Our approach emphasizes controlled, purposeful adoption — ensuring that AI functionality is aligned with business goals, integrated with the right systems, and implemented in a way that supports usability, reliability, and maintainability.",
+      ],
+      includesLabel: "What our AI solutions can include",
+      includes: [
+        "AI chatbot and assistant experiences",
+        "Natural-language interfaces for business applications",
+        "Intelligent search and knowledge retrieval",
+        "AI-assisted process workflows",
+        "Document and content interaction experiences",
+        "AI integration into existing products and platforms",
+      ],
     },
     {
       index: "04",
       title: "Enterprise Applications",
-      subtitle: "Scalable Systems for Critical Business Operations",
-      description:
-        "We design and build business applications that support operational workflows, internal teams, customer interactions, and long-term digital transformation — secure, reliable, and ready for growth.",
+      subtitle: "Scalable, Secure, and Business-Critical Software Solutions",
+      paragraphs: [
+        "Enterprise applications are at the core of how organizations manage operations, users, data, and digital services. Our Enterprise Applications solutions are focused on designing and building secure, scalable, and maintainable software systems that support critical business functions and long-term transformation.",
+        "We develop applications that support internal operations, customer-facing services, partner interactions, workflow management, and integrated business processes. These systems are built with a focus on architecture, performance, security, maintainability, and adaptability — ensuring they can evolve with business growth and changing operational demands.",
+        "Whether building a new enterprise platform or enhancing an existing one, we focus on creating systems that provide strong technical foundations, support integration across the business ecosystem, and enable stable day-to-day usage at scale.",
+      ],
+      includesLabel: "What our enterprise application solutions can include",
+      includes: [
+        "Internal business applications and operational platforms",
+        "Customer and partner portals",
+        "Secure workflow and transaction systems",
+        "API-connected and integration-ready platforms",
+        "Role-based access and authentication-enabled applications",
+        "Scalable architectures for long-term growth",
+      ],
     },
   ],
+  closing: {
+    statement:
+      "At Theerrv Technologies, our solutions are built to bridge business needs and modern technology capabilities. We focus on delivering systems that are practical, scalable, and engineered for long-term value — helping organizations operate more efficiently, make smarter decisions, and move forward with confidence in a digital-first environment.",
+  },
   cta: {
     heading: "Looking for a solution tailored to your business goals?",
     body: "We can help you plan the right approach.",
@@ -901,19 +836,9 @@ export const insightsPage = {
   seoTitle: "Insights & Blog | Software, Cloud, AI, Analytics and Development Ideas | Theerrv Technologies",
   hero: {
     eyebrow: "Insights",
-    headline: ["Insights", "& Articles."],
+    headline: ["Ideas worth", "writing down."],
     lead: "Ideas, perspectives, and practical knowledge on software engineering, cloud modernization, product development, analytics, AI, automation, and digital transformation — content that helps teams think strategically and make better technology decisions.",
   },
-  categories: [
-    "Software Engineering",
-    "Web Development",
-    "Cloud & Azure",
-    "DevOps & CI/CD",
-    "Application Modernization",
-    "Data & Analytics",
-    "AI & Automation",
-    "Product Engineering",
-  ],
   featuredIntro:
     "Explore articles on building scalable applications, improving software performance, modernizing legacy systems, adopting cloud technologies, and using AI in practical business scenarios.",
   cta: {
@@ -975,7 +900,7 @@ export const contactPage = {
   seoTitle: "Contact Theerrv Technologies | Get in Touch",
   hero: {
     eyebrow: "Contact",
-    headline: ["Contact", "Us."],
+    headline: ["Tell us what", "you're building."],
     lead: "Whether you're planning a new product, modernizing an existing application, improving your digital presence, or exploring AI and automation, we're here to help. Tell us about your goals and our team will get back to you.",
   },
   reachOut: {
@@ -1001,6 +926,39 @@ export const contactPage = {
       { name: "details", label: "Project Details", type: "textarea", required: true },
     ],
     submit: "Send Message",
+  },
+  /* Folded in from the retired /locations page — the footer's "Locations"
+     link now points at #location on this page. */
+  location: {
+    eyebrow: "Where to find us",
+    heading: ["Vellore,", "and wherever you are."],
+    lead: "We serve businesses with responsive communication, professional collaboration, and dependable technology services — from our base in Tamil Nadu to teams anywhere.",
+    address: ["Theerrv Technologies LLP", "Vellore, Tamil Nadu", "India 632001"],
+    email: "info@theerrv.com",
+    phone: "+91 63693 72124",
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Vellore%2C+Tamil+Nadu+632001",
+    mapEmbedUrl: "https://www.google.com/maps?q=Vellore%2C+Tamil+Nadu+632001&z=12&output=embed",
+    mapLabel: "Open in Google Maps",
+    blocks: [
+      {
+        index: "01",
+        title: "Headquarters",
+        description:
+          "Our main business base in Vellore, Tamil Nadu, supporting clients with structured planning and coordinated delivery.",
+      },
+      {
+        index: "02",
+        title: "Service Availability",
+        description:
+          "We support clients through flexible collaboration models — remote engagement, online consultations, and project-based delivery across locations.",
+      },
+      {
+        index: "03",
+        title: "How We Work",
+        description:
+          "Our team collaborates through digital communication, structured planning, and transparent project coordination, supporting businesses regardless of location.",
+      },
+    ],
   },
   cta: {
     heading: "Ready to build something valuable with the right technology partner?",
@@ -1041,41 +999,6 @@ export const contactPage = {
 /* ==========================================================================
    LOCATIONS PAGE
    ========================================================================== */
-
-export const locationsPage = {
-  seoTitle: "Locations | Theerrv Technologies",
-  hero: {
-    eyebrow: "Locations",
-    headline: ["Our", "Locations."],
-    lead: "We serve businesses with responsive communication, professional collaboration, and dependable technology services. This page helps clients understand where we operate and how we can work together effectively.",
-  },
-  blocks: [
-    {
-      index: "01",
-      title: "Headquarters",
-      description:
-        "Our main business base, supporting clients with structured planning and coordinated delivery. (Add your primary business address here.)",
-    },
-    {
-      index: "02",
-      title: "Service Availability",
-      description:
-        "We support clients through flexible collaboration models — remote engagement, online consultations, and project-based delivery across locations.",
-    },
-    {
-      index: "03",
-      title: "How We Work",
-      description:
-        "Our team collaborates efficiently through digital communication, structured planning, and transparent project coordination, supporting businesses regardless of location.",
-    },
-  ],
-  cta: {
-    heading: "Need to know if we can support your business from your region?",
-    body: "Contact us and we'll be happy to discuss how we can work together.",
-    label: "Talk to Us",
-    to: "/contact",
-  },
-};
 
 /* ==========================================================================
    ABOUT PAGE — six sections, each a camera station for the 3D logo scene.

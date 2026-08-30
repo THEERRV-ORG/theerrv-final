@@ -192,9 +192,8 @@ export default function Navbar() {
           </nav>
 
           <div className={styles.actions}>
-            <Link to={nav.cta.to} className={`${styles.btn} ${styles.btnAccent} ${styles.navCta}`}>
-              {nav.cta.label} <span aria-hidden="true">→</span>
-            </Link>
+            {/* Contact is a plain nav link now (see nav.links), so the bar has
+                no accent button on desktop. */}
             <button
               type="button"
               className={styles.toggle}
@@ -296,9 +295,6 @@ export default function Navbar() {
               </Link>
             ),
           )}
-          <Link to={nav.cta.to} className={`${styles.btn} ${styles.btnAccent}`} onClick={closeAll}>
-            {nav.cta.label}
-          </Link>
         </nav>
       </div>
     </header>

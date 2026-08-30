@@ -33,7 +33,7 @@ export default function OperatingSystem({ service }) {
     return () => mq.removeEventListener("change", on);
   }, []);
 
-  const state = STATES[service.id] ?? STATES["custom-software"];
+  const state = STATES[service.id] ?? STATES["product-engineering"];
   const alive = inView && !prefersReduced;
   const links = isWide ? state.links : state.links.slice(0, state.coreLinks);
 

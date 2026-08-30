@@ -1,10 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useState } from "react";
+import * as THREE from "three";
 
 import { detectQuality } from "./quality";
 import { frameState } from "./scrollState";
 import LogoMark3D from "./LogoMark3D";
 import LogoRig, { STATION_COUNT } from "./LogoRig";
+import StudioLighting from "./StudioLighting";
 
 /**
  * The 3D logo scene — one Canvas fixed behind the About content, with the
@@ -74,11 +76,21 @@ export default function LogoScene({ driveSelector = "#about-scroll" }) {
     <div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
       <Canvas
         dpr={quality.dpr}
-        gl={{ antialias: quality.tier !== "low", alpha: true, powerPreference: "high-performance" }}
+        gl={{
+          antialias: quality.tier !== "low",
+          alpha: true,
+          powerPreference: "high-performance",
+          // Filmic response: rolls the studio highlights off instead of
+          // clipping them, which is most of what separates a rendered object
+          // from a flat-shaded one.
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 0.95,
+        }}
         camera={{ fov: 38, near: 0.1, far: 200, position: [2, 1.5, 40] }}
         frameloop="demand"
         style={{ position: "absolute", inset: 0 }}
       >
+        <StudioLighting envIntensity={quality.tier === "low" ? 0.85 : 1.05} />
         <LogoMark3D quality={quality} />
         <LogoRig />
       </Canvas>
