@@ -3,9 +3,13 @@
  * ratio and geometry detail scale together off a single decision.
  */
 
+// The 3D scenes re-render on every scroll frame, so pixel count is a direct
+// scroll cost. These DPR caps are deliberately below device pixel ratio on
+// retina/mobile screens — the mark is decorative and reads the same slightly
+// softer, while rendering far fewer pixels per frame keeps scrolling smooth.
 const SETTINGS = {
-  high: { tier: "high", dpr: [1, 1.75] },
-  medium: { tier: "medium", dpr: [1, 1.5] },
+  high: { tier: "high", dpr: [1, 1.5] },
+  medium: { tier: "medium", dpr: [1, 1.25] },
   low: { tier: "low", dpr: [1, 1] },
   off: { tier: "off", dpr: [1, 1] },
 };

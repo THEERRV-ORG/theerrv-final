@@ -65,7 +65,11 @@
   --dur-fast: 0.35s;
 
   /* ---- glazing ---- */
-  --glass-blur: 20px;
+  /* backdrop-filter blur re-samples the backdrop every frame the element is on
+     screen while content scrolls behind it — the dominant scroll-paint cost.
+     10px still reads as frosted glass on the dark ground at roughly half the
+     cost of the old 20px. */
+  --glass-blur: 10px;
   --glass-fill-dark: rgba(18, 28, 54, 0.4);
   --glass-fill-dark-strong: rgba(12, 20, 42, 0.62);
   --glass-fill-light: rgba(243, 240, 232, 0.08);
@@ -80,7 +84,7 @@
    the frosted look survives, it just blurs less. */
 @media (max-width: 900px) {
   :root {
-    --glass-blur: 7px;
+    --glass-blur: 6px;
   }
 }
 
