@@ -71,6 +71,21 @@
   }
 }
 
+/* Mobile: a fixed, screen-blended, animated layer forces the browser to
+   re-composite the whole viewport on every scroll frame — a major cause of
+   phone scroll jank. Freeze it and drop the blend; on a dark ground the
+   low-alpha glows look near-identical rendered normally. */
+@media (max-width: 900px) {
+  .lights {
+    animation: none;
+    mix-blend-mode: normal;
+    opacity: 0.5;
+  }
+  .lights::after {
+    animation: none;
+  }
+}
+
 .content {
   position: relative;
   z-index: 1;
@@ -204,6 +219,10 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 3px 28px rgba(255, 90, 79, 0.28));
+  /* Room for descender tails (g, y): background-clip:text + filter otherwise
+     clips them to the box. Cancelled by negative margin so layout is unchanged. */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
 }
 
 /* Thin coral hairline separating heading from body */

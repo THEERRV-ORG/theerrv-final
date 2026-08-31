@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import FAQ from "../components/page/FAQ";
 import CTABand from "../components/page/CTABand";
 import Reveal from "../components/shared/Reveal";
 import usePageTitle from "../hooks/usePageTitle";
 import { contactPage } from "../data/content";
+import { db, firebaseReady } from "../lib/firebase";
 import styles from "./ContactPage.module.css";
 
 /**
@@ -15,13 +17,46 @@ import styles from "./ContactPage.module.css";
 export default function ContactPage() {
   usePageTitle(contactPage.seoTitle);
   const { hero, reachOut, form, location, cta, faqs } = contactPage;
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const sent = status === "sent";
 
-  // No backend is wired up yet — acknowledge locally so the form is usable
-  // without sending any personal data to an external service.
-  const handleSubmit = (e) => {
+  // Persist the submission to Firestore. Fields are uncontrolled — read them
+  // straight off the form via their `name` attributes rather than mirroring
+  // each into state.
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSent(true);
+    if (status === "sending") return;
+
+    const formEl = e.currentTarget;
+    const data = Object.fromEntries(new FormData(formEl).entries());
+
+    // Without config the write would throw an opaque error; fail loudly in dev
+    // and tell the visitor to use the email link instead.
+    if (!firebaseReady || !db) {
+      console.error(
+        "Firebase is not configured — set VITE_FIREBASE_* in .env.local (see .env.example).",
+      );
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      await addDoc(collection(db, "contactSubmissions"), {
+        fullName: data.fullName ?? "",
+        company: data.company ?? "",
+        email: data.email ?? "",
+        phone: data.phone ?? "",
+        service: data.service ?? "",
+        details: data.details ?? "",
+        createdAt: serverTimestamp(),
+      });
+      formEl.reset();
+      setStatus("sent");
+    } catch (err) {
+      console.error("Contact form submission failed:", err);
+      setStatus("error");
+    }
   };
 
   return (
@@ -113,9 +148,18 @@ export default function ContactPage() {
                       )}
                     </div>
                   ))}
-                  <button type="submit" className={styles.submit}>
-                    {form.submit} <span aria-hidden="true">→</span>
+                  <button type="submit" className={styles.submit} disabled={status === "sending"}>
+                    {status === "sending" ? "Sending…" : form.submit}{" "}
+                    <span aria-hidden="true">→</span>
                   </button>
+
+                  {status === "error" && (
+                    <p className={styles.formError} role="alert">
+                      Something went wrong sending your message. Please try again, or
+                      email us directly at{" "}
+                      <a href={`mailto:${location.email}`}>{location.email}</a>.
+                    </p>
+                  )}
                 </form>
               )}
             </Reveal>

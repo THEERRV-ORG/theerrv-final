@@ -74,6 +74,16 @@
   --glass-highlight: rgba(255, 255, 255, 0.08);
 }
 
+/* Big backdrop-filter blur radii are the single most expensive thing to
+   repaint while scrolling on a phone GPU. Every glass surface reads this one
+   token, so cutting it here lightens the whole site's mobile scroll at once —
+   the frosted look survives, it just blurs less. */
+@media (max-width: 900px) {
+  :root {
+    --glass-blur: 7px;
+  }
+}
+
 *,
 *::before,
 *::after {

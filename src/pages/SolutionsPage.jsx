@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import Reveal from "../components/shared/Reveal";
-import FAQ from "../components/page/FAQ";
 import CTABand from "../components/page/CTABand";
 import usePageTitle from "../hooks/usePageTitle";
 import { solutionsPage } from "../data/content";
@@ -15,7 +14,7 @@ import styles from "./SolutionsPage.module.css";
  */
 export default function SolutionsPage() {
   usePageTitle(solutionsPage.seoTitle);
-  const { hero, items, closing, cta, faqs } = solutionsPage;
+  const { hero, items, closing, cta } = solutionsPage;
 
   const [active, setActive] = useState(-1);
   const stageRefs = useRef([]);
@@ -171,8 +170,7 @@ export default function SolutionsPage() {
           </section>
         )}
 
-        {/* Kept inside .content so they stack above the fixed atmosphere. */}
-        <FAQ eyebrow={faqs.eyebrow} heading={faqs.heading} items={faqs.items} />
+        {/* Kept inside .content so it stacks above the fixed atmosphere. */}
         <CTABand heading={cta.heading} body={cta.body} label={cta.label} to={cta.to} />
       </div>
     </div>

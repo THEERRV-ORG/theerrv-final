@@ -345,6 +345,12 @@
 }
 
 @media (max-width: 860px) {
+  /* Freeze the drifting 90px-blur orbs on phones: an animated heavy blur is
+     costly to repaint each frame. Held static they still tint the hero. */
+  .orb {
+    animation: none;
+  }
+
   .content {
     /* Just clears the fixed navbar — the logo no longer floats at the top, so
        the old ~200px reservation (and the big gap it created) is gone. */
