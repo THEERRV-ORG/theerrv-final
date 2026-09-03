@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { homeStory, homeFaqs } from "../../data/content";
 import Reveal from "../shared/Reveal";
@@ -24,6 +24,26 @@ const StoryScroll = lazy(() => import("../../scene/StoryScroll"));
  * with WebGL unavailable the page is still a fully readable set of ink panels.
  */
 
+// True on wide screens. The initializer reads matchMedia synchronously on the
+// very first render, so on a phone the WebGL ribbon and the GSAP/Lenis scroll
+// rig are never rendered — and their chunks (Three.js, GSAP) are never even
+// downloaded. Desktop gets the full experience; a resize across the breakpoint
+// mounts/unmounts them.
+function useWideScreen() {
+  const query = "(max-width: 900px)";
+  const [wide, setWide] = useState(
+    () => typeof window === "undefined" || !window.matchMedia(query).matches,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const apply = () => setWide(!mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+  return wide;
+}
+
 // Render a headline line, giving the trailing full stop the coral accent.
 function AccentLine({ text }) {
   const dotted = /\.$/.test(text);
@@ -37,16 +57,23 @@ function AccentLine({ text }) {
 
 export default function Story() {
   const { intro, why, impact, cta } = homeStory;
+  const wide = useWideScreen();
 
   return (
     <>
-      <Suspense fallback={null}>
-        <StoryScroll />
-      </Suspense>
+      {/* Desktop only — on phones these never render, so Three.js and the GSAP
+          scroll rig are never downloaded. */}
+      {wide && (
+        <Suspense fallback={null}>
+          <StoryScroll />
+        </Suspense>
+      )}
       <div className={styles.backdrop} aria-hidden="true" />
-      <Suspense fallback={null}>
-        <RibbonScene />
-      </Suspense>
+      {wide && (
+        <Suspense fallback={null}>
+          <RibbonScene />
+        </Suspense>
+      )}
       <div className={styles.bottomHaze} aria-hidden="true" />
 
       <div id="home" className={styles.content}>

@@ -13,23 +13,13 @@ import Ribbons from "./Ribbons";
  * and the page keeps its dark ground and typography.
  */
 export default function RibbonScene() {
+  // The mobile gate lives in Story.jsx — it skips rendering this component (and
+  // therefore loading this whole chunk, Three.js included) on phones. By the
+  // time this runs we are on a wide screen.
   const [quality, setQuality] = useState(null);
-  // The ribbon re-renders on every scroll frame, which is the heaviest cost on
-  // a phone GPU. Drop it on small screens — the homepage falls back to its dark
-  // ground and scrolls smoothly. Desktop keeps the full 3D. Scoped to the
-  // ribbon only; the About logo scene is a separate component.
-  const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {
     setQuality(detectQuality());
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 900px)");
-    const apply = () => setEnabled(!mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
   }, []);
 
   useEffect(() => {
@@ -43,7 +33,7 @@ export default function RibbonScene() {
     }
   }, []);
 
-  if (!enabled || !quality || quality.tier === "off") return null;
+  if (!quality || quality.tier === "off") return null;
 
   const reduced = prefersReducedMotion();
 
