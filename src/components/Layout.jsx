@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
@@ -54,7 +54,11 @@ export default function Layout() {
       <div className="grain-overlay" aria-hidden="true" />
       <Navbar />
       <main>
-        <Outlet />
+        {/* Page chunks load here; the navbar and footer stay mounted. Fallback
+            is null — the dark body shows for the brief moment a chunk arrives. */}
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </main>
       <Footer />
     </>

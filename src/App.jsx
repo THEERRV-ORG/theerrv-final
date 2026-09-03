@@ -1,16 +1,20 @@
+import { lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
-import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import ServicesPage from "./pages/ServicesPage";
-import ServiceDetailPage from "./pages/ServiceDetailPage";
-import SolutionsPage from "./pages/SolutionsPage";
-// import CaseStudiesPage from "./pages/CaseStudiesPage"; // temporarily hidden
-import InsightsPage from "./pages/InsightsPage";
-import ArticlePage from "./pages/ArticlePage";
-// import CareersPage from "./pages/CareersPage"; // temporarily hidden
-import ContactPage from "./pages/ContactPage";
-import NotFoundPage from "./pages/NotFoundPage";
+
+// Each page is its own lazily-loaded chunk, so the initial download is just the
+// shell plus the homepage — the rest arrives on demand as you navigate. The
+// Suspense boundary lives inside Layout (around the Outlet), so the navbar and
+// footer stay put while a page chunk loads.
+const HomePage = lazy(() => import("./pages/HomePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const ServiceDetailPage = lazy(() => import("./pages/ServiceDetailPage"));
+const SolutionsPage = lazy(() => import("./pages/SolutionsPage"));
+const InsightsPage = lazy(() => import("./pages/InsightsPage"));
+const ArticlePage = lazy(() => import("./pages/ArticlePage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 export default function App() {
   return (

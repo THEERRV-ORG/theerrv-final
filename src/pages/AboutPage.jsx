@@ -1,9 +1,14 @@
+import { lazy, Suspense } from "react";
 import Reveal from "../components/shared/Reveal";
-import LogoScene from "../scene/LogoScene";
 import usePageTitle from "../hooks/usePageTitle";
 import { aboutPage } from "../data/content";
 import { Link } from "react-router-dom";
 import styles from "./AboutPage.module.css";
+
+// The 3D logo scene pulls in Three.js — loaded as its own chunk, off the About
+// page's critical path. Its Suspense boundary (null fallback) means the page's
+// text renders immediately over the dark ground while the scene arrives.
+const LogoScene = lazy(() => import("../scene/LogoScene"));
 
 /**
  * About page. Six full-height sections scroll over a single fixed 3D logo scene
@@ -20,7 +25,9 @@ export default function AboutPage() {
     <div className={styles.page}>
       <div className={styles.backdrop} aria-hidden="true" />
       <div className={styles.lights} aria-hidden="true" />
-      <LogoScene driveSelector="#about-scroll" />
+      <Suspense fallback={null}>
+        <LogoScene driveSelector="#about-scroll" />
+      </Suspense>
       <div className={styles.vignette} aria-hidden="true" />
 
       <div id="about-scroll" className={styles.content}>

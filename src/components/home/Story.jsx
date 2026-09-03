@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { homeStory, homeFaqs } from "../../data/content";
 import Reveal from "../shared/Reveal";
@@ -6,9 +7,15 @@ import FAQ from "../page/FAQ";
 import CoreServices from "./CoreServices";
 import Transformation from "./Transformation";
 import WhyTheerrv from "./WhyTheerrv";
-import RibbonScene from "../../scene/RibbonScene";
-import StoryScroll from "../../scene/StoryScroll";
 import styles from "./Story.module.css";
+
+// The WebGL ribbon and the GSAP/Lenis scroll rig pull in Three.js and GSAP —
+// the heaviest dependencies on the site. Both are decorative and mount after
+// the page is readable, so they load as their own chunk off the critical path.
+// Their own Suspense boundaries (null fallback) keep the page from waiting on
+// them; with the chunk not yet in, the page is a clean set of dark panels.
+const RibbonScene = lazy(() => import("../../scene/RibbonScene"));
+const StoryScroll = lazy(() => import("../../scene/StoryScroll"));
 
 /**
  * The homepage as one continuous scroll story. A single persistent ribbon scene
@@ -33,9 +40,13 @@ export default function Story() {
 
   return (
     <>
-      <StoryScroll />
+      <Suspense fallback={null}>
+        <StoryScroll />
+      </Suspense>
       <div className={styles.backdrop} aria-hidden="true" />
-      <RibbonScene />
+      <Suspense fallback={null}>
+        <RibbonScene />
+      </Suspense>
       <div className={styles.bottomHaze} aria-hidden="true" />
 
       <div id="home" className={styles.content}>
