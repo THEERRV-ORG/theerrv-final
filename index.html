@@ -32,6 +32,39 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Organization structured data — powers the company/logo panel in Google
+         search and links our verified social profiles (sameAs). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Theerrv Technologies",
+        "url": "https://www.theerrv.com/",
+        "logo": "https://www.theerrv.com/logo.png",
+        "image": "https://www.theerrv.com/og-image.png",
+        "description": "Custom software development, web applications, cloud solutions, and business automation — engineered with architectural precision.",
+        "email": "info@theerrv.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Vellore",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "632001",
+          "addressCountry": "IN"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "email": "info@theerrv.com",
+          "url": "https://www.theerrv.com/contact",
+          "availableLanguage": ["English"]
+        },
+        "sameAs": [
+          "https://www.linkedin.com/company/theerrv-technologies/",
+          "https://www.instagram.com/theerrv_technologies"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
