@@ -88,6 +88,8 @@ export default function Footer() {
 
         {/* Compact footer for small screens — shown in place of the full grid. */}
         <div className={styles.mini}>
+          <div className={styles.miniGlow} aria-hidden="true" />
+
           <Link to="/" className={styles.logo} aria-label="Theerrv Technologies, home">
             <img src="/logo-mark-ivory.png" alt="" aria-hidden="true" className={styles.logoMark} width="40" height="25" />
             <span className={styles.logoWord}>
@@ -95,17 +97,33 @@ export default function Footer() {
             </span>
           </Link>
 
-          <nav className={styles.miniLinks} aria-label="Footer">
-            <Link to="/services">Services</Link>
-            <Link to="/solutions">Solutions</Link>
-            <Link to="/insights">Insights</Link>
-            <Link to="/contact">Contact</Link>
-          </nav>
+          <p className={styles.miniTagline}>
+            {footer.tagline.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </p>
 
-          <div className={styles.miniContact}>
-            <a href={`mailto:${footer.email}`}>{footer.email}</a>
-            <a href={`tel:${footer.phone.replace(/\s/g, "")}`}>{footer.phone}</a>
+          <div className={styles.miniSection}>
+            <span className={styles.miniLabel}>Get in touch</span>
+            <a href={`mailto:${footer.email}`} className={styles.miniRow}>
+              <span>{footer.email}</span>
+              <span className={styles.miniRowArrow} aria-hidden="true">→</span>
+            </a>
+            <a href={`tel:${footer.phone.replace(/\s/g, "")}`} className={styles.miniRow}>
+              <span>{footer.phone}</span>
+              <span className={styles.miniRowArrow} aria-hidden="true">→</span>
+            </a>
           </div>
+
+          <nav className={styles.miniSection} aria-label="Footer">
+            <span className={styles.miniLabel}>Explore</span>
+            <div className={styles.miniLinks}>
+              <Link to="/services">Services</Link>
+              <Link to="/solutions">Solutions</Link>
+              <Link to="/insights">Insights</Link>
+              <Link to="/contact">Contact</Link>
+            </div>
+          </nav>
 
           <ul className={styles.miniSocial}>
             {footer.social.map((s) => (
@@ -123,6 +141,7 @@ export default function Footer() {
           </ul>
 
           <p className={styles.miniLegal}>
+            <span className={styles.miniSignature}>{footer.signature}</span>
             © {year} {footer.legalName} LLP.
           </p>
         </div>

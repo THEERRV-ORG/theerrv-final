@@ -6,7 +6,10 @@
   top: 0;
   z-index: 100;
   transition: transform var(--dur-med) var(--ease-arch);
-  will-change: transform;
+  /* No will-change: transform here — it would make .nav the containing block
+     for the fixed full-screen drawer, offsetting the overlay by the scroll
+     position when the menu is opened after scrolling. The slide animation is
+     infrequent and cheap enough without the hint. */
 }
 
 /* Slide the bar up out of view on scroll-down; it returns on scroll-up/hover. */
@@ -36,6 +39,7 @@
    inset glass card once scrolled past it (or when a mega panel is open). */
 .shell {
   position: relative;
+  z-index: 2; /* keeps the logo + toggle above the full-screen drawer overlay */
   width: min(var(--container-max), 100% - var(--gutter) * 2);
   margin-inline: auto;
   margin-block-start: 0;
@@ -392,124 +396,271 @@
 }
 
 .toggle {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  width: 40px;
-  height: 40px;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   background: none;
-  border: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
   cursor: pointer;
+  transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease;
+}
+
+/* A faint control surface appears on interaction — reads as a deliberate
+   button rather than two bare lines. */
+.toggle:hover,
+.toggle[aria-expanded="true"] {
+  background: rgba(243, 240, 232, 0.06);
+  border-color: var(--glass-border-dark);
 }
 
 .toggleBar {
   display: block;
-  width: 20px;
-  height: 1.5px;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
   background: var(--ivory);
-  transition: transform var(--dur-med) var(--ease-arch), opacity var(--dur-fast) ease;
+  transform-origin: center;
+  transition: transform 0.4s var(--ease-arch), width var(--dur-fast) ease;
 }
 
-.toggleBar[data-open="true"]:first-of-type {
-  transform: translateY(3.25px) rotate(45deg);
+/* Closed: the lower bar is a touch shorter — a small editorial asymmetry.
+   Open: both converge to the centre and cross into a precise X. Bars are
+   targeted by data-bar, not :first/:last-of-type — the button's first child
+   is the sr-only label, so type selectors would miss the top bar entirely. */
+.toggleBar[data-bar="bottom"] {
+  width: 15px;
 }
 
-.toggleBar[data-open="true"]:last-of-type {
-  transform: translateY(-3.25px) rotate(-45deg);
+.toggle:hover .toggleBar[data-bar="bottom"] {
+  width: 22px;
 }
 
-/* --- Mobile drawer --- */
+.toggleBar[data-open="true"] {
+  width: 22px;
+}
+
+.toggleBar[data-open="true"][data-bar="top"] {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.toggleBar[data-open="true"][data-bar="bottom"] {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* --- Mobile drawer: full-screen cinematic overlay --- */
 .drawer {
-  overflow: hidden;
-  max-height: 0;
-  width: min(var(--container-max), 100% - var(--gutter) * 2);
-  margin-inline: auto;
-  background: #0b1024;
-  border: 1px solid transparent;
-  border-radius: var(--radius-lg);
-  transition: max-height var(--dur-slow) var(--ease-arch),
-    border-color var(--dur-med) var(--ease-arch);
+  position: fixed;
+  inset: 0;
+  z-index: 1; /* under .shell (z-index 2) so the logo + X stay tappable on top */
+  display: flex;
+  flex-direction: column;
+  /* `safe` keeps the menu centred when it fits but falls back to top-aligned
+     when the content is taller than the viewport (short/landscape phones), so
+     the first links can never be clipped above the fold. */
+  justify-content: safe center;
+  padding: calc(72px + clamp(1.5rem, 5vh, 2.5rem)) clamp(1.5rem, 7vw, 3rem)
+    clamp(2rem, 6vh, 3rem);
+  background: linear-gradient(180deg, rgba(6, 9, 20, 0.97), rgba(4, 6, 14, 0.99));
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity var(--dur-med) var(--ease-arch),
+    transform var(--dur-med) var(--ease-arch),
+    visibility 0s linear var(--dur-med);
+  overflow-y: auto;
 }
 
 .drawer[data-open="true"] {
-  max-height: min(82vh, 640px);
-  overflow-y: auto;
-  border-color: var(--glass-border-dark);
-  margin-block-start: 8px;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--dur-med) var(--ease-arch),
+    transform var(--dur-med) var(--ease-arch), visibility 0s;
 }
 
-.drawer nav {
+/* Atmospheric glow, echoing the page's coral / indigo lighting. */
+.drawerGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 42% at 88% 6%, rgba(122, 108, 255, 0.2), transparent 60%),
+    radial-gradient(52% 42% at 8% 98%, rgba(255, 90, 79, 0.16), transparent 60%);
+}
+
+.drawerNav {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 1.5rem;
+  width: 100%;
+  max-width: 30rem;
+  margin-inline: auto;
 }
 
-.drawerLink,
-.drawerSummary {
+.drawerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--glass-border-dark);
+}
+
+.drawerItem {
+  border-bottom: 1px solid var(--glass-border-dark);
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* Staggered reveal as the overlay opens. */
+.drawer[data-open="true"] .drawerItem,
+.drawer[data-open="true"] .drawerFoot {
+  animation: drawerIn var(--dur-med) var(--ease-arch) forwards;
+  animation-delay: calc(var(--i) * 55ms + 90ms);
+}
+
+@keyframes drawerIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.drawerLink {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  padding-block: 0.75rem;
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  font-weight: 600;
+  align-items: baseline;
+  gap: clamp(0.9rem, 3vw, 1.25rem);
+  padding-block: clamp(0.85rem, 2.4vh, 1.2rem);
+  text-decoration: none;
   color: var(--ivory);
-  text-align: left;
+  transition: transform var(--dur-fast) var(--ease-arch);
+}
+
+.drawerLink:hover,
+.drawerLink:active {
+  transform: translateX(6px);
+}
+
+.drawerText {
+  flex: 1;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.6rem, 6.5vw, 2.15rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.drawerArrow {
+  font-size: 1.15rem;
+  color: var(--paper-faint);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-arch);
+}
+
+.drawerLink:hover .drawerArrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* Active route: coral→gold gradient label + lit arrow. */
+.drawerLinkActive .drawerText {
+  background: linear-gradient(100deg, var(--coral), var(--gold-bright));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.drawerLinkActive .drawerArrow {
+  opacity: 1;
+  transform: none;
+  color: var(--coral);
+}
+
+/* Footer: CTA, email, socials. */
+.drawerFoot {
+  margin-top: clamp(2rem, 5vh, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.drawerCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--navy-deep);
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--gold-bright) 130%);
+  padding: 0.95rem 1.7rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 12px 30px -12px rgba(183, 154, 99, 0.5);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.drawerCta span {
+  display: inline-block;
+  transition: transform var(--dur-fast) ease;
+}
+
+.drawerCta:active {
+  transform: translateY(-1px);
+}
+
+.drawerCta:active span {
+  transform: translateX(3px);
+}
+
+.drawerMail {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--gold-bright);
   text-decoration: none;
 }
 
-.drawerGroup {
+.drawerSocial {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 0.1rem;
 }
 
-.drawerPanel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--dur-med) var(--ease-arch);
-}
-
-.drawerPanel[data-open="true"] {
-  grid-template-rows: 1fr;
-}
-
-.drawerPanelInner {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding-inline-start: 1rem;
-  border-inline-start: 1px solid var(--glass-border-dark);
-  margin-inline-start: 4px;
-}
-
-.drawerPanelInner a {
-  font-family: var(--font-body);
-  font-size: 1rem;
+.drawerSocial a {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--paper-soft);
   text-decoration: none;
-  padding-block: 0.6rem;
   transition: color var(--dur-fast) ease;
 }
 
-.drawerPanelInner a:hover {
+.drawerSocial a:hover {
   color: var(--ivory);
 }
 
-.drawerAll {
-  color: var(--gold-bright) !important;
-}
-
-.drawer .btn {
-  align-self: flex-start;
-  margin-top: 0.75rem;
-  padding: 0.85rem 1.5rem;
+@media (prefers-reduced-motion: reduce) {
+  .drawerItem,
+  .drawerFoot {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 @media (min-width: 1024px) {

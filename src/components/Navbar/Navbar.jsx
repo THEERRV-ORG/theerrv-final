@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { nav } from "../../data/content";
+import { nav, footer } from "../../data/content";
 import styles from "./Navbar.module.css";
 
 /**
@@ -23,7 +23,6 @@ export default function Navbar() {
   const [solid, setSolid] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [openMega, setOpenMega] = useState(null);
-  const [accordion, setAccordion] = useState(null);
   const [hidden, setHidden] = useState(false);
 
   const headerRef = useRef(null);
@@ -202,8 +201,8 @@ export default function Navbar() {
               onClick={() => setDrawer((v) => !v)}
             >
               <span className={styles.srOnly}>{drawer ? "Close menu" : "Open menu"}</span>
-              <span className={styles.toggleBar} data-open={drawer} />
-              <span className={styles.toggleBar} data-open={drawer} />
+              <span className={styles.toggleBar} data-open={drawer} data-bar="top" />
+              <span className={styles.toggleBar} data-open={drawer} data-bar="bottom" />
             </button>
           </div>
         </div>
@@ -259,42 +258,43 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Mobile drawer — mega items become accordions. */}
-      <div id="nav-drawer" className={styles.drawer} data-open={drawer}>
-        <nav aria-label="Mobile">
-          {nav.links.map((item) =>
-            item.mega ? (
-              <div key={item.label} className={styles.drawerGroup}>
-                <button
-                  type="button"
-                  className={styles.drawerSummary}
-                  aria-expanded={accordion === item.label}
-                  onClick={() =>
-                    setAccordion((v) => (v === item.label ? null : item.label))
+      {/* Mobile drawer — full-screen cinematic overlay. */}
+      <div id="nav-drawer" className={styles.drawer} data-open={drawer} aria-hidden={!drawer}>
+        <div className={styles.drawerGlow} aria-hidden="true" />
+        <nav className={styles.drawerNav} aria-label="Mobile">
+          <ul className={styles.drawerList}>
+            {nav.links.map((item, i) => (
+              <li key={item.label} className={styles.drawerItem} style={{ "--i": i }}>
+                <NavLink
+                  to={item.to}
+                  end={item.to === "/"}
+                  onClick={closeAll}
+                  className={({ isActive }) =>
+                    `${styles.drawerLink} ${isActive ? styles.drawerLinkActive : ""}`
                   }
                 >
-                  {item.label}
-                  <Chevron open={accordion === item.label} />
-                </button>
-                <div className={styles.drawerPanel} data-open={accordion === item.label}>
-                  <div className={styles.drawerPanelInner}>
-                    <Link to={item.to} onClick={closeAll} className={styles.drawerAll}>
-                      All {item.label}
-                    </Link>
-                    {item.mega.items.map((child) => (
-                      <Link key={child.label} to={child.to} onClick={closeAll}>
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <Link key={item.label} to={item.to} onClick={closeAll} className={styles.drawerLink}>
-                {item.label}
-              </Link>
-            ),
-          )}
+                  <span className={styles.drawerText}>{item.label}</span>
+                  <span className={styles.drawerArrow} aria-hidden="true">→</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.drawerFoot} style={{ "--i": nav.links.length }}>
+            <Link to="/contact" className={styles.drawerCta} onClick={closeAll}>
+              Start your project <span aria-hidden="true">→</span>
+            </Link>
+            <a href={`mailto:${footer.email}`} className={styles.drawerMail}>
+              {footer.email}
+            </a>
+            <div className={styles.drawerSocial}>
+              {footer.social.map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener">
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
         </nav>
       </div>
     </header>
