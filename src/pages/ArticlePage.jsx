@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Reveal from "../components/shared/Reveal";
 import CTABand from "../components/page/CTABand";
@@ -17,6 +17,38 @@ export default function ArticlePage() {
 
   const barRef = useRef(null);
   const bodyRef = useRef(null);
+  const contentRef = useRef(null);
+
+  // The "All insights" rail belongs to the reading part of the page. Once the
+  // closing CTA (and footer) come up it has nothing to sit beside, so it fades
+  // out and stops taking clicks until you scroll back up. Same behaviour as the
+  // "All services" rail on the service pages.
+  const [railOn, setRailOn] = useState(true);
+
+  useEffect(() => {
+    if (!article) return;
+    const el = contentRef.current;
+    if (!el) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setRailOn(el.getBoundingClientRect().bottom > window.innerHeight * 0.66);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    const ro = new ResizeObserver(onScroll);
+    ro.observe(el);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      ro.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [article, slug]);
 
   // Reading progress across the article body only — a bar that fills while the
   // hero is still on screen reads as broken.
@@ -76,18 +108,27 @@ export default function ArticlePage() {
         <span ref={barRef} className={styles.progressBar} />
       </div>
 
-      <Link to="/insights" className={styles.backSide}>
-        <span className={styles.backArrow} aria-hidden="true">←</span>
-        <span className={styles.backText}>All insights</span>
-      </Link>
+      <div ref={contentRef}>
+        <article>
+          <header className={styles.hero} data-nav-hero>
+            <div className={`${styles.orb} ${styles.orbGold}`} aria-hidden="true" />
+            <div className={`${styles.orb} ${styles.orbCoral}`} aria-hidden="true" />
 
-      <article>
-        <header className={styles.hero} data-nav-hero>
-          <div className={`${styles.orb} ${styles.orbGold}`} aria-hidden="true" />
-          <div className={`${styles.orb} ${styles.orbCoral}`} aria-hidden="true" />
+            <div className={`${styles.heroInner} container`}>
+              {/* Cinematic side rail. Desktop: lifted out of flow and pinned to
+                  the left edge; mobile: no margin to pin into, so it sits here in
+                  the flow above the category as a compact pill. */}
+              <Link
+                to="/insights"
+                className={`${styles.backSide} ${railOn ? "" : styles.backSideOut}`}
+                aria-hidden={railOn ? undefined : "true"}
+                tabIndex={railOn ? undefined : -1}
+              >
+                <span className={styles.backArrow} aria-hidden="true">←</span>
+                <span className={styles.backText}>All insights</span>
+              </Link>
 
-          <div className={`${styles.heroInner} container`}>
-            <Reveal as="p" className={styles.category}>{article.category}</Reveal>
+              <Reveal as="p" className={styles.category}>{article.category}</Reveal>
             <Reveal as="h1" delay={60} className={styles.title}>{article.title}</Reveal>
             <Reveal as="div" delay={140} className={styles.meta}>
               {article.dateLabel && <span>{article.dateLabel}</span>}
@@ -130,6 +171,7 @@ export default function ArticlePage() {
           </div>
         </section>
       )}
+      </div>
 
       <CTABand
         heading="Have a project that deserves the same care?"
