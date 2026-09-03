@@ -1,0 +1,95 @@
+/* Mirrors public/404.html exactly — keep the two in sync. Hero only, no shell. */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-block: clamp(6rem, 14vw, 10rem);
+  background:
+    radial-gradient(42vw 42vw at 8% 2%, rgba(183, 154, 99, 0.16), transparent 68%),
+    radial-gradient(34vw 34vw at 96% 108%, rgba(255, 90, 79, 0.14), transparent 68%),
+    linear-gradient(180deg, #060a16 0%, #0a1630 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  width: min(var(--container-max), 100% - clamp(3rem, 10vw, 8rem));
+  margin-inline: auto;
+  max-width: 900px;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  color: var(--gold-bright);
+}
+
+.headline {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ivory);
+}
+
+.line {
+  display: block;
+}
+
+.accent {
+  background: linear-gradient(120deg, var(--gold-bright) 10%, var(--coral) 90%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 0.12em;
+}
+
+.lead {
+  margin-top: 2rem;
+  max-width: 54ch;
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--paper-soft);
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  padding: 1rem 1.95rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--navy-deep);
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--gold-bright) 130%);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 12px 30px -10px rgba(183, 154, 99, 0.5);
+  transition: transform var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.home span {
+  display: inline-block;
+  transition: transform var(--dur-fast) ease;
+}
+
+.home:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -8px rgba(183, 154, 99, 0.65);
+}
+
+.home:hover span {
+  transform: translateX(3px);
+}

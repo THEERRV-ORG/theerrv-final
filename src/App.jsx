@@ -32,8 +32,10 @@ export default function App() {
         <Route path="contact" element={<ContactPage />} />
         {/* /locations retired — its content now lives at /contact#location */}
         <Route path="locations" element={<Navigate to="/contact#location" replace />} />
-        <Route path="*" element={<NotFoundPage />} />
       </Route>
+      {/* 404 sits outside Layout — no navbar/footer — so the in-app not-found
+          page is identical to the static 404.html served on direct loads. */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

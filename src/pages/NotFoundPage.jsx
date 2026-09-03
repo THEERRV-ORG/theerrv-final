@@ -1,23 +1,31 @@
-import PageHero from "../components/page/PageHero";
-import CTABand from "../components/page/CTABand";
+import { Link } from "react-router-dom";
 import usePageTitle from "../hooks/usePageTitle";
+import styles from "./NotFoundPage.module.css";
 
+/**
+ * 404 — a standalone hero-only page (no navbar, CTA, or footer), rendered
+ * outside the Layout so it is a pixel match for the static public/404.html that
+ * Vercel serves on direct-loaded unknown URLs. Keep the two in sync.
+ */
 export default function NotFoundPage() {
   usePageTitle("Page Not Found | Theerrv Technologies");
 
   return (
-    <>
-      <PageHero
-        eyebrow="Error 404"
-        headline={["Page", "Not Found."]}
-        lead="The page you're looking for doesn't exist or may have moved. Let's get you back on track."
-      />
-      <CTABand
-        heading="Looking for something specific?"
-        body="Head back home or get in touch and we'll point you in the right direction."
-        label="Back to Home"
-        to="/"
-      />
-    </>
+    <section className={styles.hero}>
+      <div className={styles.inner}>
+        <p className={styles.eyebrow}>Error 404</p>
+        <h1 className={styles.headline}>
+          <span className={styles.line}>Page</span>
+          <span className={`${styles.line} ${styles.accent}`}>Not Found.</span>
+        </h1>
+        <p className={styles.lead}>
+          The page you're looking for doesn't exist or may have moved. Let's get
+          you back on track.
+        </p>
+        <Link to="/" className={styles.home}>
+          Back to Home <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+    </section>
   );
 }
