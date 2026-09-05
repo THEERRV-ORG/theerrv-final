@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import FAQ from "../components/page/FAQ";
 import CTABand from "../components/page/CTABand";
 import Reveal from "../components/shared/Reveal";
 import usePageTitle from "../hooks/usePageTitle";
 import { contactPage } from "../data/content";
-import { db, firebaseReady } from "../lib/firebase";
+import { firebaseReady, getDb } from "../lib/firebase";
 import styles from "./ContactPage.module.css";
 
 /**
@@ -15,7 +14,7 @@ import styles from "./ContactPage.module.css";
  * /locations page, anchored at #location for the footer link).
  */
 export default function ContactPage() {
-  usePageTitle(contactPage.seoTitle);
+  usePageTitle(contactPage.seoTitle, contactPage.seoDescription);
   const { hero, reachOut, form, location, cta, faqs } = contactPage;
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
   const sent = status === "sent";
@@ -32,7 +31,7 @@ export default function ContactPage() {
 
     // Without config the write would throw an opaque error; fail loudly in dev
     // and tell the visitor to use the email link instead.
-    if (!firebaseReady || !db) {
+    if (!firebaseReady) {
       console.error(
         "Firebase is not configured — set VITE_FIREBASE_* in .env.local (see .env.example).",
       );
@@ -42,6 +41,15 @@ export default function ContactPage() {
 
     setStatus("sending");
     try {
+      // Firebase (the page's heaviest dependency) is loaded lazily, only now —
+      // on an actual submit — so /contact stays light on view. Both dynamic
+      // imports resolve to the same firestore chunk.
+      const [{ addDoc, collection, serverTimestamp }, db] = await Promise.all([
+        import("firebase/firestore"),
+        getDb(),
+      ]);
+      if (!db) throw new Error("Firestore unavailable");
+
       await addDoc(collection(db, "contactSubmissions"), {
         fullName: data.fullName ?? "",
         company: data.company ?? "",

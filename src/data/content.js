@@ -89,156 +89,10 @@ export const hero = {
   ],
 };
 
-export const intro = {
-  eyebrow: "Foundations",
-  statement: ["Technology That", "Solves Problems", "and Creates Value."],
-  body: "Businesses today need technology that is reliable, scalable, and aligned with real operational goals. We help organizations build new digital products, modernize existing systems, improve performance, automate manual processes, and unlock more value from data and AI — solutions that are technically strong, practical, and built for long-term success.",
-};
-
-export const capabilities = {
-  eyebrow: "Core Services",
-  heading: "Technology Services Designed Around Business Needs",
-  items: [
-    {
-      index: "01",
-      title: "Custom Software Development",
-      description:
-        "Tailored software that fits your business processes, improves operational efficiency, and supports future growth.",
-    },
-    {
-      index: "02",
-      title: "Web Design & Frontend",
-      description:
-        "Modern, responsive, user-focused web experiences that combine strong design with functionality and performance.",
-    },
-    {
-      index: "03",
-      title: "API & Backend Engineering",
-      description:
-        "Secure, scalable APIs and backend systems that support integrations, digital platforms, and business-critical workflows.",
-    },
-    {
-      index: "04",
-      title: "Azure Cloud Solutions",
-      description:
-        "Adopt and modernize with cloud technologies that improve flexibility, deployment efficiency, and scalability.",
-    },
-    {
-      index: "05",
-      title: "Application Modernization",
-      description:
-        "Upgrade legacy systems with a structured approach that improves maintainability, performance, and long-term value.",
-    },
-    {
-      index: "06",
-      title: "Data, Analytics & Reporting",
-      description:
-        "Transform business data into useful dashboards, reports, and insights that support better decision-making.",
-    },
-    {
-      index: "07",
-      title: "AI Solutions & Automation",
-      description:
-        "Integrate practical AI capabilities and workflow automation to improve efficiency and user experience.",
-    },
-    {
-      index: "08",
-      title: "DevOps & Performance",
-      description:
-        "Strengthen software delivery, improve release processes, and optimize system performance across your stack.",
-    },
-  ],
-};
-
-export const philosophy = {
-  eyebrow: "Why Choose Theerrv",
-  heading: ["A Modern Technology Partner", "for Growing Businesses."],
-  lead: "We combine technical capability with a business-focused mindset. Every project is more than code — it is an investment in efficiency, customer experience, and future growth.",
-  principles: [
-    {
-      index: "01",
-      title: "End-to-End Ownership",
-      description: "Full project ownership from planning through to deployment.",
-    },
-    {
-      index: "02",
-      title: "Modern Engineering",
-      description: "Modern engineering practices and scalable architecture throughout.",
-    },
-    {
-      index: "03",
-      title: "Business-Aligned",
-      description: "Digital solutions shaped around real operational goals.",
-    },
-    {
-      index: "04",
-      title: "Built to Last",
-      description: "A focus on quality, maintainability, and long-term value.",
-    },
-    {
-      index: "05",
-      title: "Reliable Delivery",
-      description: "A strong commitment to collaboration and dependable delivery.",
-    },
-  ],
-};
-
-export const technology = {
-  eyebrow: "Specification",
-  heading: "Engineered for What's Next.",
-  stack: [
-    { label: "Frontend", value: "React / Next.js" },
-    { label: "Backend", value: "Node.js / Python / .NET" },
-    { label: "Data", value: "SQL / Firebase" },
-    { label: "Cloud", value: "Microsoft Azure" },
-  ],
-};
-
-export const selectedWork = {
-  eyebrow: "Business Solutions",
-  heading: "Solutions That Create Real Impact",
-  note: "We help businesses solve real operational and technology challenges through practical, outcome-focused solutions.",
-  projects: [
-    {
-      index: "001",
-      title: "Build a New Product",
-      description: "Turn ideas into production-ready digital platforms.",
-      tags: ["Product Engineering"],
-    },
-    {
-      index: "002",
-      title: "Modernize Applications",
-      description: "Improve older systems without losing critical business value.",
-      tags: ["Modernization"],
-    },
-    {
-      index: "003",
-      title: "Automate Workflows",
-      description: "Reduce repetitive work and improve everyday productivity.",
-      tags: ["Automation"],
-    },
-    {
-      index: "004",
-      title: "Improve Performance",
-      description: "Identify bottlenecks and optimize for speed and stability.",
-      tags: ["Optimization"],
-    },
-    {
-      index: "005",
-      title: "Add AI to Systems",
-      description: "Introduce practical AI experiences and workflow intelligence.",
-      tags: ["AI Integration"],
-    },
-  ],
-};
-
-export const finalCta = {
-  title: ["Tell us the vision.", "We take the rest."],
-  body: "We design, build, modernize and scale business software. Send one message and an engineer replies within a business day.",
-  cta: { label: "Start a Conversation", to: "/contact" },
-  secondary: { label: "See How We Work", to: "/solutions" },
-  email: "info@theerrv.com",
-};
+// NOTE: The homepage renders entirely from `homeStory` (below) via the Story
+// component. The older flat home sections (intro, capabilities, philosophy,
+// technology, selectedWork, finalCta) and their components were retired — the
+// six-service `homeStory.services` list is the single source of truth now.
 
 export const homeFaqs = {
   eyebrow: "FAQ",
@@ -399,6 +253,8 @@ export const homeStory = {
 
 export const servicesPage = {
   seoTitle: "Services | Product Engineering, Modernization, Cloud, Data & AI | Theerrv Technologies",
+  seoDescription:
+    "Six software services covering a project end to end — product engineering and custom software, modernization, cloud & DevOps, data & automation, APIs & security, and practical AI.",
   hero: {
     eyebrow: "Services",
     headline: ["Our", "Services."],
@@ -651,6 +507,8 @@ export const servicesPage = {
 
 export const solutionsPage = {
   seoTitle: "Solutions | Business Automation, Analytics, AI & Enterprise Applications | Theerrv Technologies",
+  seoDescription:
+    "Business automation, analytics and reporting, practical AI, and enterprise applications — outcome-driven solutions engineered around your operations and long-term growth.",
   hero: {
     eyebrow: "Solutions",
     headline: ["Business", "Solutions."],
@@ -784,6 +642,8 @@ export const solutionsPage = {
 
 export const caseStudiesPage = {
   seoTitle: "Case Studies | Software, Cloud, Automation & AI Projects | Theerrv Technologies",
+  seoDescription:
+    "How Theerrv approaches real projects — new product builds, legacy modernization, data and reporting, and AI automation — with a focus on practical, measurable results.",
   hero: {
     eyebrow: "Case Studies",
     headline: ["Case", "Studies."],
@@ -834,6 +694,8 @@ export const caseStudiesPage = {
 
 export const insightsPage = {
   seoTitle: "Insights & Blog | Software, Cloud, AI, Analytics and Development Ideas | Theerrv Technologies",
+  seoDescription:
+    "Practical articles on software engineering, cloud modernization, product development, analytics, AI and automation — ideas to help teams make better technology decisions.",
   hero: {
     eyebrow: "Insights",
     headline: ["Ideas worth", "writing down."],
@@ -855,6 +717,8 @@ export const insightsPage = {
 
 export const careersPage = {
   seoTitle: "Careers | Join Theerrv Technologies",
+  seoDescription:
+    "Join Theerrv Technologies — a learning-focused software startup hiring across development, frontend, backend engineering, cloud & DevOps, and QA.",
   hero: {
     eyebrow: "Careers",
     headline: ["Careers at", "Theerrv."],
@@ -898,6 +762,8 @@ export const careersPage = {
 
 export const contactPage = {
   seoTitle: "Contact Theerrv Technologies | Get in Touch",
+  seoDescription:
+    "Tell us about your project — new software, modernization, cloud, analytics, or AI. Based in Vellore, Tamil Nadu; an engineer replies within a business day.",
   hero: {
     eyebrow: "Contact",
     headline: ["Tell us what", "you're building."],
@@ -1006,6 +872,8 @@ export const contactPage = {
 
 export const aboutPage = {
   seoTitle: "About Theerrv Technologies | Building Digital Solutions for a Smarter Tomorrow",
+  seoDescription:
+    "Theerrv Technologies is a modern software studio founded by five engineers, building custom software, cloud, data and AI solutions for growing businesses from Tamil Nadu.",
   hero: {
     eyebrow: "About Us",
     headline: ["Building digital solutions", "for a smarter tomorrow."],

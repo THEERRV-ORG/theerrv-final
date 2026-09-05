@@ -58,7 +58,10 @@ export default function ServiceDetailPage() {
 
   // Called before the early return below: hooks must run in the same order on
   // every render, and an unknown slug would otherwise skip this one.
-  usePageTitle(service ? `${service.title} | Theerrv Technologies` : "Theerrv Technologies");
+  usePageTitle(
+    service ? `${service.title} | Theerrv Technologies` : "Theerrv Technologies",
+    service?.description,
+  );
 
   if (!service) return <Navigate to="/services" replace />;
 

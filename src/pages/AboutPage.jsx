@@ -18,7 +18,7 @@ const LogoScene = lazy(() => import("../scene/LogoScene"));
  * scene renders nothing and the sections remain a clean dark editorial page.
  */
 export default function AboutPage() {
-  usePageTitle(aboutPage.seoTitle);
+  usePageTitle(aboutPage.seoTitle, aboutPage.seoDescription);
   const { hero, about, missionVision, why, story, closing } = aboutPage;
 
   return (

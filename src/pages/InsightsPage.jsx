@@ -12,7 +12,7 @@ import styles from "./InsightsPage.module.css";
  * article as an editorial feature and the rest as an accent-spine grid.
  */
 export default function InsightsPage() {
-  usePageTitle(insightsPage.seoTitle);
+  usePageTitle(insightsPage.seoTitle, insightsPage.seoDescription);
   const { hero, featuredIntro, cta } = insightsPage;
 
   const [lead, ...rest] = articles;

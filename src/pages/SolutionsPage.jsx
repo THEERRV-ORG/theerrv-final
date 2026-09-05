@@ -13,7 +13,7 @@ import styles from "./SolutionsPage.module.css";
  * palette are the same system used by the home, about and services pages.
  */
 export default function SolutionsPage() {
-  usePageTitle(solutionsPage.seoTitle);
+  usePageTitle(solutionsPage.seoTitle, solutionsPage.seoDescription);
   const { hero, items, closing, cta } = solutionsPage;
 
   const [active, setActive] = useState(-1);

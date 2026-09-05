@@ -5,7 +5,7 @@ import usePageTitle from "../hooks/usePageTitle";
 import { caseStudiesPage } from "../data/content";
 
 export default function CaseStudiesPage() {
-  usePageTitle(caseStudiesPage.seoTitle);
+  usePageTitle(caseStudiesPage.seoTitle, caseStudiesPage.seoDescription);
   const { hero, note, blocks, cta } = caseStudiesPage;
 
   return (

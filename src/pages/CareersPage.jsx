@@ -6,7 +6,7 @@ import { careersPage } from "../data/content";
 import styles from "./CareersPage.module.css";
 
 export default function CareersPage() {
-  usePageTitle(careersPage.seoTitle);
+  usePageTitle(careersPage.seoTitle, careersPage.seoDescription);
   const { hero, why, openRoles, cta } = careersPage;
 
   return (

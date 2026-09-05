@@ -1,6 +1,3 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-
 /**
  * Firebase client. The config values below are Vite env vars (VITE_ prefix, so
  * they are exposed to the browser bundle) read from `.env.local` — see
@@ -41,11 +38,27 @@ const firebaseConfig = {
 };
 
 // Guard against a half-configured environment so failures are legible in dev
-// rather than surfacing as an opaque Firebase error on first write.
+// rather than surfacing as an opaque Firebase error on first write. This only
+// reads env vars — no SDK import — so it stays cheap.
 export const firebaseReady = Boolean(
   firebaseConfig.apiKey && firebaseConfig.projectId,
 );
 
-const app = firebaseReady ? initializeApp(firebaseConfig) : null;
-
-export const db = app ? getFirestore(app) : null;
+// The Firebase SDK (~125 KB gzip) is the heaviest dependency the contact page
+// would otherwise pull in on load. Import it lazily so it downloads only when a
+// visitor actually submits the form — not on every /contact view. The init is
+// memoised, so repeat submits reuse the same Firestore instance.
+let dbPromise = null;
+export function getDb() {
+  if (!firebaseReady) return Promise.resolve(null);
+  if (!dbPromise) {
+    dbPromise = (async () => {
+      const [{ initializeApp }, { getFirestore }] = await Promise.all([
+        import("firebase/app"),
+        import("firebase/firestore"),
+      ]);
+      return getFirestore(initializeApp(firebaseConfig));
+    })();
+  }
+  return dbPromise;
+}

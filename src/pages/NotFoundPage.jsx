@@ -8,7 +8,10 @@ import styles from "./NotFoundPage.module.css";
  * Vercel serves on direct-loaded unknown URLs. Keep the two in sync.
  */
 export default function NotFoundPage() {
-  usePageTitle("Page Not Found | Theerrv Technologies");
+  usePageTitle(
+    "Page Not Found | Theerrv Technologies",
+    "The page you're looking for doesn't exist or may have moved. Head back home to find what you need.",
+  );
 
   return (
     <section className={styles.hero}>

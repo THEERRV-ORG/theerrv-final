@@ -4,7 +4,7 @@ import usePageTitle from "../hooks/usePageTitle";
 import { servicesPage } from "../data/content";
 
 export default function ServicesPage() {
-  usePageTitle(servicesPage.seoTitle);
+  usePageTitle(servicesPage.seoTitle, servicesPage.seoDescription);
   const { showcase, cta } = servicesPage;
 
   return (

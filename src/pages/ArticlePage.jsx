@@ -96,7 +96,10 @@ export default function ArticlePage() {
     };
   }, [article]);
 
-  usePageTitle(article ? `${article.title} | Theerrv Technologies` : undefined);
+  usePageTitle(
+    article ? `${article.title} | Theerrv Technologies` : undefined,
+    article?.description,
+  );
 
   if (!article) return <Navigate to="/insights" replace />;
 
