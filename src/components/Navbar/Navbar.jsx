@@ -47,20 +47,54 @@ export default function Navbar() {
   }, []);
 
   /* Bar state: transparent over the dark hero, floating card past it. Re-run on
-     route change because each page mounts its own hero sentinel. */
+     route change because each page mounts its own hero sentinel.
+
+     The sentinel ([data-nav-hero]) lives inside the page component, which is a
+     lazily-loaded chunk — so on a cold production load it is NOT in the DOM yet
+     when this effect first runs (the navbar is eager, the page chunk arrives
+     over the network a moment later). A one-shot querySelector would miss it and
+     the bar would be stuck in the wrong state, blur and all. So: attach the
+     IntersectionObserver if the hero is already here, otherwise watch for it to
+     mount and attach then; if it never appears, treat the route as heroless. */
   useEffect(() => {
+    let io; // watches the hero's visibility once found
+    let mo; // waits for a lazily-mounted hero to appear
+    let stopWatching; // stops the wait once any lazy chunk has surely mounted
+
+    const attach = (hero) => {
+      if (mo) mo.disconnect();
+      clearTimeout(stopWatching);
+      setSolid(false);
+      io = new IntersectionObserver(
+        ([entry]) => setSolid(!entry.isIntersecting),
+        { rootMargin: "-72px 0px 0px 0px", threshold: 0 },
+      );
+      io.observe(hero);
+    };
+
     const hero = document.querySelector("[data-nav-hero]");
-    if (!hero) {
-      const frame = requestAnimationFrame(() => setSolid(true));
-      return () => cancelAnimationFrame(frame);
+    if (hero) {
+      attach(hero);
+    } else {
+      // No sentinel yet. Default to the solid bar immediately (correct for
+      // routes that have no hero, e.g. /services), but keep watching: on a cold
+      // production load the page hero lives in a code-split chunk that mounts a
+      // moment later, and when it does we switch to observing it. Stop watching
+      // after a few seconds, by which point any chunk has arrived.
+      setSolid(true);
+      mo = new MutationObserver(() => {
+        const late = document.querySelector("[data-nav-hero]");
+        if (late) attach(late);
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
+      stopWatching = setTimeout(() => mo.disconnect(), 4000);
     }
-    setSolid(false);
-    const observer = new IntersectionObserver(
-      ([entry]) => setSolid(!entry.isIntersecting),
-      { rootMargin: "-72px 0px 0px 0px", threshold: 0 },
-    );
-    observer.observe(hero);
-    return () => observer.disconnect();
+
+    return () => {
+      if (io) io.disconnect();
+      if (mo) mo.disconnect();
+      clearTimeout(stopWatching);
+    };
   }, [pathname]);
 
   /* Hide the bar on scroll-down, reveal it on scroll-up or near the top. */

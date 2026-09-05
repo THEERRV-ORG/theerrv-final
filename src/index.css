@@ -235,3 +235,11 @@ p {
     transition: none;
   }
 }
+
+/* Reserves a viewport of height while a lazily-loaded page chunk arrives, so
+   the footer stays below the fold instead of painting under the navbar and
+   then jumping down when content mounts. Matches the dark body, so the hold
+   reads as the page still settling rather than an empty shell. */
+.route-fallback {
+  min-height: 100svh;
+}

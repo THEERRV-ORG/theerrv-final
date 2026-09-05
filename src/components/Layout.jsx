@@ -54,9 +54,13 @@ export default function Layout() {
       <div className="grain-overlay" aria-hidden="true" />
       <Navbar />
       <main>
-        {/* Page chunks load here; the navbar and footer stay mounted. Fallback
-            is null — the dark body shows for the brief moment a chunk arrives. */}
-        <Suspense fallback={null}>
+        {/* Page chunks load here; the navbar and footer stay mounted. The
+            fallback reserves a full viewport of height so the footer stays
+            below the fold while a chunk arrives — otherwise it would paint
+            directly under the navbar and then jump down when content loads
+            (a visible layout shift). Purely a spacer: no spinner to flash on
+            the fast chunks, aria-hidden so it's silent to assistive tech. */}
+        <Suspense fallback={<div className="route-fallback" aria-hidden="true" />}>
           <Outlet />
         </Suspense>
       </main>
