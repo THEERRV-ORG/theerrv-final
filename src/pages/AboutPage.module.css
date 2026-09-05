@@ -276,7 +276,6 @@
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   background: linear-gradient(120deg, rgba(24, 34, 68, 0.62), rgba(10, 16, 36, 0.34));
   backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
   box-shadow: 0 40px 80px -52px rgba(0, 0, 0, 0.7);
   transition: transform var(--dur-med) var(--ease-arch), border-color var(--dur-fast) ease;
 }

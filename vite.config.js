@@ -62,4 +62,28 @@ function sitemap() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), sitemap()],
+  build: {
+    // Minify CSS with lightningcss, not esbuild. esbuild's minifier collapses a
+    // `backdrop-filter` + `-webkit-backdrop-filter` pair down to whichever was
+    // declared last, dropping the other — and where the standard property was
+    // dropped, current Chrome/Edge (which no longer accept the `-webkit-` alias)
+    // lost the blur entirely in production while dev looked fine. lightningcss
+    // does correct, browserslist-driven prefixing and keeps both.
+    cssMinify: 'lightningcss',
+  },
+  css: {
+    transformer: 'lightningcss',
+    lightningcss: {
+      // Explicit targets so lightningcss emits the right vendor prefixes.
+      // Firefox needs unprefixed `backdrop-filter`; Safari ≤17 needs the
+      // `-webkit-` one — including both makes lightningcss ship both, fixing the
+      // production-only lost-blur bug. Versions are encoded major << 16.
+      targets: {
+        chrome: 90 << 16,
+        edge: 90 << 16,
+        firefox: 103 << 16,
+        safari: 15 << 16,
+      },
+    },
+  },
 })
