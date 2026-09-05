@@ -33,6 +33,7 @@ function sitemap() {
       { loc: '/about', priority: '0.8' },
       { loc: '/services', priority: '0.9' },
       { loc: '/solutions', priority: '0.9' },
+      { loc: '/case-studies', priority: '0.8' },
       { loc: '/insights', priority: '0.7' },
       { loc: '/contact', priority: '0.8' },
       ...SERVICE_SLUGS.map((s) => ({ loc: `/services/${s}`, priority: '0.7' })),

@@ -11,6 +11,7 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const ServiceDetailPage = lazy(() => import("./pages/ServiceDetailPage"));
 const SolutionsPage = lazy(() => import("./pages/SolutionsPage"));
+const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
 const InsightsPage = lazy(() => import("./pages/InsightsPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
@@ -25,7 +26,7 @@ export default function App() {
         <Route path="services" element={<ServicesPage />} />
         <Route path="services/:slug" element={<ServiceDetailPage />} />
         <Route path="solutions" element={<SolutionsPage />} />
-        {/* <Route path="case-studies" element={<CaseStudiesPage />} /> */}
+        <Route path="case-studies" element={<CaseStudiesPage />} />
         <Route path="insights" element={<InsightsPage />} />
         <Route path="insights/:slug" element={<ArticlePage />} />
         {/* <Route path="careers" element={<CareersPage />} /> */}

@@ -7,15 +7,17 @@ import { articles } from "../data/insights";
 import styles from "./InsightsPage.module.css";
 
 /**
- * Insights — the writing index, on the same cinematic ground as the about and
- * solutions pages: a fixed lit backdrop with a full-height hero, then the lead
- * article as an editorial feature and the rest as an accent-spine grid.
+ * Insights — "Cover Cards" index (Direction 03). A gallery of cover tiles on the
+ * fixed lit ground. Case studies live on their own page, so this shows only blog
+ * posts (everything not tagged `category: Case Study`). A post's `cover` image is
+ * used when present; otherwise the stylesheet paints a themed gradient cover, so
+ * the grid reads as designed even before art is commissioned.
  */
 export default function InsightsPage() {
   usePageTitle(insightsPage.seoTitle, insightsPage.seoDescription);
   const { hero, featuredIntro, cta } = insightsPage;
 
-  const [lead, ...rest] = articles;
+  const posts = articles.filter((a) => a.category !== "Case Study");
 
   return (
     <div className={styles.page}>
@@ -38,62 +40,45 @@ export default function InsightsPage() {
           </div>
         </section>
 
-        {/* Writing */}
+        {/* Gallery */}
         <section className={styles.section}>
           <div className="container">
-            {lead ? (
-              <>
-                {/* Lead article — the editorial feature. */}
-                <Reveal as="div">
-                  <Link to={`/insights/${lead.slug}`} className={styles.feature}>
-                    <span className={styles.featureTag}>Latest</span>
-                    <div className={styles.featureBody}>
-                      <span className={styles.cat}>{lead.category}</span>
-                      <h2 className={styles.featureTitle}>{lead.title}</h2>
-                      {lead.excerpt && <p className={styles.featureExcerpt}>{lead.excerpt}</p>}
-                      <span className={styles.meta}>
-                        {lead.dateLabel && <span>{lead.dateLabel}</span>}
-                        {lead.dateLabel && <span className={styles.dot} aria-hidden="true" />}
-                        <span>{lead.readTime}</span>
+            {posts.length > 0 ? (
+              <ul className={styles.grid}>
+                {posts.map((a, i) => (
+                  <Reveal as="li" key={a.slug} delay={(i % 3) * 70}>
+                    <Link to={`/insights/${a.slug}`} className={styles.card}>
+                      <span
+                        className={styles.cover}
+                        style={a.cover ? { backgroundImage: `url(${a.cover})` } : undefined}
+                      >
+                        <span className={styles.chip}>{a.category}</span>
                       </span>
-                      <span className={styles.readOn}>
-                        Read the story <span aria-hidden="true">→</span>
+                      <span className={styles.cardBody}>
+                        <span className={styles.cardTitle}>{a.title}</span>
+                        {a.excerpt && <span className={styles.cardExcerpt}>{a.excerpt}</span>}
+                        <span className={styles.meta}>
+                          {a.dateLabel && <span>{a.dateLabel}</span>}
+                          {a.dateLabel && <span className={styles.dot} aria-hidden="true" />}
+                          <span>{a.readTime}</span>
+                        </span>
                       </span>
-                    </div>
-                  </Link>
-                </Reveal>
-
-                {rest.length > 0 && (
-                  <ul className={styles.grid}>
-                    {rest.map((a, i) => (
-                      <Reveal as="li" key={a.slug} delay={i * 60}>
-                        <Link to={`/insights/${a.slug}`} className={styles.card}>
-                          <span className={styles.cat}>{a.category}</span>
-                          <span className={styles.cardTitle}>{a.title}</span>
-                          {a.excerpt && <span className={styles.cardExcerpt}>{a.excerpt}</span>}
-                          <span className={styles.meta}>
-                            {a.dateLabel && <span>{a.dateLabel}</span>}
-                            {a.dateLabel && <span className={styles.dot} aria-hidden="true" />}
-                            <span>{a.readTime}</span>
-                          </span>
-                        </Link>
-                      </Reveal>
-                    ))}
-                  </ul>
-                )}
-              </>
+                    </Link>
+                  </Reveal>
+                ))}
+              </ul>
             ) : (
               <Reveal as="div" className={styles.featured}>
                 <p className={styles.featuredIntro}>{featuredIntro}</p>
                 <p className={styles.soon}>
-                  Articles are on the way — check back soon, or reach out with a topic you'd like us to cover.
+                  Articles are on the way — check back soon, or reach out with a
+                  topic you'd like us to cover.
                 </p>
               </Reveal>
             )}
           </div>
         </section>
 
-        {/* Inside .content so it stacks above the fixed atmosphere. */}
         <CTABand heading={cta.heading} body={cta.body} label={cta.label} to={cta.to} />
       </div>
     </div>

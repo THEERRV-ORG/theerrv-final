@@ -15,7 +15,7 @@ export const nav = {
     { label: "About", to: "/about" },
     { label: "Services", to: "/services" },
     { label: "Solutions", to: "/solutions" },
-    // { label: "Case Studies", to: "/case-studies" }, // temporarily hidden
+    { label: "Case Studies", to: "/case-studies" },
     { label: "Insights", to: "/insights" },
     // { label: "Careers", to: "/careers" }, // temporarily hidden
     { label: "Contact", to: "/contact" },
@@ -57,7 +57,7 @@ export const footer = {
       title: "Company",
       links: [
         { label: "About", to: "/about" },
-        // { label: "Case Studies", to: "/case-studies" }, // temporarily hidden
+        { label: "Case Studies", to: "/case-studies" },
         { label: "Insights", to: "/insights" },
         // { label: "Careers", to: "/careers" }, // temporarily hidden
         { label: "Locations", to: "/contact#location" },
@@ -646,7 +646,7 @@ export const caseStudiesPage = {
     "How Theerrv approaches real projects — new product builds, legacy modernization, data and reporting, and AI automation — with a focus on practical, measurable results.",
   hero: {
     eyebrow: "Case Studies",
-    headline: ["Case", "Studies."],
+    headline: ["Proof, not", "promises."],
     lead: "How we approach real business and technology challenges — from building new platforms and improving performance to modernizing legacy systems and enabling automation. Our focus is always on practical results, stronger systems, and measurable value.",
   },
   note: "If your company is at the beginning of its journey, this page also presents capability examples and solution stories until full client case studies are published.",
