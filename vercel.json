@@ -8,6 +8,7 @@
     { "source": "/services", "destination": "/index.html" },
     { "source": "/services/:slug", "destination": "/index.html" },
     { "source": "/solutions", "destination": "/index.html" },
+    { "source": "/case-studies", "destination": "/index.html" },
     { "source": "/insights", "destination": "/index.html" },
     { "source": "/insights/:slug", "destination": "/index.html" },
     { "source": "/contact", "destination": "/index.html" }
