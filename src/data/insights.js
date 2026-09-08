@@ -16,7 +16,9 @@ import { marked } from "marked";
  *   client:      Acme Trust
  *   date:        2026-08-15
  *   readTime:    6 min read        # omit and it is estimated from word count
- *   featured:    true              # pins it to the top of the index
+ *   featured:    true              # promotes it to the "Featured" strip
+ *   author:      Priya R           # byline name; defaults to "Theerrv Technologies"
+ *   authorRole:  Engineering Lead  # optional role shown under the byline
  *   excerpt:     One-line summary shown on the index card
  *   description: <meta name="description"> for search engines
  *   keywords:    comma, separated, keywords
@@ -88,6 +90,8 @@ export const articles = Object.entries(files)
       dateLabel: formatDate(meta.date),
       readTime: meta.readTime ?? estimateReadTime(body),
       featured: meta.featured === true,
+      author: meta.author ?? "Theerrv Technologies",
+      authorRole: meta.authorRole ?? "",
       excerpt: meta.excerpt ?? "",
       description: meta.description ?? meta.excerpt ?? "",
       keywords: meta.keywords ?? [],

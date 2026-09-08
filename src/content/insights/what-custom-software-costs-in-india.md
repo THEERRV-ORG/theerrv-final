@@ -4,6 +4,7 @@ category: Cost & Budgeting
 date: 2026-09-05
 readTime: 8 min read
 featured: true
+cover: /insights/cost.png
 excerpt: The honest version of the answer every business wants before they call a developer — what you're actually paying for, and why two quotes for "the same app" can differ 5x.
 description: A candid breakdown of what custom software costs in India, the factors that move the price, and how to budget without overpaying or underscoping.
 keywords: custom software cost india, software development pricing, cost to build an app, software development budget

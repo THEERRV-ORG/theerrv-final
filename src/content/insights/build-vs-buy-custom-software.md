@@ -3,6 +3,7 @@ title: Build vs. buy: when off-the-shelf software starts costing you more
 category: Decisions
 date: 2026-09-03
 readTime: 6 min read
+cover: /insights/buildbuy.png
 excerpt: Custom software isn't always the answer — and a partner who tells you when to just buy a tool is worth more than one who bills you to rebuild it. A practical way to decide.
 description: A clear framework for deciding whether to build custom software or buy an off-the-shelf tool — the questions that actually matter, and the hidden costs of each.
 keywords: build vs buy software, custom software vs off the shelf, saas vs custom, when to build custom software

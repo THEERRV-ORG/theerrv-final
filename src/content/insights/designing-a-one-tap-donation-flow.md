@@ -3,6 +3,7 @@ title: Designing a one-tap donation flow — a small UX study
 category: Craft
 date: 2026-08-28
 readTime: 6 min read
+cover: /insights/donation.png
 excerpt: Most forms ask for too much and people leave. Here's how we cut a donation flow down to almost nothing — and why the same thinking applies to any conversion form.
 description: A UX case study on designing a friction-free, one-tap donation flow — the decisions that reduce drop-off, applicable to any form that needs conversions.
 keywords: donation form ux, reduce form abandonment, conversion form design, one tap payment flow

@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import CTABand from "../components/page/CTABand";
 import Reveal from "../components/shared/Reveal";
@@ -7,17 +8,69 @@ import { articles } from "../data/insights";
 import styles from "./InsightsPage.module.css";
 
 /**
- * Insights — "Cover Cards" index (Direction 03). A gallery of cover tiles on the
- * fixed lit ground. Case studies live on their own page, so this shows only blog
- * posts (everything not tagged `category: Case Study`). A post's `cover` image is
- * used when present; otherwise the stylesheet paints a themed gradient cover, so
- * the grid reads as designed even before art is commissioned.
+ * Insights — a blog index modelled on the Vercel blog's structure, in Theerrv's
+ * dark brand: category filter tabs, a "Featured" strip of large image-forward
+ * cards, then a grid of posts with author bylines. Case studies live on their
+ * own page, so this shows only blog posts (not tagged `category: Case Study`).
+ * Covers use a post's `cover` image when present, otherwise a themed gradient.
  */
+
+function Byline({ post }) {
+  return (
+    <span className={styles.byline}>
+      <img className={styles.avatar} src="/logo-mark-ivory.png" alt="" aria-hidden="true" />
+      <span className={styles.bylineText}>
+        <span className={styles.author}>{post.author}</span>
+        {(post.authorRole || post.dateLabel) && (
+          <span className={styles.bylineMeta}>
+            {post.authorRole || post.dateLabel}
+          </span>
+        )}
+      </span>
+    </span>
+  );
+}
+
+// Themed gradient covers used when a post has no `cover` image. Assigned by
+// index in JS (not CSS :nth-child) so each card is stable regardless of how the
+// list is wrapped.
+const TONES = [
+  "linear-gradient(135deg, #1a2c4d, #0a1630)",
+  "linear-gradient(135deg, #4a2f22, #1a1210)",
+  "linear-gradient(135deg, #2a3a2c, #10201a)",
+  "linear-gradient(135deg, #3a2540, #180f22)",
+  "linear-gradient(135deg, #14324a, #06131f)",
+  "linear-gradient(135deg, #402a2a, #1f1212)",
+];
+
+function Cover({ post, index = 0 }) {
+  const backgroundImage = post.cover ? `url(${post.cover})` : TONES[index % TONES.length];
+  return (
+    <span className={styles.cover} style={{ backgroundImage }}>
+      <span className={styles.chip}>{post.category}</span>
+    </span>
+  );
+}
+
 export default function InsightsPage() {
   usePageTitle(insightsPage.seoTitle, insightsPage.seoDescription);
   const { hero, featuredIntro, cta } = insightsPage;
 
-  const posts = articles.filter((a) => a.category !== "Case Study");
+  const posts = useMemo(
+    () => articles.filter((a) => a.category !== "Case Study"),
+    [],
+  );
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(posts.map((p) => p.category)))],
+    [posts],
+  );
+
+  const [tab, setTab] = useState("All");
+  const isAll = tab === "All";
+
+  const featured = posts.filter((p) => p.featured);
+  const inGrid = isAll ? posts.filter((p) => !p.featured) : posts.filter((p) => p.category === tab);
+  const showFeatured = isAll && featured.length > 0;
 
   return (
     <div className={styles.page}>
@@ -40,34 +93,82 @@ export default function InsightsPage() {
           </div>
         </section>
 
-        {/* Gallery */}
-        <section className={styles.section}>
-          <div className="container">
-            {posts.length > 0 ? (
-              <ul className={styles.grid}>
-                {posts.map((a, i) => (
-                  <Reveal as="li" key={a.slug} delay={(i % 3) * 70}>
-                    <Link to={`/insights/${a.slug}`} className={styles.card}>
-                      <span
-                        className={styles.cover}
-                        style={a.cover ? { backgroundImage: `url(${a.cover})` } : undefined}
-                      >
-                        <span className={styles.chip}>{a.category}</span>
-                      </span>
-                      <span className={styles.cardBody}>
-                        <span className={styles.cardTitle}>{a.title}</span>
-                        {a.excerpt && <span className={styles.cardExcerpt}>{a.excerpt}</span>}
-                        <span className={styles.meta}>
-                          {a.dateLabel && <span>{a.dateLabel}</span>}
-                          {a.dateLabel && <span className={styles.dot} aria-hidden="true" />}
-                          <span>{a.readTime}</span>
+        {posts.length > 0 ? (
+          <section className={styles.section}>
+            <div className="container">
+              {/* Filter tabs */}
+              {categories.length > 2 && (
+                <div className={styles.tabs} role="tablist" aria-label="Filter posts by topic">
+                  {categories.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      role="tab"
+                      aria-selected={tab === c}
+                      className={`${styles.tab} ${tab === c ? styles.tabOn : ""}`}
+                      onClick={() => setTab(c)}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Featured strip */}
+              {showFeatured && (
+                <>
+                  <p className={styles.sectionLabel}>Featured</p>
+                  <ul className={styles.featGrid}>
+                    {featured.map((p, i) => (
+                      <Reveal as="li" key={p.slug} delay={i * 70}>
+                        <Link to={`/insights/${p.slug}`} className={`${styles.card} ${styles.featCard}`}>
+                          <Cover post={p} index={i} />
+                          <span className={styles.cardBody}>
+                            <span className={styles.metaRow}>
+                              <span>{p.dateLabel}</span>
+                              <span className={styles.dot} aria-hidden="true" />
+                              <span>{p.readTime}</span>
+                            </span>
+                            <span className={styles.featTitle}>{p.title}</span>
+                            {p.excerpt && <span className={styles.excerpt}>{p.excerpt}</span>}
+                            <Byline post={p} />
+                          </span>
+                        </Link>
+                      </Reveal>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {/* Posts grid */}
+              <p className={styles.sectionLabel}>{isAll ? "Latest posts" : tab}</p>
+              {inGrid.length > 0 ? (
+                <ul className={styles.postGrid}>
+                  {inGrid.map((p, i) => (
+                    <Reveal as="li" key={p.slug} delay={(i % 3) * 70}>
+                      <Link to={`/insights/${p.slug}`} className={styles.card}>
+                        <Cover post={p} index={i} />
+                        <span className={styles.cardBody}>
+                          <span className={styles.metaRow}>
+                            <span>{p.dateLabel}</span>
+                            <span className={styles.dot} aria-hidden="true" />
+                            <span>{p.readTime}</span>
+                          </span>
+                          <span className={styles.postTitle}>{p.title}</span>
+                          <Byline post={p} />
                         </span>
-                      </span>
-                    </Link>
-                  </Reveal>
-                ))}
-              </ul>
-            ) : (
+                      </Link>
+                    </Reveal>
+                  ))}
+                </ul>
+              ) : (
+                <p className={styles.soon}>No posts in this topic yet.</p>
+              )}
+            </div>
+          </section>
+        ) : (
+          <section className={styles.section}>
+            <div className="container">
               <Reveal as="div" className={styles.featured}>
                 <p className={styles.featuredIntro}>{featuredIntro}</p>
                 <p className={styles.soon}>
@@ -75,9 +176,9 @@ export default function InsightsPage() {
                   topic you'd like us to cover.
                 </p>
               </Reveal>
-            )}
-          </div>
-        </section>
+            </div>
+          </section>
+        )}
 
         <CTABand heading={cta.heading} body={cta.body} label={cta.label} to={cta.to} />
       </div>

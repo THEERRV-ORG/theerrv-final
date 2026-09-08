@@ -1,6 +1,6 @@
-/* Insights — "Cover Cards" (Direction 03). A gallery of cover tiles on the same
-   lit ground as about / solutions. Type scale, weights and palette come from the
-   shared system. */
+/* Insights — blog index modelled on the Vercel blog's structure (filter tabs →
+   featured strip → post grid with bylines), rendered in Theerrv's dark brand.
+   Type scale, weights and palette come from the shared system. */
 
 .page {
   position: relative;
@@ -68,8 +68,6 @@
   }
 }
 
-/* Mobile: freeze the fixed, screen-blended light layer so it stops forcing a
-   full-viewport re-composite on every scroll frame. */
 @media (max-width: 900px) {
   .lights {
     animation: none;
@@ -90,10 +88,10 @@
 
 .hero {
   position: relative;
-  min-height: 100svh;
+  min-height: 78svh;
   display: flex;
   align-items: center;
-  padding-block: clamp(7rem, 14vh, 10rem) clamp(5rem, 12vh, 8rem);
+  padding-block: clamp(7rem, 14vh, 10rem) clamp(3rem, 8vh, 5rem);
 }
 
 .heroInner {
@@ -139,27 +137,55 @@
   color: var(--paper);
 }
 
-/* --- Cover-card gallery ------------------------------------------------- */
+/* --- Listing ------------------------------------------------------------ */
 
 .section {
   position: relative;
   padding-block: 0 var(--section-y);
 }
 
-.grid {
-  display: grid;
-  gap: clamp(1rem, 2vw, 1.5rem);
-  grid-template-columns: 1fr;
+/* Filter tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 1.6rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--glass-border-dark);
 }
 
-@media (min-width: 640px) {
-  .grid { grid-template-columns: 1fr 1fr; }
+.tab {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border-dark);
+  background: transparent;
+  color: var(--paper-soft);
+  cursor: pointer;
+  transition: color var(--dur-fast) ease, background var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
 
-@media (min-width: 1000px) {
-  .grid { grid-template-columns: repeat(3, 1fr); }
+.tab:hover { color: var(--ivory); border-color: rgba(217, 189, 133, 0.4); }
+
+.tabOn {
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--gold-bright) 130%);
+  color: var(--navy-deep, #070d1e);
+  border-color: transparent;
+  font-weight: 600;
 }
 
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin: 0 0 1.1rem;
+}
+
+/* Shared card */
 .card {
   display: flex;
   flex-direction: column;
@@ -172,6 +198,7 @@
   box-shadow: 0 30px 60px -46px rgba(0, 0, 0, 0.7);
   transition: transform var(--dur-med) var(--ease-arch),
     border-color var(--dur-fast) ease, box-shadow var(--dur-med) var(--ease-arch);
+  height: 100%;
 }
 
 .card:hover {
@@ -180,24 +207,16 @@
   box-shadow: 0 42px 70px -40px rgba(0, 0, 0, 0.8);
 }
 
-/* Cover — an image if the post has one, otherwise a themed gradient. Six
-   deterministic gradients cycle so an image-less index still reads as designed. */
+/* Cover — an image if present, otherwise a themed gradient assigned in JS. */
 .cover {
   position: relative;
+  display: block;
   aspect-ratio: 16 / 9;
   background-size: cover;
   background-position: center;
   border-bottom: 1px solid var(--glass-border-dark);
 }
 
-.card:nth-child(6n + 1) .cover { background-image: linear-gradient(135deg, #1a2c4d, #0a1630); }
-.card:nth-child(6n + 2) .cover { background-image: linear-gradient(135deg, #4a2f22, #1a1210); }
-.card:nth-child(6n + 3) .cover { background-image: linear-gradient(135deg, #2a3a2c, #10201a); }
-.card:nth-child(6n + 4) .cover { background-image: linear-gradient(135deg, #3a2540, #180f22); }
-.card:nth-child(6n + 5) .cover { background-image: linear-gradient(135deg, #14324a, #06131f); }
-.card:nth-child(6n + 6) .cover { background-image: linear-gradient(135deg, #402a2a, #1f1212); }
-
-/* A soft gold sheen sweeps the cover on hover. */
 .cover::after {
   content: "";
   position: absolute;
@@ -228,12 +247,25 @@
 .cardBody {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.7rem;
   flex: 1;
   padding: clamp(1.15rem, 2vw, 1.5rem);
 }
 
-.cardTitle {
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(243, 240, 232, 0.45);
+}
+
+.dot { width: 3px; height: 3px; border-radius: 50%; background: var(--coral); }
+
+.postTitle {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.08rem, 1.7vw, 1.28rem);
@@ -242,33 +274,81 @@
   color: var(--ivory);
 }
 
-.cardExcerpt {
-  font-size: 0.92rem;
+.excerpt {
+  font-size: 0.94rem;
   font-weight: 300;
   line-height: 1.55;
   color: var(--paper-soft);
 }
 
-.meta {
+/* Byline */
+.byline {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 0.6rem;
   margin-top: auto;
-  padding-top: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(243, 240, 232, 0.45);
+  padding-top: 0.9rem;
 }
 
-.dot {
-  width: 3px;
-  height: 3px;
+.avatar {
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: var(--coral);
+  object-fit: contain;
+  padding: 4px;
+  background: rgba(243, 240, 232, 0.06);
+  border: 1px solid var(--glass-border-dark);
+  flex-shrink: 0;
 }
+
+.bylineText { display: flex; flex-direction: column; line-height: 1.25; }
+.author { font-size: 0.82rem; font-weight: 500; color: var(--paper); }
+.bylineMeta {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: rgba(243, 240, 232, 0.42);
+}
+
+/* Featured strip — wide banner cards (cover beside body on desktop). */
+.featGrid {
+  list-style: none;
+  margin: 0 0 2.8rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.featCard { display: flex; flex-direction: column; }
+
+.featTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ivory);
+}
+
+@media (min-width: 760px) {
+  .featCard { display: grid; grid-template-columns: 1.05fr 1fr; }
+  .featCard .cover { aspect-ratio: auto; height: 100%; min-height: 280px; border-bottom: 0; border-right: 1px solid var(--glass-border-dark); }
+  .featCard .cardBody { padding: clamp(1.6rem, 3vw, 2.6rem); justify-content: center; gap: 0.9rem; }
+}
+
+/* Post grid */
+.postGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) { .postGrid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .postGrid { grid-template-columns: repeat(3, 1fr); } }
 
 /* --- Empty state -------------------------------------------------------- */
 
@@ -300,6 +380,6 @@
 @media (max-width: 899px) {
   .hero {
     min-height: auto;
-    padding-block: clamp(6rem, 20vw, 8rem) clamp(3rem, 10vw, 5rem);
+    padding-block: clamp(6rem, 20vw, 8rem) clamp(2.5rem, 8vw, 4rem);
   }
 }
