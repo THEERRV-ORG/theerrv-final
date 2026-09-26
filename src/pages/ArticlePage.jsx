@@ -104,6 +104,16 @@ export default function ArticlePage() {
   if (!article) return <Navigate to="/insights" replace />;
 
   const related = relatedArticles(article.slug);
+  const cs = article.caseStudy;
+  const facts = cs
+    ? [
+        ["Client", article.client],
+        ["Industry", cs.industry],
+        ["Duration", cs.duration],
+        ["Services", cs.services.join(", ")],
+        ["Tech stack", cs.stack.join(", ")],
+      ].filter(([, value]) => value)
+    : [];
 
   return (
     <>
@@ -131,6 +141,11 @@ export default function ArticlePage() {
                 <span className={styles.backText}>All insights</span>
               </Link>
 
+              {cs?.logo && (
+                <Reveal as="div" className={styles.caseLogo}>
+                  <img src={cs.logo} alt={article.client ? `${article.client} logo` : ""} />
+                </Reveal>
+              )}
               <Reveal as="p" className={styles.category}>{article.category}</Reveal>
             <Reveal as="h1" delay={60} className={styles.title}>{article.title}</Reveal>
             <Reveal as="div" delay={140} className={styles.meta}>
@@ -147,12 +162,58 @@ export default function ArticlePage() {
           <div className="container">
             <div className={styles.col}>
               {article.excerpt && <p className={styles.lede}>{article.excerpt}</p>}
+
+              {cs && cs.results.length > 0 && (
+                <ul className={styles.stats}>
+                  {cs.results.map((r) => (
+                    <li key={`${r.value}-${r.label}`} className={styles.stat}>
+                      <span className={styles.statValue}>{r.value}</span>
+                      <span className={styles.statLabel}>{r.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {facts.length > 0 && (
+                <dl className={styles.facts}>
+                  {facts.map(([label, value]) => (
+                    <div key={label} className={styles.fact}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+
               <div className={styles.rule} aria-hidden="true" />
               <div
                 className={styles.prose}
                 /* Content is authored by us in the repo, not user input. */
                 dangerouslySetInnerHTML={{ __html: article.html }}
               />
+
+              {cs && cs.gallery.length > 0 && (
+                <div className={styles.gallery}>
+                  {cs.gallery.map((g) => (
+                    <figure key={g.src} className={styles.shot}>
+                      <img src={g.src} alt={g.caption} loading="lazy" />
+                      {g.caption && <figcaption>{g.caption}</figcaption>}
+                    </figure>
+                  ))}
+                </div>
+              )}
+
+              {cs?.testimonial && (
+                <figure className={styles.testimonial}>
+                  <blockquote>“{cs.testimonial}”</blockquote>
+                  {cs.testimonialBy && (
+                    <figcaption>
+                      <span className={styles.testimonialBy}>{cs.testimonialBy}</span>
+                      {cs.testimonialRole && <span>{cs.testimonialRole}</span>}
+                    </figcaption>
+                  )}
+                </figure>
+              )}
             </div>
           </div>
         </div>

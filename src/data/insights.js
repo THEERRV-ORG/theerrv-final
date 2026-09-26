@@ -23,6 +23,19 @@ import { marked } from "marked";
  *   description: <meta name="description"> for search engines
  *   keywords:    comma, separated, keywords
  *   cover:       /insights/cover.jpg
+ *
+ * Case studies (`category: Case Study`) can also carry:
+ *
+ *   logo:            /insights/client-logo.webp
+ *   industry:        Healthcare
+ *   duration:        8 weeks
+ *   services:        Website, Admin dashboard       # comma separated
+ *   stack:           React, Firebase                # comma separated
+ *   result1:         3× | Online donations          # value | label, up to result4
+ *   image1:          /insights/x-before.webp | Before   # src | caption, up to image6
+ *   testimonial:     We finally have a place to send people who want to help.
+ *   testimonialBy:   Trust coordinator
+ *   testimonialRole: Nallathae Nadakkum
  *   ---
  *
  * Body is ordinary markdown. Two conventions are given special treatment:
@@ -36,7 +49,40 @@ const files = import.meta.glob("../content/insights/*.md", {
   eager: true,
 });
 
-const LIST_KEYS = new Set(["keywords"]);
+const LIST_KEYS = new Set(["keywords", "services", "stack"]);
+
+/** `value | label` pairs written as numbered keys (result1, result2…) → [{ a, b }]. */
+function numberedPairs(meta, prefix, max) {
+  const out = [];
+  for (let i = 1; i <= max; i++) {
+    const raw = meta[`${prefix}${i}`];
+    if (typeof raw !== "string" || !raw.trim()) continue;
+    const at = raw.indexOf("|");
+    const a = (at === -1 ? raw : raw.slice(0, at)).trim();
+    const b = at === -1 ? "" : raw.slice(at + 1).trim();
+    if (a || b) out.push({ a, b });
+  }
+  return out;
+}
+
+/** The case-study-only fields, or null for an ordinary article. */
+function caseStudyFields(meta) {
+  if (meta.category !== "Case Study") return null;
+  return {
+    logo: meta.logo ?? "",
+    industry: meta.industry ?? "",
+    duration: meta.duration ?? "",
+    services: meta.services ?? [],
+    stack: meta.stack ?? [],
+    results: numberedPairs(meta, "result", 4).map(({ a, b }) => ({ value: a, label: b })),
+    gallery: numberedPairs(meta, "image", 6)
+      .filter(({ a }) => a)
+      .map(({ a, b }) => ({ src: a, caption: b })),
+    testimonial: meta.testimonial ?? "",
+    testimonialBy: meta.testimonialBy ?? "",
+    testimonialRole: meta.testimonialRole ?? "",
+  };
+}
 
 /** Split `---` frontmatter off the top of a file and parse its key: value pairs. */
 function parseFrontmatter(raw) {
@@ -96,6 +142,7 @@ export const articles = Object.entries(files)
       description: meta.description ?? meta.excerpt ?? "",
       keywords: meta.keywords ?? [],
       cover: meta.cover ?? "",
+      caseStudy: caseStudyFields(meta),
       html: decorate(marked.parse(body)),
       headings: [...body.matchAll(/^##\s+(.+)$/gm)].map((m) => m[1].trim()),
     };

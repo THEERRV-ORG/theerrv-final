@@ -53,9 +53,22 @@ export default function CaseStudiesPage() {
                   <Link to={`/insights/${lead.slug}`} className={styles.feature}>
                     <span className={styles.featureTag}>Latest</span>
                     <div className={styles.featureBody}>
+                      {lead.caseStudy?.logo && (
+                        <img src={lead.caseStudy.logo} alt="" className={styles.logo} />
+                      )}
                       <span className={styles.cat}>{lead.client || lead.category}</span>
                       <h2 className={styles.featureTitle}>{lead.title}</h2>
                       {lead.excerpt && <p className={styles.featureExcerpt}>{lead.excerpt}</p>}
+                      {lead.caseStudy?.results.length > 0 && (
+                        <ul className={styles.results}>
+                          {lead.caseStudy.results.slice(0, 3).map((r) => (
+                            <li key={`${r.value}-${r.label}`}>
+                              <span className={styles.resultValue}>{r.value}</span>
+                              <span className={styles.resultLabel}>{r.label}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       <span className={styles.meta}>
                         {lead.dateLabel && <span>{lead.dateLabel}</span>}
                         {lead.dateLabel && <span className={styles.dot} aria-hidden="true" />}
@@ -76,6 +89,12 @@ export default function CaseStudiesPage() {
                           <span className={styles.cat}>{a.client || a.category}</span>
                           <span className={styles.cardTitle}>{a.title}</span>
                           {a.excerpt && <span className={styles.cardExcerpt}>{a.excerpt}</span>}
+                          {a.caseStudy?.results[0] && (
+                            <span className={styles.cardResult}>
+                              <span className={styles.resultValue}>{a.caseStudy.results[0].value}</span>
+                              <span className={styles.resultLabel}>{a.caseStudy.results[0].label}</span>
+                            </span>
+                          )}
                           <span className={styles.meta}>
                             {a.dateLabel && <span>{a.dateLabel}</span>}
                             {a.dateLabel && <span className={styles.dot} aria-hidden="true" />}
