@@ -784,12 +784,13 @@ export const contactPage = {
   form: {
     heading: "Send Us a Message",
     fields: [
-      { name: "fullName", label: "Full Name", type: "text", required: true },
-      { name: "company", label: "Company Name", type: "text", required: false },
-      { name: "email", label: "Email Address", type: "email", required: true },
-      { name: "phone", label: "Phone Number", type: "tel", required: false },
-      { name: "service", label: "Service Required", type: "text", required: false },
-      { name: "details", label: "Project Details", type: "textarea", required: true },
+      // maxLength values match the limits enforced by Ares's /api/contact.
+      { name: "fullName", label: "Full Name", type: "text", required: true, maxLength: 100, autoComplete: "name" },
+      { name: "company", label: "Company Name", type: "text", required: false, maxLength: 150, autoComplete: "organization" },
+      { name: "email", label: "Email Address", type: "email", required: true, maxLength: 200, autoComplete: "email" },
+      { name: "phone", label: "Phone Number", type: "tel", required: false, maxLength: 30, autoComplete: "tel" },
+      { name: "service", label: "Service Required", type: "text", required: false, maxLength: 100, autoComplete: "off" },
+      { name: "details", label: "Project Details", type: "textarea", required: true, maxLength: 5000, autoComplete: "off" },
     ],
     submit: "Send Message",
   },

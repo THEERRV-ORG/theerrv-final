@@ -4,8 +4,10 @@ import CTABand from "../components/page/CTABand";
 import Reveal from "../components/shared/Reveal";
 import usePageTitle from "../hooks/usePageTitle";
 import { contactPage } from "../data/content";
-import { firebaseReady, getDb } from "../lib/firebase";
 import styles from "./ContactPage.module.css";
+
+const CONTACT_ENDPOINT =
+  import.meta.env.VITE_CONTACT_ENDPOINT ?? "https://ares.theerrv.com/api/contact";
 
 /**
  * Contact — on the same cinematic ground as about / solutions / insights: a
@@ -19,9 +21,10 @@ export default function ContactPage() {
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
   const sent = status === "sent";
 
-  // Persist the submission to Firestore. Fields are uncontrolled — read them
-  // straight off the form via their `name` attributes rather than mirroring
-  // each into state.
+  // Send the submission to Ares (Theerrv's internal tool), which validates it,
+  // filters spam, stores it and notifies the team. Fields are uncontrolled —
+  // read them straight off the form via their `name` attributes rather than
+  // mirroring each into state.
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === "sending") return;
@@ -29,36 +32,14 @@ export default function ContactPage() {
     const formEl = e.currentTarget;
     const data = Object.fromEntries(new FormData(formEl).entries());
 
-    // Without config the write would throw an opaque error; fail loudly in dev
-    // and tell the visitor to use the email link instead.
-    if (!firebaseReady) {
-      console.error(
-        "Firebase is not configured — set VITE_FIREBASE_* in .env.local (see .env.example).",
-      );
-      setStatus("error");
-      return;
-    }
-
     setStatus("sending");
     try {
-      // Firebase (the page's heaviest dependency) is loaded lazily, only now —
-      // on an actual submit — so /contact stays light on view. Both dynamic
-      // imports resolve to the same firestore chunk.
-      const [{ addDoc, collection, serverTimestamp }, db] = await Promise.all([
-        import("firebase/firestore"),
-        getDb(),
-      ]);
-      if (!db) throw new Error("Firestore unavailable");
-
-      await addDoc(collection(db, "contactSubmissions"), {
-        fullName: data.fullName ?? "",
-        company: data.company ?? "",
-        email: data.email ?? "",
-        phone: data.phone ?? "",
-        service: data.service ?? "",
-        details: data.details ?? "",
-        createdAt: serverTimestamp(),
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
+      if (!res.ok) throw new Error(`Contact endpoint responded ${res.status}`);
       formEl.reset();
       setStatus("sent");
     } catch (err) {
@@ -143,6 +124,8 @@ export default function ContactPage() {
                           name={field.name}
                           rows={4}
                           required={field.required}
+                          maxLength={field.maxLength}
+                          autoComplete={field.autoComplete}
                           className={styles.input}
                         />
                       ) : (
@@ -151,11 +134,19 @@ export default function ContactPage() {
                           name={field.name}
                           type={field.type}
                           required={field.required}
+                          maxLength={field.maxLength}
+                          autoComplete={field.autoComplete}
                           className={styles.input}
                         />
                       )}
                     </div>
                   ))}
+                  {/* Honeypot: hidden from people and assistive tech, but naive bots
+                      fill every field — Ares silently drops anything that has it. */}
+                  <div className={styles.honeypot} aria-hidden="true">
+                    <label htmlFor="website">Website</label>
+                    <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                  </div>
                   <button type="submit" className={styles.submit} disabled={status === "sending"}>
                     {status === "sending" ? "Sending…" : form.submit}{" "}
                     <span aria-hidden="true">→</span>
