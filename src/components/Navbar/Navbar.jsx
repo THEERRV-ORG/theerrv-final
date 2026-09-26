@@ -180,7 +180,7 @@ export default function Navbar() {
       <div className={styles.shell}>
         <div className={styles.inner}>
           <Link to="/" className={styles.logo} aria-label="Theerrv Technologies, home" onClick={closeAll}>
-            <img src="/logo-mark-ivory.png" alt="" aria-hidden="true" className={styles.logoMark} width="34" height="21" />
+            <img src="/logo-mark-ivory-sm.webp" alt="" aria-hidden="true" className={styles.logoMark} width="34" height="21" />
             <span className={styles.logoWord}>
               THEERR<span className={styles.logoV}>V</span>
             </span>

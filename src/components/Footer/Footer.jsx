@@ -18,7 +18,7 @@ export default function Footer() {
         <div className={styles.inner}>
           <div className={styles.brand}>
             <Link to="/" className={styles.logo} aria-label="Theerrv Technologies, home">
-              <img src="/logo-mark-ivory.png" alt="" aria-hidden="true" className={styles.logoMark} width="44" height="28" />
+              <img src="/logo-mark-ivory-sm.webp" alt="" aria-hidden="true" className={styles.logoMark} width="44" height="28" />
               <span className={styles.logoWord}>
                 THEERR<span className={styles.logoV}>V</span>
               </span>
@@ -91,7 +91,7 @@ export default function Footer() {
           <div className={styles.miniGlow} aria-hidden="true" />
 
           <Link to="/" className={styles.logo} aria-label="Theerrv Technologies, home">
-            <img src="/logo-mark-ivory.png" alt="" aria-hidden="true" className={styles.logoMark} width="40" height="25" />
+            <img src="/logo-mark-ivory-sm.webp" alt="" aria-hidden="true" className={styles.logoMark} width="40" height="25" />
             <span className={styles.logoWord}>
               THEERR<span className={styles.logoV}>V</span>
             </span>

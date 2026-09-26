@@ -18,7 +18,7 @@ import styles from "./InsightsPage.module.css";
 function Byline({ post }) {
   return (
     <span className={styles.byline}>
-      <img className={styles.avatar} src="/logo-mark-ivory.png" alt="" aria-hidden="true" />
+      <img className={styles.avatar} src="/logo-mark-ivory-sm.webp" alt="" aria-hidden="true" />
       <span className={styles.bylineText}>
         <span className={styles.author}>{post.author}</span>
         {(post.authorRole || post.dateLabel) && (

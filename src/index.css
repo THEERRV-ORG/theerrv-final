@@ -243,3 +243,30 @@ p {
 .route-fallback {
   min-height: 100svh;
 }
+
+/* Skip link (Layout.jsx): off-screen until focused with the keyboard. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1000;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--dur-fast) ease;
+}
+
+.skip-link:focus-visible {
+  transform: none;
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+}
+
+main:focus {
+  outline: none;
+}

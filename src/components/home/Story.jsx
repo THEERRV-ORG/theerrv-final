@@ -1,9 +1,8 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { homeStory, homeFaqs } from "../../data/content";
+import { homeStory } from "../../data/content";
 import Reveal from "../shared/Reveal";
 import Hero from "../Hero/Hero";
-import FAQ from "../page/FAQ";
 import CoreServices from "./CoreServices";
 import Transformation from "./Transformation";
 import WhyTheerrv from "./WhyTheerrv";
@@ -44,6 +43,37 @@ function useWideScreen() {
   return wide;
 }
 
+// True once the page has fully loaded and the browser has a quiet moment — so the
+// Three.js + GSAP chunks (~285 KB gzipped) never compete with the first paint,
+// fonts or hero. Never true for visitors who've asked to save data or are on a
+// 2G/3G connection: the page is complete without the decorative ribbon.
+function useDecorReady() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const connection = navigator.connection;
+    if (connection?.saveData || /(^|-)(2g|3g)$/.test(connection?.effectiveType ?? "")) return;
+
+    let idleId;
+    let timerId;
+    const schedule = () => {
+      if ("requestIdleCallback" in window) {
+        idleId = window.requestIdleCallback(() => setReady(true), { timeout: 2000 });
+      } else {
+        timerId = window.setTimeout(() => setReady(true), 300);
+      }
+    };
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+
+    return () => {
+      window.removeEventListener("load", schedule);
+      if (idleId !== undefined) window.cancelIdleCallback(idleId);
+      if (timerId !== undefined) window.clearTimeout(timerId);
+    };
+  }, []);
+  return ready;
+}
+
 // Render a headline line, giving the trailing full stop the coral accent.
 function AccentLine({ text }) {
   const dotted = /\.$/.test(text);
@@ -56,20 +86,23 @@ function AccentLine({ text }) {
 }
 
 export default function Story() {
-  const { intro, why, impact, cta } = homeStory;
+  const { intro, impact, cta } = homeStory;
   const wide = useWideScreen();
+  const decorReady = useDecorReady();
+  const showDecor = wide && decorReady;
 
   return (
     <>
-      {/* Desktop only — on phones these never render, so Three.js and the GSAP
-          scroll rig are never downloaded. */}
-      {wide && (
+      {/* Desktop only, and only once the page has loaded — on phones (and with
+          Data Saver or a slow connection) these never render, so Three.js and
+          the GSAP scroll rig are never downloaded. */}
+      {showDecor && (
         <Suspense fallback={null}>
           <StoryScroll />
         </Suspense>
       )}
       <div className={styles.backdrop} aria-hidden="true" />
-      {wide && (
+      {showDecor && (
         <Suspense fallback={null}>
           <RibbonScene />
         </Suspense>

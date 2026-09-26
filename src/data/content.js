@@ -252,7 +252,7 @@ export const homeStory = {
    ========================================================================== */
 
 export const servicesPage = {
-  seoTitle: "Services | Product Engineering, Modernization, Cloud, Data & AI | Theerrv Technologies",
+  seoTitle: "Software Development Services | Theerrv Technologies",
   seoDescription:
     "Six software services covering a project end to end — product engineering and custom software, modernization, cloud & DevOps, data & automation, APIs & security, and practical AI.",
   hero: {
@@ -506,7 +506,7 @@ export const servicesPage = {
    ========================================================================== */
 
 export const solutionsPage = {
-  seoTitle: "Solutions | Business Automation, Analytics, AI & Enterprise Applications | Theerrv Technologies",
+  seoTitle: "Business Automation & AI Solutions | Theerrv Technologies",
   seoDescription:
     "Business automation, analytics and reporting, practical AI, and enterprise applications — outcome-driven solutions engineered around your operations and long-term growth.",
   hero: {
@@ -641,7 +641,7 @@ export const solutionsPage = {
    ========================================================================== */
 
 export const caseStudiesPage = {
-  seoTitle: "Case Studies | Software, Cloud, Automation & AI Projects | Theerrv Technologies",
+  seoTitle: "Software Project Case Studies | Theerrv Technologies",
   seoDescription:
     "How Theerrv approaches real projects — new product builds, legacy modernization, data and reporting, and AI automation — with a focus on practical, measurable results.",
   hero: {
@@ -693,7 +693,7 @@ export const caseStudiesPage = {
    ========================================================================== */
 
 export const insightsPage = {
-  seoTitle: "Insights & Blog | Software, Cloud, AI, Analytics and Development Ideas | Theerrv Technologies",
+  seoTitle: "Insights: Software, Cloud & AI Blog | Theerrv Technologies",
   seoDescription:
     "Practical articles on software engineering, cloud modernization, product development, analytics, AI and automation — ideas to help teams make better technology decisions.",
   hero: {
@@ -872,7 +872,7 @@ export const contactPage = {
    ========================================================================== */
 
 export const aboutPage = {
-  seoTitle: "About Theerrv Technologies | Building Digital Solutions for a Smarter Tomorrow",
+  seoTitle: "About Theerrv Technologies | Software Studio in Vellore",
   seoDescription:
     "Theerrv Technologies is a modern software studio founded by five engineers, building custom software, cloud, data and AI solutions for growing businesses from Tamil Nadu.",
   hero: {

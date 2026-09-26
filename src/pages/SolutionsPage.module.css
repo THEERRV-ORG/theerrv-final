@@ -329,6 +329,9 @@
   /* Tight enough that the longest stage (04, whose title wraps) still lands
      inside one screen at 900px tall. */
   padding-block: clamp(4rem, 9vh, 6.5rem);
+  /* The ghost numeral deliberately bleeds past the edge; clip it so it can't
+     widen the page into a sideways scroll on phones. */
+  overflow-x: clip;
 }
 
 /* Scrim on the copy side so the type always wins over the light and numeral. */

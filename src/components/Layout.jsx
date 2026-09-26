@@ -52,8 +52,23 @@ export default function Layout() {
   return (
     <>
       <div className="grain-overlay" aria-hidden="true" />
+      {/* First thing keyboard users reach: jumps focus past the navbar. Handled in
+          JS rather than as a plain #hash link so the URL doesn't change (the hash
+          effect above would otherwise treat it as a section jump). */}
+      <a
+        href="#main-content"
+        className="skip-link"
+        onClick={(e) => {
+          e.preventDefault();
+          const main = document.getElementById("main-content");
+          main?.focus({ preventScroll: true });
+          main?.scrollIntoView({ block: "start", behavior: "instant" });
+        }}
+      >
+        Skip to content
+      </a>
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {/* Page chunks load here; the navbar and footer stay mounted. The
             fallback reserves a full viewport of height so the footer stays
             below the fold while a chunk arrives — otherwise it would paint

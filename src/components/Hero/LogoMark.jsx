@@ -12,7 +12,7 @@ import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
  *
  * Ported from the production component: the vector navy/coral paths aren't
  * available here, so the same layering is built from the two colour-split
- * PNGs (logo-navy.png / logo-coral.png, cropped from the real mark) used as
+ * Images (logo-navy.webp / logo-coral.webp, cropped from the real mark) used as
  * SVG masks — every gradient/highlight stays confined to the real silhouette
  * exactly as clipPath + fill="url(#path)" did in the original.
  *
@@ -176,13 +176,13 @@ export function LogoMark({ trackRef, className }) {
         <svg viewBox={MARK_VIEWBOX} role="img" aria-label="Theerrv" style={{ width: "100%", overflow: "visible" }}>
           <defs>
             <mask id={ids.navyMask} style={{ maskType: "alpha" }}>
-              <image href="/logo-navy.png" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
+              <image href="/logo-navy.webp" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
             </mask>
             <mask id={ids.coralMask} style={{ maskType: "alpha" }}>
-              <image href="/logo-coral.png" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
+              <image href="/logo-coral.webp" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
             </mask>
             <mask id={ids.fullMask} style={{ maskType: "alpha" }}>
-              <image href="/logo-mark.png" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
+              <image href="/logo-mark.webp" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
             </mask>
 
             <linearGradient id={ids.gloss} x1="0" y1="0" x2="0.25" y2="1">
@@ -234,7 +234,7 @@ export function LogoMark({ trackRef, className }) {
 
           {/* --- Middle: the coral crescents. 60% parallax. ------------------- */}
           <m.g style={prefersReduced ? undefined : { x: coralX, y: coralY }}>
-            <image href="/logo-coral.png" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
+            <image href="/logo-coral.webp" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
             <m.rect
               x={VB_X}
               y={VB_Y}
@@ -248,7 +248,7 @@ export function LogoMark({ trackRef, className }) {
 
           {/* --- Front: the navy ribbon. Full parallax. ----------------------- */}
           <m.g style={prefersReduced ? undefined : { x: frontX, y: frontY }}>
-            <image href="/logo-navy.png" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
+            <image href="/logo-navy.webp" x={VB_X} y={VB_Y} width={VB_W} height={VB_H} />
 
             <rect
               x={VB_X}

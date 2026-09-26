@@ -616,3 +616,20 @@ textarea.input {
     padding-block: clamp(6rem, 20vw, 8rem) clamp(3rem, 10vw, 5rem);
   }
 }
+
+/* Invisible, larger touch area — the link looks the same but is easier to tap. */
+.directLink,
+.mapLink {
+  position: relative;
+}
+
+.directLink::after,
+.mapLink::after {
+  content: "";
+  position: absolute;
+  inset: -10px -6px;
+}
+
+.mapLink::after {
+  inset-block: -13px;
+}
